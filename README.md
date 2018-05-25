@@ -11,7 +11,9 @@ If you get really stuck somewhere along the way get in touch with me in the emai
 
 TUTORIAL
 --------
-You can check video the tutorial here
+You can check video the tutorials here:
+
+https://www.youtube.com/playlist?list=PLPtjK_bez3T7E7yiXsYs0Ro9nShG1dBAP
 
 1-Create an empty project
 

@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1011282233848946}
+  m_IsPrefabParent: 1
+--- !u!1 &1011282233848946
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4225590200167502}
+  - component: {fileID: 114916356670048232}
+  m_Layer: 0
+  m_Name: YourVRUIScreenController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4225590200167502
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1011282233848946}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.09247029, y: 0.06846261, z: 0.17298204}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114916356670048232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1011282233848946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb3215e59d5165e4c84f6cf35bc8ec8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReadMeFile: {fileID: 4900000, guid: b0dce79d33ef1e249bca1533c2ecde0e, type: 3}
+  DebugMode: 0
+  DebugThrowProjectile: 0
+  DefaultConfiguration: 0
+  MainCamera: {fileID: 0}
+  MaterialDrawOnTop: {fileID: 2100000, guid: a6e60bbddfd059f4e8bc206388c7b2ae, type: 2}
+  GlobalScaleScreens: 2
+  EnableDesktopMode: 0
+  EnableMoveCamera: 0
+  TagPlayerDetectionCollision: Player
+  EnableCollisionDetection: 0
+  EnableRaycastDetection: 1
+  ForceScreensInWindow: 0
+  ForceScreensAlignedToPlayer: 0
+  ForceScreensInCenterObject: 0
+  ForceNotLinkedToObject: 0
+  ForceNotHighlightElements: 0
+  ForceScreensDistanceObject: -1
+  ForceUseZDepth: 0
+  EnableDaydreamController: 0
+  ScreensPrefabs:
+  - {fileID: 139882, guid: 2856985dbbb0cc64d8d2a4a8bdabe5de, type: 2}
+  - {fileID: 188664, guid: 96567031c09584d4fac417d55ecd19ee, type: 2}
+  - {fileID: 146394, guid: 570e7e60f4dbb424b92ec2af6644dbde, type: 2}
+  - {fileID: 145312, guid: 38b849324292b214096bcf10fbe5d778, type: 2}
+  - {fileID: 148000, guid: 47bab9dcd189dd64e9154179966fd00a, type: 2}
+  - {fileID: 1990445370115840, guid: 7b5bcdbbbf5783b478543a04bc847c98, type: 2}
+  - {fileID: 174312, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 2}
+  SelectorGraphic: {fileID: 21300000, guid: d67e53480ef5cda48928e61cf2993d8f, type: 3}
+  DotReferencePrefab: {fileID: 1546886254619010, guid: 3e2da874bb910a64c96574787320399d,
+    type: 2}
+  DotTriggererPrefab: {fileID: 1174075371424524, guid: ba891c9e201fe394da0f2a0b80f60865,
+    type: 2}
+  DotPointerMovementPrefab: {fileID: 1058284059697024, guid: 781b53b670964c24099c23e4914970c8,
+    type: 2}
+  SkinYourVRUI: {fileID: 11400000, guid: 76dc03a7f4069b64cb673f5775872d2e, type: 2}

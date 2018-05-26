@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using YourCommonTools;
 using YourNetworkingTools;
 
 namespace YourVRUI
@@ -449,7 +450,7 @@ namespace YourVRUI
 		/* 
 		 * Will create a screen linked to the camera
 		 */
-		public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformationData> _pages, float _distance, float _delayToDestroy)
+		public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy)
 		{
 			ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_OPEN_SCREEN,
 														   true,

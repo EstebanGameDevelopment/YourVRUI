@@ -52,7 +52,7 @@ namespace YourVRUI
 		{
 			Debug.LogError("WARNING: In order to make work the right stick to control the view of your Xbox controller you should create the input int \"Edit->Project Settings->Input\". See the image in the link: http://www.yourvrexperience.com/ProjectSettingsInputRightStick.png (PLEASE, REMOVE THIS LOG MESSAGE WHEN YOU HAVE CREATED THEM)");
 
-			ScreenVREventController.Instance.ScreenVREvent += new ScreenVREventHandler(OnScreenVREvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnScreenVREvent);
 			BasicSystemEventController.Instance.BasicSystemEvent += new BasicSystemEventHandler(OnBasicSystemEvent);
 
 			// CHARACTER CONTROLLER
@@ -73,7 +73,7 @@ namespace YourVRUI
 		 */
 		public void Destroy()
 		{
-			ScreenVREventController.Instance.ScreenVREvent -= OnScreenVREvent;
+			UIEventController.Instance.UIEvent -= OnScreenVREvent;
 			BasicSystemEventController.Instance.BasicSystemEvent -= OnBasicSystemEvent;
 		}
 
@@ -86,22 +86,22 @@ namespace YourVRUI
 			if (_nameEvent == EVENT_PLAYERMOVEMENT_GO_TO_POSITION)
 			{
 				m_isMoving = true;
-				Vector3 targetPosition = UtilitiesYourVRUI.ClonePoint((Vector3)_list[0]);
+				Vector3 targetPosition = Utilities.ClonePoint((Vector3)_list[0]);
 				targetPosition.y = this.gameObject.transform.position.y;
 				InterpolatorController.Instance.Interpolate(this.gameObject, targetPosition, 1);				
 			}
 			if (YourVRUIScreenController.Instance.EnableDebugTestingCode)
 			{
-				if (_nameEvent == KeyEventInputController.ACTION_INVENTORY_VERTICAL)
+				if (_nameEvent == KeysEventInputController.ACTION_INVENTORY_VERTICAL)
 				{
 					if (GameObject.FindObjectOfType<ScreenItemInventoryView>() != null)
 					{
-						ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, GameObject.FindObjectOfType<ScreenItemInventoryView>().gameObject);
+						UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, GameObject.FindObjectOfType<ScreenItemInventoryView>().gameObject);
 					}
 					else
 					{
-						KeyEventInputController.Instance.EnableActionOnMouseDown = false;
-						ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_OPEN_SCREEN,
+						KeysEventInputController.Instance.EnableActionOnMouseDown = false;
+						UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
 																	true,
 																	this.gameObject,
 																	null,  // GameObject collided
@@ -120,7 +120,7 @@ namespace YourVRUI
 																	false, // interactedObject.DestroyMessageOnDistance,
 																	-1f, // interactedObject.ScaleScreen,
 																	true, // interactedObject.BlockOtherScreens,
-																	UtilitiesYourVRUI.IgnoreLayersForDebug, // IgnoreLayers, 
+																	Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
 																	true, // Temporal Screen
 																	true, // interactedObject.IgnoreZOrderScreen,
 																	true, // HighlightSelector
@@ -128,16 +128,16 @@ namespace YourVRUI
 																	);
 					}
 				}
-				if (_nameEvent == KeyEventInputController.ACTION_INVENTORY_HORIZONTAL)
+				if (_nameEvent == KeysEventInputController.ACTION_INVENTORY_HORIZONTAL)
 				{
 					if (GameObject.FindObjectOfType<ScreenItemInventoryView>() != null)
 					{
-						ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, GameObject.FindObjectOfType<ScreenItemInventoryView>().gameObject);
+						UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, GameObject.FindObjectOfType<ScreenItemInventoryView>().gameObject);
 					}
 					else
 					{
-						KeyEventInputController.Instance.EnableActionOnMouseDown = false;
-						ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_OPEN_SCREEN,
+						KeysEventInputController.Instance.EnableActionOnMouseDown = false;
+						UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
 																	true,
 																	this.gameObject,
 																	null,  // GameObject collided
@@ -156,7 +156,7 @@ namespace YourVRUI
 																	false, // interactedObject.DestroyMessageOnDistance,
 																	-1f, // interactedObject.ScaleScreen,
 																	true, // interactedObject.BlockOtherScreens,
-																	UtilitiesYourVRUI.IgnoreLayersForDebug, // IgnoreLayers, 
+																	Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
 																	true, // Temporal Screen
 																	true, // interactedObject.IgnoreZOrderScreen,
 																	true, // HighlightSelector
@@ -276,7 +276,7 @@ namespace YourVRUI
 					Vector2 touchPos = GvrController.TouchPos;
 					float directionMove = -(touchPos.y - 0.5f);
 					directionMove = directionMove * MoveSpeed * 2 * Time.deltaTime;
-					Vector3 directionVectorForward = UtilitiesYourVRUI.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward.normalized);
+					Vector3 directionVectorForward = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward.normalized);
 					directionVectorForward.y = 0;
 					this.gameObject.transform.position += (directionVectorForward * directionMove);
 				}

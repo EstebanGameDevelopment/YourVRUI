@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourCommonTools;
 
 namespace YourVRUI
 {
@@ -16,7 +17,7 @@ namespace YourVRUI
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenCodeNumberView : MonoBehaviour, IBasicScreenView
+	public class ScreenCodeNumberView : MonoBehaviour, IBasicView
 	{
 		// ----------------------------------------------
 		// EVENTS
@@ -31,6 +32,20 @@ namespace YourVRUI
 		private GameObject m_root;
 		private Transform m_container;
 		private Text m_codeNumber;
+		private bool m_isDestroyed = false;
+
+		public string NameOfScreen
+		{
+			get
+			{
+				return "";
+			}
+
+			set
+			{
+				
+			}
+		}
 
 		// -------------------------------------------
 		/* 
@@ -38,7 +53,7 @@ namespace YourVRUI
 		 */
 		public void Initialize(params object[] _list)
 		{
-			ScreenVREventController.Instance.ScreenVREvent += new ScreenVREventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
@@ -68,10 +83,24 @@ namespace YourVRUI
 		/* 
 		 * Destroy
 		 */
-		public void Destroy()
+		public bool Destroy()
 		{
-			ScreenVREventController.Instance.ScreenVREvent -= OnBasicEvent;
-			GameObject.DestroyObject(this.gameObject);
+			if (m_isDestroyed) return true;
+			m_isDestroyed = true;
+
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+
+			return true;
+		}
+
+		// -------------------------------------------
+		/* 
+		 * SetActivation
+		 */
+		public void SetActivation(bool _activation)
+		{
+
 		}
 
 		// -------------------------------------------
@@ -80,9 +109,16 @@ namespace YourVRUI
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == KeyEventInputController.ACTION_CANCEL_BUTTON)
+			if (_nameEvent == KeysEventInputController.ACTION_CANCEL_BUTTON)
 			{
-				Destroy();
+				if (YourVRUIScreenController.Instance.KeysEnabled)
+				{
+					YourVRUIScreenController.Instance.KeysEnabled = false;
+				}
+				else
+				{
+					Destroy();
+				}				
 			}
 			if (_nameEvent == EVENT_PANELCODEBLOCK_CLOSE_VIEW)
 			{
@@ -100,7 +136,7 @@ namespace YourVRUI
 			int responseCode = -1;
 			if (int.TryParse(m_codeNumber.text, out responseCode))
 			{
-				ScreenVREventController.Instance.DispatchScreenVREvent(EVENT_PANELCODEBLOCK_CODE_ENTERED, responseCode);
+				UIEventController.Instance.DispatchUIEvent(EVENT_PANELCODEBLOCK_CODE_ENTERED, responseCode);
 			}
 
 			Destroy();

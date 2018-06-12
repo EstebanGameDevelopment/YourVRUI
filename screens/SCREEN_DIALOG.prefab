@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 22331496}
   - component: {fileID: 11429284}
   - component: {fileID: 11424256}
-  - component: {fileID: 11454482}
+  - component: {fileID: 114169256927566096}
   m_Layer: 5
   m_Name: SCREEN_DIALOG
   m_TagString: Untagged
@@ -623,17 +623,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11454482
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eeee38bb72a26d4e9dc7fe74f112350, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11487910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1072,3 +1061,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146394}
   m_IsPrefabParent: 1
+--- !u!114 &114169256927566096
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7b3f33de044fe4fa1e8f9079860509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectorGraphic: {fileID: 0}

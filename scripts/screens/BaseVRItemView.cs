@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourCommonTools;
 
 namespace YourVRUI
 {
@@ -14,7 +15,7 @@ namespace YourVRUI
 			if (transform.GetComponent<Button>() != null)
 			{
 				this.gameObject.AddComponent<ButtonVRView>();
-				this.gameObject.GetComponent<ButtonVRView>().Initialize();
+				this.gameObject.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER);
 			}
 		}
 	}

@@ -31,12 +31,6 @@ namespace YourVRUI
 		// ----------------------------------------------
 		// EVENTS
 		// ----------------------------------------------	
-		public const string EVENT_SCREENMANAGER_OPEN_SCREEN = "EVENT_SCREENMANAGER_OPEN_SCREEN";
-		public const string EVENT_SCREENMANAGER_DESTROY_SCREEN = "EVENT_SCREENMANAGER_DESTROY_SCREEN";
-		public const string EVENT_SCREENMANAGER_DESTROY_BY_NAME_SCREEN = "EVENT_SCREENMANAGER_DESTROY_BY_NAME_SCREEN";
-		public const string EVENT_SCREENMANAGER_ENABLE_SCREENS = "EVENT_SCREENMANAGER_ENABLE_SCREENS";
-		public const string EVENT_SCREENMANAGER_DESTROY_ALL_SCREENS = "EVENT_SCREENMANAGER_DESTROY_ALL_SCREENS";
-
 		public const string EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT = "EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT";
 		public const string EVENT_SCREENMANAGER_REPORT_DESTROYED = "EVENT_SCREENMANAGER_REPORT_DESTROYED";
 
@@ -179,6 +173,7 @@ namespace YourVRUI
 		public bool KeysEnabled
 		{
 			get { return m_keysEnabled; }
+			set { m_keysEnabled = value; }
 		}
 		public List<GameObject> ScreensTemporal
 		{
@@ -212,7 +207,7 @@ namespace YourVRUI
 				GvrEditorEmulator gvrViewer = GameObject.FindObjectOfType<GvrEditorEmulator>();
 				if (gvrViewer != null)
 				{
-					GameObject.DestroyObject(gvrViewer.gameObject);
+					GameObject.Destroy(gvrViewer.gameObject);
 					gvrViewer = null;
 				}
 				if (eventSystem != null)
@@ -222,14 +217,14 @@ namespace YourVRUI
 						eventSystem.GetComponent<GvrPointerInputModule>().enabled = false;
 					}
 				}
-				GvrController gvrController = GameObject.FindObjectOfType<GvrController>();
+				GvrControllerInput gvrController = GameObject.FindObjectOfType<GvrControllerInput>();
 				if (gvrController != null)
 				{
 					GameObject.Destroy(gvrController.gameObject);
 					gvrController = null;
 				}
 			}
-			GvrControllerVisualManager controllerVisualManager = GameObject.FindObjectOfType<GvrControllerVisualManager>();
+			GvrTrackedController controllerVisualManager = GameObject.FindObjectOfType<GvrTrackedController>();
 			if (controllerVisualManager != null)
 			{
 				controllerVisualManager.gameObject.SetActive(EnableDaydreamController);
@@ -247,8 +242,8 @@ namespace YourVRUI
 				InitDaydreamController();
 			}
 
-			KeyEventInputController.Instance.Initialization();
-			ScreenVREventController.Instance.ScreenVREvent += new ScreenVREventHandler(OnBasicEvent);
+			KeysEventInputController.Instance.Initialization();
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 
 			// ESSENTIAL PLAYER RAYCASTING
 			if (GameObject.FindObjectOfType<PlayerRaycasterController>() != null)
@@ -397,7 +392,7 @@ namespace YourVRUI
 		/* 
 		 * Release all resources
 		 */
-		private void OnDestroy()
+		void OnDestroy()
 		{
 			Destroy();
 		}
@@ -408,7 +403,11 @@ namespace YourVRUI
 		 */
 		public void Destroy()
 		{
-			DestroyObject(_instance);
+			if (_instance == null) return;
+
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+
+			Destroy(_instance);
 			_instance = null;
 		}
 
@@ -418,7 +417,7 @@ namespace YourVRUI
 		 */
 		public void CreateHUD(string _nameScreen, float _distance)
 		{
-			ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_OPEN_SCREEN,
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
 											false, // Override
 											this.gameObject,
 											null,  // GameObject collided
@@ -437,7 +436,7 @@ namespace YourVRUI
 											false, // interactedObject.DestroyMessageOnDistance,
 											1f, // interactedObject.ScaleScreen,
 											false, // interactedObject.BlockOtherScreens,
-											UtilitiesYourVRUI.IgnoreLayersForDebug, // IgnoreLayers, 
+											Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
 											false, // Temporal Screen
 											true, // interactedObject.IgnoreZOrderScreen,
 											true, // HighlightSelector                                        
@@ -452,7 +451,7 @@ namespace YourVRUI
 		 */
 		public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy)
 		{
-			ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_OPEN_SCREEN,
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
 														   true,
 														   this.gameObject,
 														   null,  // GameObject collided
@@ -471,14 +470,13 @@ namespace YourVRUI
 														   false, // interactedObject.DestroyMessageOnDistance,
 														   -1f, // interactedObject.ScaleScreen,
 														   true, // interactedObject.BlockOtherScreens,
-														   UtilitiesYourVRUI.IgnoreLayersForDebug, // IgnoreLayers, 
+														   Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
 														   true, // Temporal Screen
 														   true, // interactedObject.IgnoreZOrderScreen,
 														   true, // HighlightSelector                                                       
 														   _pages,
 														   _delayToDestroy
 														   );
-
 		}
 
 		// -------------------------------------------
@@ -539,19 +537,42 @@ namespace YourVRUI
 		 */
 		public void DestroyScreens()
 		{
+			// DESTROY TEMPORAL
 			for (int i = 0; i < m_screensTemporal.Count; i++)
 			{
 				if (m_screensTemporal[i] != null)
 				{
-					if (m_screensTemporal[i].GetComponent<IBasicScreenView>() != null)
+					if (m_screensTemporal[i].GetComponent<IBasicView>() != null)
 					{
-						m_screensTemporal[i].GetComponent<IBasicScreenView>().Destroy();
+						m_screensTemporal[i].GetComponent<IBasicView>().Destroy();
 					}
-					GameObject.Destroy(m_screensTemporal[i]);
-					m_screensTemporal[i] = null;
+					if (i < m_screensTemporal.Count)
+					{
+						GameObject.Destroy(m_screensTemporal[i]);
+						m_screensTemporal[i] = null;
+					}
 				}
 			}
 			m_screensTemporal.Clear();
+			KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
+
+			// DESTROY FOREVER
+			for (int i = 0; i < m_screensForever.Count; i++)
+			{
+				if (m_screensForever[i] != null)
+				{
+					if (m_screensForever[i].GetComponent<IBasicView>() != null)
+					{
+						m_screensForever[i].GetComponent<IBasicView>().Destroy();
+					}
+					if (i < m_screensForever.Count)
+					{
+						GameObject.Destroy(m_screensForever[i]);
+						m_screensForever[i] = null;
+					}
+				}
+			}
+			m_screensForever.Clear();
 		}
 
 		// -------------------------------------------
@@ -565,7 +586,7 @@ namespace YourVRUI
 				bool isNull = false;
 				if (m_screensTemporal[i] != null)
 				{
-					if (m_screensTemporal[i].GetComponent<IBasicScreenView>() == null)
+					if (m_screensTemporal[i].GetComponent<IBasicView>() == null)
 					{
 						isNull = true;
 					}
@@ -586,7 +607,7 @@ namespace YourVRUI
 				bool isNull = false;
 				if (m_screensForever[i] != null)
 				{
-					if (m_screensForever[i].GetComponent<IBasicScreenView>() == null)
+					if (m_screensForever[i].GetComponent<IBasicView>() == null)
 					{
 						isNull = true;
 					}
@@ -602,6 +623,8 @@ namespace YourVRUI
 					Debug.LogError("YourVRUIController::REMOVED NULL SCREEN IN m_screensForever");
 				}
 			}
+
+			KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
 		}
 
 		// -------------------------------------------
@@ -612,12 +635,12 @@ namespace YourVRUI
 		{
 			if (DebugThrowProjectile)
 			{
-				if (_nameEvent == KeyEventInputController.ACTION_SECONDARY_BUTTON_DOWN)
+				if (_nameEvent == KeysEventInputController.ACTION_SECONDARY_BUTTON_DOWN)
 				{
 					CreateMovingDotReference(m_camera.transform.position, m_camera.transform.forward, 5);
 				}
 			}
-			if (_nameEvent == EVENT_SCREENMANAGER_ENABLE_SCREENS)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ENABLE_SCREENS)
 			{
 				m_enableScreens = (bool)_list[0];
 			}
@@ -640,13 +663,13 @@ namespace YourVRUI
 			{
 				m_keysEnabled = (bool)_list[0];
 			}
-			if (_nameEvent == EVENT_SCREENMANAGER_DESTROY_SCREEN)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN)
 			{
 				m_enableScreens = true;
 				GameObject screen = (GameObject)_list[0];
 				DestroyGameObjectSingleScreen(screen, true);
 			}
-			if (_nameEvent == EVENT_SCREENMANAGER_DESTROY_BY_NAME_SCREEN)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN_BY_NAME)
 			{
 				m_enableScreens = true;
 				string screenName = (string)_list[0];
@@ -656,7 +679,7 @@ namespace YourVRUI
 					DestroyGameObjectSingleScreen(screen, true);
 				}
 			}
-			if (_nameEvent == EVENT_SCREENMANAGER_DESTROY_ALL_SCREENS)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_DESTROY_ALL_SCREEN)
 			{
 				DestroyScreens();
 			}
@@ -666,7 +689,7 @@ namespace YourVRUI
 			}
 			if (m_enableScreens)
 			{
-				if (_nameEvent == EVENT_SCREENMANAGER_OPEN_SCREEN)
+				if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN)
 				{
 					bool overrideGlobalSetting = (bool)_list[0];
 					GameObject playerInteracted = (GameObject)_list[1];
@@ -748,9 +771,9 @@ namespace YourVRUI
 					{
 						currentScreen = CreateUIScreen(currentPrefab, overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
 						// ++ YOU SHOULD INITIALIZE HERE YOUR OWN SCREEN BEFORE INITIALIZING THE BASE SCREEN CLASS ++
-						if (currentScreen.GetComponent<IBasicScreenView>() != null)
+						if (currentScreen.GetComponent<IBasicView>() != null)
 						{
-							currentScreen.GetComponent<IBasicScreenView>().Initialize(_list[22]);
+							currentScreen.GetComponent<IBasicView>().Initialize(_list[22]);
 						}
 						if (delayToDestroy > 0)
 						{
@@ -765,7 +788,7 @@ namespace YourVRUI
 							if (ScreensPrefabs[i].name == screenName)
 							{
 								currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
-								currentScreen.GetComponent<IBasicScreenView>().Initialize(originCharacter, blockOtherScreens, _list[22]);
+								currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
 								currentScreen.gameObject.name = screenName;
 								if (delayToDestroy > 0)
 								{
@@ -788,11 +811,11 @@ namespace YourVRUI
 					}
 					if (forceScreen && !screenLinkedToObject && !forceOrthographic)
 					{
-						currentScreen.GetComponent<BaseVRScreenView>().SetLinkToPlayer(UtilitiesYourVRUI.ClonePoint(m_camera.transform.forward), distanceObj, refocus);
+						currentScreen.GetComponent<BaseVRScreenView>().SetLinkToPlayer(Utilities.ClonePoint(m_camera.transform.forward), distanceObj, refocus);
 					}
 					if (screenZOrderIgnore)
 					{
-						UtilitiesYourVRUI.ApplyMaterialOnImages(currentScreen, MaterialDrawOnTop);
+						Utilities.ApplyMaterialOnImages(currentScreen, MaterialDrawOnTop);
 					}
 					switch (previousScreenAction)
 					{
@@ -810,9 +833,9 @@ namespace YourVRUI
 							if (m_screensTemporal.Count > 0)
 							{
 								GameObject sCurrentScreen = m_screensTemporal[m_screensTemporal.Count - 1];
-								if (sCurrentScreen.GetComponent<IBasicScreenView>() != null)
+								if (sCurrentScreen.GetComponent<IBasicView>() != null)
 								{
-									sCurrentScreen.GetComponent<IBasicScreenView>().Destroy();
+									sCurrentScreen.GetComponent<IBasicView>().Destroy();
 								}
 								GameObject.Destroy(sCurrentScreen);
 								m_screensTemporal.RemoveAt(m_screensTemporal.Count - 1);
@@ -831,6 +854,7 @@ namespace YourVRUI
 					{
 						m_screensForever.Add(currentScreen);
 					}
+					KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
 				}
 			}
 		}
@@ -850,9 +874,14 @@ namespace YourVRUI
 				{
 					if (_runDestroy)
 					{
-						screen.GetComponent<IBasicScreenView>().Destroy();
+						screen.GetComponent<IBasicView>().Destroy();
+					}
+					if (screen != null)
+					{
+						GameObject.Destroy(screen);
 					}
 					m_screensTemporal.RemoveAt(i);
+					KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
 					return;
 				}
 			}
@@ -864,7 +893,11 @@ namespace YourVRUI
 				{
 					if (_runDestroy)
 					{
-						screen.GetComponent<IBasicScreenView>().Destroy();
+						screen.GetComponent<IBasicView>().Destroy();
+					}
+					if (screen != null)
+					{
+						GameObject.Destroy(screen);
 					}
 					m_screensForever.RemoveAt(i);
 					return;
@@ -912,7 +945,7 @@ namespace YourVRUI
 				{
 					Debug.Log("++++NORMAL UI SCREEN");
 				}
-				ScreenVREventController.Instance.DispatchScreenVREvent(EventSystemController.EVENT_ACTIVATION_INPUT_STANDALONE, true);
+				UIEventController.Instance.DispatchUIEvent(EventSystemController.EVENT_ACTIVATION_INPUT_STANDALONE, true);
 				return (GameObject)Instantiate(_screenPrefab);
 			}
 			else
@@ -925,7 +958,7 @@ namespace YourVRUI
 						{
 							Debug.Log("++++FORCED WORLD SCREEN(WILL STAY THERE UNTIL PLAYER CONFIRMATION) AND IT'S NOT LINKED TO ANY OBJECT");
 						}
-						ScreenVREventController.Instance.DispatchScreenVREvent(EventSystemController.EVENT_ACTIVATION_INPUT_STANDALONE, false);
+						UIEventController.Instance.DispatchUIEvent(EventSystemController.EVENT_ACTIVATION_INPUT_STANDALONE, false);
 						GameObject instance = (GameObject)Instantiate(_screenPrefab);
 						float distanceToPlayer = _distance;
 						Vector3 collisionPoint = m_camera.transform.position + (m_camera.transform.forward.normalized * distanceToPlayer);
@@ -941,7 +974,7 @@ namespace YourVRUI
 						{
 							instance.GetComponent<RectTransform>().localScale = new Vector3(_scaleScreen / 1000, _scaleScreen / 1000, _scaleScreen / 1000);
 						}
-						instance.transform.forward = UtilitiesYourVRUI.ClonePoint(m_camera.transform.forward);
+						instance.transform.forward = Utilities.ClonePoint(m_camera.transform.forward);
 						return instance;
 					}
 					else
@@ -950,7 +983,7 @@ namespace YourVRUI
 						{
 							Debug.Log("++++FORCED UI SCREEN(WILL STAY THERE UNTIL PLAYER CONFIRMATION) AND USING NORMAL UI");
 						}
-						GameObject instance = UtilitiesYourVRUI.AddChild(m_camera.transform, _screenPrefab);
+						GameObject instance = Utilities.AddChild(m_camera.transform, _screenPrefab);
 						instance.layer = LayerMask.NameToLayer("UI");
 						instance.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
 						instance.GetComponent<RectTransform>().rotation = new Quaternion(0, 0, 0, 0);
@@ -970,16 +1003,16 @@ namespace YourVRUI
 						{
 							instance.GetComponent<RectTransform>().localScale = new Vector3(_scaleScreen / 1000, _scaleScreen / 1000, _scaleScreen / 1000);
 						}
-						UtilitiesYourVRUI.ApplyMaterialOnImages(instance, MaterialDrawOnTop);
+						Utilities.ApplyMaterialOnImages(instance, MaterialDrawOnTop);
 						return instance;
 					}
 				}
 				else
 				{
-					ScreenVREventController.Instance.DispatchScreenVREvent(EventSystemController.EVENT_ACTIVATION_INPUT_STANDALONE, false);
+					UIEventController.Instance.DispatchUIEvent(EventSystemController.EVENT_ACTIVATION_INPUT_STANDALONE, false);
 					GameObject instance = (GameObject)Instantiate(_screenPrefab);
 					RaycastHit objectCollided;
-					Vector3 vectorNormalUI = UtilitiesYourVRUI.ClonePoint(m_camera.transform.forward);
+					Vector3 vectorNormalUI = Utilities.ClonePoint(m_camera.transform.forward);
 					Vector3 collisionPoint = m_camera.transform.position + (m_camera.transform.forward.normalized * _distance);
 					if (!_screenLinkedToObject)
 					{
@@ -988,16 +1021,16 @@ namespace YourVRUI
 							Debug.Log("++++WORLD SCREEN JUST IN FRONT OF THE CAMERA AND NOT LINKED TO ANY OBJECT");
 						}
 						collisionPoint = m_camera.transform.position + (_distance * m_camera.transform.forward.normalized);
-						vectorNormalUI = UtilitiesYourVRUI.ClonePoint(m_camera.transform.forward);
+						vectorNormalUI = Utilities.ClonePoint(m_camera.transform.forward);
 						instance.transform.forward = vectorNormalUI;
 					}
 					else
 					{
-						objectCollided = UtilitiesYourVRUI.GetRaycastHitInfoByRay(m_camera.transform.position, m_camera.transform.forward, _ignoreLayers);
+						objectCollided = Utilities.GetRaycastHitInfoByRay(m_camera.transform.position, m_camera.transform.forward, _ignoreLayers);
 						if (objectCollided.collider != null)
 						{
 							GameObject finalObject = objectCollided.collider.gameObject;
-							vectorNormalUI = UtilitiesYourVRUI.ClonePoint(objectCollided.normal);
+							vectorNormalUI = Utilities.ClonePoint(objectCollided.normal);
 							if (_screenInCenterObject)
 							{
 								collisionPoint = new Vector3(finalObject.transform.position.x, m_camera.transform.position.y, finalObject.transform.position.z);
@@ -1010,7 +1043,7 @@ namespace YourVRUI
 									{
 										Debug.Log("++++WE WILL USE THE COLLISION POINT TO PLACE THE WORLD SCREEN");
 									}
-									collisionPoint = UtilitiesYourVRUI.ClonePoint(objectCollided.point);
+									collisionPoint = Utilities.ClonePoint(objectCollided.point);
 								}
 								else
 								{
@@ -1025,7 +1058,7 @@ namespace YourVRUI
 									Vector2 minMax = GetMaxMinBounds(finalObject);
 									Vector3 posStartingObject = posCenterIGamePlayer + (vectorNormalUI.normalized * (minMax.y / 2));
 									float distancePointToWall = 0;
-									RaycastHit pointToWall = UtilitiesYourVRUI.GetRaycastHitInfoByRay(posStartingObject, -vectorNormalUI.normalized);
+									RaycastHit pointToWall = Utilities.GetRaycastHitInfoByRay(posStartingObject, -vectorNormalUI.normalized);
 									if (pointToWall.collider != null)
 									{
 										distancePointToWall = Vector3.Distance(posCenterIGamePlayer, pointToWall.point);
@@ -1046,7 +1079,7 @@ namespace YourVRUI
 								{
 									Debug.Log("++++ALIGNED TO THE CAMERA");
 								}
-								vectorNormalUI = UtilitiesYourVRUI.ClonePoint(m_camera.transform.forward);
+								vectorNormalUI = Utilities.ClonePoint(m_camera.transform.forward);
 								instance.transform.forward = vectorNormalUI;
 							}
 							else
@@ -1057,7 +1090,7 @@ namespace YourVRUI
 								}
 								instance.transform.rotation = Quaternion.FromToRotation(Vector3.right, vectorNormalUI);
 								instance.transform.Rotate(new Vector3(0, -90, 0));
-								vectorNormalUI = UtilitiesYourVRUI.ClonePoint(instance.transform.forward);
+								vectorNormalUI = Utilities.ClonePoint(instance.transform.forward);
 							}
 						}
 					}

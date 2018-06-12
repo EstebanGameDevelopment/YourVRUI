@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourCommonTools;
 
 namespace YourVRUI
 {
@@ -73,7 +74,7 @@ namespace YourVRUI
 		 */
 		public void ButtonPressed()
 		{
-			ScreenVREventController.Instance.DispatchScreenVREvent(EVENT_INVENTORY_ITEM_SELECTED, m_id);
+			UIEventController.Instance.DispatchUIEvent(EVENT_INVENTORY_ITEM_SELECTED, m_id);
 		}
 	}
 }

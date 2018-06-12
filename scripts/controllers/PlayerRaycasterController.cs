@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using YourCommonTools;
 
 namespace YourVRUI
 {
@@ -44,9 +45,9 @@ namespace YourVRUI
 			// IF ENABLED COLLISION DETECTION IT WILL LOOK FOR A COLLIDER, IF THERE IS NO COLLIDER IT WILL ADD ONE
 			if (YourVRUIScreenController.Instance.EnableCollisionDetection)
 			{
-				if (!UtilitiesYourVRUI.IsThereABoxCollider(this.gameObject))
+				if (!Utilities.IsThereABoxCollider(this.gameObject))
 				{
-					Bounds bounds = UtilitiesYourVRUI.CalculateBounds(this.gameObject);
+					Bounds bounds = Utilities.CalculateBounds(this.gameObject);
 					this.gameObject.AddComponent<BoxCollider>();
 					float scaleBoxCollider = 2.5f;
 					this.gameObject.GetComponent<BoxCollider>().size = new Vector3(bounds.size.x * scaleBoxCollider, bounds.size.y, bounds.size.z * scaleBoxCollider);
@@ -65,7 +66,7 @@ namespace YourVRUI
 				}
 			}
 
-			ScreenVREventController.Instance.ScreenVREvent += new ScreenVREventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
 
@@ -75,7 +76,7 @@ namespace YourVRUI
 		 */
 		public void Destroy()
 		{
-			ScreenVREventController.Instance.ScreenVREvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
 		}
 
 		// -------------------------------------------
@@ -98,7 +99,7 @@ namespace YourVRUI
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == KeyEventInputController.ACTION_BUTTON_DOWN)
+			if (_nameEvent == KeysEventInputController.ACTION_BUTTON_DOWN)
 			{
 				ResetLinkedElementScrollRect();
 				bool triggeredDispatchScreen = false;
@@ -126,17 +127,17 @@ namespace YourVRUI
 					}
 				}
 			}
-			if (_nameEvent == KeyEventInputController.ACTION_SET_ANCHOR_POSITION)
+			if (_nameEvent == KeysEventInputController.ACTION_SET_ANCHOR_POSITION)
 			{
 				ResetLinkedElementScrollRect();
 				RaycastHit objectCollided;
 				if (!YourVRUIScreenController.Instance.IsDayDreamActivated)
 				{
-					objectCollided = UtilitiesYourVRUI.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward);
+					objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward);
 				}
 				else
 				{
-					objectCollided = UtilitiesYourVRUI.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward);
+					objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward);
 				}
 				if (objectCollided.collider != null)
 				{
@@ -145,7 +146,7 @@ namespace YourVRUI
 					m_distanceToCollisionScrollRect = -1;
 					m_referenceAngleForDirection = -1;
 					m_detectionMovementScrollRect = false;
-					ScreenVREventController.Instance.DispatchScreenVREvent(BaseVRScreenView.EVENT_SCREEN_CHECK_ELEMENT_BELONGS_TO_SCROLLRECT, objectCollided.collider.gameObject);
+					UIEventController.Instance.DispatchUIEvent(BaseVRScreenView.EVENT_SCREEN_CHECK_ELEMENT_BELONGS_TO_SCROLLRECT, objectCollided.collider.gameObject);
 				}
 			}
 			if (_nameEvent == BaseVRScreenView.EVENT_SCREEN_RESPONSE_ELEMENT_BELONGS_TO_SCROLLRECT)
@@ -191,7 +192,7 @@ namespace YourVRUI
 		 */
 		private InteractionController GetControllerCollided()
 		{
-			RaycastHit objectCollided = UtilitiesYourVRUI.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
+			RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
 			if (objectCollided.collider != null)
 			{
 				GameObject goCollided = objectCollided.collider.gameObject;
@@ -207,7 +208,7 @@ namespace YourVRUI
 		 */
 		private void CheckRaycastingNormal(bool _actionButtonPressed)
 		{
-			RaycastHit objectCollided = UtilitiesYourVRUI.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
+			RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
 			CheckRaycasting(_actionButtonPressed, objectCollided);
 		}
 
@@ -217,7 +218,7 @@ namespace YourVRUI
 		 */
 		private void CheckRaycastingDaydream(bool _actionButtonPressed)
 		{
-			RaycastHit objectCollided = UtilitiesYourVRUI.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, IgnoreLayers);
+			RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, IgnoreLayers);
 			CheckRaycasting(_actionButtonPressed, objectCollided);
 		}
 
@@ -273,10 +274,10 @@ namespace YourVRUI
 
 				if (!YourVRUIScreenController.Instance.KeysEnabled)
 				{
-					RaycastHit objectCollided = UtilitiesYourVRUI.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
+					RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
 					if (objectCollided.collider != null)
 					{
-						ScreenVREventController.Instance.DispatchScreenVREvent(ButtonVRView.EVENT_SELECTED_VR_BUTTON_COMPONENT, objectCollided.collider.gameObject);
+						UIEventController.Instance.DispatchUIEvent(ButtonVRView.EVENT_SELECTED_VR_BUTTON_COMPONENT, objectCollided.collider.gameObject);
 					}
 				}
 			}
@@ -286,10 +287,10 @@ namespace YourVRUI
 
 				if (!YourVRUIScreenController.Instance.KeysEnabled)
 				{
-					RaycastHit objectCollided = UtilitiesYourVRUI.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, IgnoreLayers);
+					RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, IgnoreLayers);
 					if (objectCollided.collider != null)
 					{
-						ScreenVREventController.Instance.DispatchScreenVREvent(ButtonVRView.EVENT_SELECTED_VR_BUTTON_COMPONENT, objectCollided.collider.gameObject);
+						UIEventController.Instance.DispatchUIEvent(ButtonVRView.EVENT_SELECTED_VR_BUTTON_COMPONENT, objectCollided.collider.gameObject);
 					}
 				}
 			}
@@ -344,10 +345,10 @@ namespace YourVRUI
 					if (angleBetweenForwardVectors > 2)
 					{
 						m_detectionMovementScrollRect = true;
-						ScreenVREventController.Instance.DispatchScreenVREvent(BaseVRScreenView.EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION, true);
+						UIEventController.Instance.DispatchUIEvent(BaseVRScreenView.EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION, true);
 					}
 				}
-				ScreenVREventController.Instance.DispatchScreenVREvent(BaseVRScreenView.EVENT_SCREEN_MOVED_SCROLL_RECT, m_referenceElementInScrollRect, angleBetweenForwardVectors, directionToScroll);
+				UIEventController.Instance.DispatchUIEvent(BaseVRScreenView.EVENT_SCREEN_MOVED_SCROLL_RECT, m_referenceElementInScrollRect, angleBetweenForwardVectors, directionToScroll);
 			}
 		}
 	}

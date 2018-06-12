@@ -114,7 +114,7 @@ namespace YourVRUI
 		 */
 		void Start()
 		{
-			ScreenVREventController.Instance.ScreenVREvent += new ScreenVREventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
 		// -------------------------------------------
@@ -123,7 +123,7 @@ namespace YourVRUI
 		 */
 		public void Destroy()
 		{
-			ScreenVREventController.Instance.ScreenVREvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
 		}
 
 		// -------------------------------------------
@@ -174,11 +174,11 @@ namespace YourVRUI
 		 */
 		public void DispatchScreen(GameObject _player, string[] _ignoreLayers, bool _force)
 		{
-			ScreenVREventController.Instance.DispatchScreenVREvent(EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER, this);
+			UIEventController.Instance.DispatchUIEvent(EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER, this);
 			if (TriggerMessageOnDetection || _force)
 			{
-				KeyEventInputController.Instance.EnableActionOnMouseDown = EnableActionOnMouseDown;
-				ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_OPEN_SCREEN,
+				KeysEventInputController.Instance.EnableActionOnMouseDown = EnableActionOnMouseDown;
+				UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
 													OverrideGlobalSettings,
 													_player,
 													this.gameObject,
@@ -250,7 +250,7 @@ namespace YourVRUI
 					{
 						if (_collision.gameObject.tag == YourVRUIScreenController.Instance.TagPlayerDetectionCollision)
 						{
-							ScreenVREventController.Instance.DispatchScreenVREvent(BaseVRScreenView.EVENT_SCREEN_DESTROYED_VIEW, this.gameObject);
+							UIEventController.Instance.DispatchUIEvent(BaseVRScreenView.EVENT_SCREEN_DESTROYED_VIEW, this.gameObject);
 						}
 					}
 				}
@@ -301,7 +301,7 @@ namespace YourVRUI
 					{
 						if (_collider.gameObject.tag == YourVRUIScreenController.Instance.TagPlayerDetectionCollision)
 						{
-							ScreenVREventController.Instance.DispatchScreenVREvent(BaseVRScreenView.EVENT_SCREEN_DESTROYED_VIEW, this.gameObject);
+							UIEventController.Instance.DispatchUIEvent(BaseVRScreenView.EVENT_SCREEN_DESTROYED_VIEW, this.gameObject);
 						}
 					}
 				}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourCommonTools;
 
 namespace YourVRUI
 {
@@ -16,7 +17,7 @@ namespace YourVRUI
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenItemInventoryView : MonoBehaviour, IBasicScreenView
+	public class ScreenItemInventoryView : MonoBehaviour, IBasicView
 	{
 		// ----------------------------------------------
 		// EVENTS
@@ -44,6 +45,21 @@ namespace YourVRUI
 
 		private Sprite m_selectedItem;
 
+		private bool m_isDestroyed = false;
+
+		public string NameOfScreen
+		{
+			get
+			{
+				return "";
+			}
+
+			set
+			{
+				
+			}
+		}
+
 		// -------------------------------------------
 		/* 
 		 * Constructor
@@ -61,7 +77,7 @@ namespace YourVRUI
 
 			m_grid = m_container.Find("Base_Map/ScrollList/Grid").gameObject;
 
-			ScreenVREventController.Instance.ScreenVREvent += new ScreenVREventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 
 			// BUILD ALL LAYOUT ELEMENTS AND INTERACTIONS
 			m_buttonInteract.GetComponent<Button>().onClick.AddListener(InteractItemButton);
@@ -70,12 +86,12 @@ namespace YourVRUI
 			for (int i = 0; i < ImageItems.Length; i++)
 			{
 				Sprite itemSprite = ImageItems[i];
-				GameObject instance = UtilitiesYourVRUI.AddChild(m_grid.transform, InventoryItemPrefab);
+				GameObject instance = Utilities.AddChild(m_grid.transform, InventoryItemPrefab);
 				instance.GetComponent<ItemView>().Initialization(i, itemSprite.name, itemSprite);
 				m_elements.Add(instance);
 			}
 
-			m_buttonClose.GetComponent<Button>().onClick.AddListener(Destroy);
+			m_buttonClose.GetComponent<Button>().onClick.AddListener(DestroyScreen);
 
 			// FIRST INITIALIZATION
 			if (m_elements.Count > 0)
@@ -94,10 +110,33 @@ namespace YourVRUI
 		/* 
 		 * Remove all the references
 		 */
-		public void Destroy()
+		private void DestroyScreen()
 		{
-			ScreenVREventController.Instance.ScreenVREvent -= OnBasicEvent;
-			GameObject.DestroyObject(this.gameObject);
+			Destroy();
+		}
+
+		// -------------------------------------------
+		/* 
+		 * Remove all the references
+		 */
+		public bool Destroy()
+		{
+			if (m_isDestroyed) return true;
+			m_isDestroyed = true;
+
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+
+			return true;
+		}
+
+		// -------------------------------------------
+		/* 
+		 * SetActivation
+		 */
+		public void SetActivation(bool _activation)
+		{
+			
 		}
 
 		// -------------------------------------------
@@ -117,9 +156,24 @@ namespace YourVRUI
 				m_root.transform.Find("Content/Base_Map/Description_Label").GetComponent<Text>().text = m_selectedItem.name;
 				m_root.transform.Find("Content/Base_Map/ImageIcon").GetComponent<Image>().sprite = m_selectedItem;
 			}
-			if (_nameEvent == KeyEventInputController.ACTION_CANCEL_BUTTON)
+			if (_nameEvent == KeysEventInputController.ACTION_CANCEL_BUTTON)
 			{
-				Destroy();
+				if ((this.gameObject.GetComponent<BaseVRScreenView>() != null) 
+					&& this.gameObject.GetComponent<BaseVRScreenView>().DisableActionButtonInteraction)
+				{
+					UIEventController.Instance.DispatchUIEvent(BaseVRScreenView.EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION, false);
+				}
+				else
+				{
+					if (YourVRUIScreenController.Instance.KeysEnabled)
+					{
+						YourVRUIScreenController.Instance.KeysEnabled = false;
+					}
+					else
+					{
+						Destroy();
+					}
+				}
 			}
 		}
 
@@ -132,7 +186,7 @@ namespace YourVRUI
 			for (int i = 0; i < m_elements.Count; i++)
 			{
 				GameObject element = m_elements[i];
-				DestroyObject(element);
+				Destroy(element);
 			}
 			m_elements.Clear();
 		}

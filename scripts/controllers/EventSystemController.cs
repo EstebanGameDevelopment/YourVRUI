@@ -4,6 +4,7 @@ using System.Xml;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using YourCommonTools;
 
 namespace YourVRUI
 {
@@ -73,7 +74,7 @@ namespace YourVRUI
 				Debug.LogError("WARNNING: The project can work in a non-VR related project, but it's meant to run mainly for VR projects");
 			}
 
-			ScreenVREventController.Instance.ScreenVREvent += new ScreenVREventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
 		// -------------------------------------------
@@ -82,7 +83,7 @@ namespace YourVRUI
 		 */
 		public void Destroy()
 		{
-			ScreenVREventController.Instance.ScreenVREvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
 		}
 
 		// -------------------------------------------

@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 22380472}
   - component: {fileID: 11478872}
   - component: {fileID: 11493216}
-  - component: {fileID: 114496727180551068}
+  - component: {fileID: 114703810029945610}
   m_Layer: 5
   m_Name: SCREEN_INFORMATION
   m_TagString: Untagged
@@ -989,7 +989,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114496727180551068
+--- !u!114 &114703810029945610
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -997,9 +997,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 174312}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eeee38bb72a26d4e9dc7fe74f112350, type: 3}
+  m_Script: {fileID: 11500000, guid: dc7b3f33de044fe4fa1e8f9079860509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectorGraphic: {fileID: 0}
 --- !u!222 &222000010581002774
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -99,6 +99,11 @@ namespace YourVRUI
 			get { return m_characterOrigin; }
 		}
 
+		public bool DisableActionButtonInteraction
+		{
+			get { return m_disableActionButtonInteraction; }
+		}
+
 		// -------------------------------------------
 		/* 
 		 * Initialitzation
@@ -119,11 +124,11 @@ namespace YourVRUI
 					m_canvasGroup.alpha = 1;
 				}
 			}
-			ScreenVREventController.Instance.ScreenVREvent += new ScreenVREventHandler(OnBaseScreenBasicEvent);
-			ScreenVREventController.Instance.DispatchScreenVREvent(EVENT_SCREEN_OPEN_VIEW, this.gameObject, m_blockOtherScreens);
-			ScreenVREventController.Instance.DispatchScreenVREvent(InteractionController.EVENT_INTERACTIONCONTROLLER_SCREEN_CREATED, m_characterOrigin);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBaseScreenBasicEvent);
+			UIEventController.Instance.DispatchUIEvent(EVENT_SCREEN_OPEN_VIEW, this.gameObject, m_blockOtherScreens);
+			UIEventController.Instance.DispatchUIEvent(InteractionController.EVENT_INTERACTIONCONTROLLER_SCREEN_CREATED, m_characterOrigin);
 
-			ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
+			UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
 
 			if (AutomaticallyAddButtons)
 			{
@@ -147,23 +152,23 @@ namespace YourVRUI
 		 */
 		void OnDestroy()
 		{
-			if (this.gameObject.GetComponent<IBasicScreenView>() != null)
+			if (this.gameObject.GetComponent<IBasicView>() != null)
 			{
-				this.gameObject.GetComponent<IBasicScreenView>().Destroy();
+				this.gameObject.GetComponent<IBasicView>().Destroy();
 			}
 
 			Debug.Log("YourVRUI::BaseVRScreenView::OnDestroy::NAME OBJECT DESTROYED[" + this.gameObject.name + "]");
 
 			m_distance = -1;
-			ScreenVREventController.Instance.ScreenVREvent -= OnBaseScreenBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBaseScreenBasicEvent;
 
 			ClearListSelectors();
 			m_selectors = null;
 
-			KeyEventInputController.Instance.EnableActionOnMouseDown = true;
-			ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
-			ScreenVREventController.Instance.DispatchScreenVREvent(EVENT_SCREEN_CLOSE_VIEW, this.gameObject);
-			ScreenVREventController.Instance.DispatchScreenVREvent(InteractionController.EVENT_INTERACTIONCONTROLLER_SCREEN_DESTROYED, m_characterOrigin);
+			KeysEventInputController.Instance.EnableActionOnMouseDown = true;
+			UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
+			UIEventController.Instance.DispatchUIEvent(EVENT_SCREEN_CLOSE_VIEW, this.gameObject);
+			UIEventController.Instance.DispatchUIEvent(InteractionController.EVENT_INTERACTIONCONTROLLER_SCREEN_DESTROYED, m_characterOrigin);
 
 			m_characterOrigin = null;
 
@@ -201,7 +206,7 @@ namespace YourVRUI
 				if (_button != null)
 				{
 					_button.AddComponent<ButtonVRView>();
-					_button.GetComponent<ButtonVRView>().Initialize();
+					_button.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER);
 				}
 			}
 			return _button;
@@ -254,10 +259,11 @@ namespace YourVRUI
 				GameObject characterOrigin = (GameObject)_list[0];
 				if (m_characterOrigin == characterOrigin)
 				{
-					GameObject.DestroyObject(m_screen);
+					GameObject.Destroy(m_screen);
 					return;
 				}
 			}
+
 
 			if (!m_disableActionButtonInteraction)
 			{
@@ -279,26 +285,26 @@ namespace YourVRUI
 				}
 			}
 
-			if (_nameEvent == KeyEventInputController.ACTION_BACK_BUTTON)
+			if (_nameEvent == KeysEventInputController.ACTION_BACK_BUTTON)
 			{
 				if (YourVRUIScreenController.Instance.KeysEnabled)
 				{
-					ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
+					UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
 				}
 				else
 				{
-					ScreenVREventController.Instance.DispatchScreenVREvent(KeyEventInputController.ACTION_CANCEL_BUTTON);
+					UIEventController.Instance.DispatchUIEvent(KeysEventInputController.ACTION_CANCEL_BUTTON);
 				}
 			}
 
-			if (_nameEvent == KeyEventInputController.ACTION_BUTTON_DOWN)
+			if (_nameEvent == KeysEventInputController.ACTION_BUTTON_DOWN)
 			{
 				if (!m_disableActionButtonInteraction)
 				{
 					if ((m_selectionButton >= 0) && (m_selectionButton < m_selectors.Count))
 					{
 						if (m_selectors[m_selectionButton] != null)
-						{
+						{							
 							if (m_selectors[m_selectionButton].GetComponent<ButtonVRView>() != null)
 							{
 								if (m_selectors[m_selectionButton].activeSelf)
@@ -319,7 +325,7 @@ namespace YourVRUI
 					Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
 					if ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1))
 					{
-						UtilitiesYourVRUI.MoveScrollWithSiblings(m_scrollRectsVR[(int)dataElement.y], targetObject);
+						Utilities.MoveScrollWithSiblings(m_scrollRectsVR[(int)dataElement.y], targetObject);
 					}
 				}
 			}
@@ -335,7 +341,7 @@ namespace YourVRUI
 				{
 					isVerticalGrid = m_scrollRectsVR[(int)dataElement.y].IsVerticalGrid();
 				}
-				ScreenVREventController.Instance.DispatchScreenVREvent(EVENT_SCREEN_RESPONSE_ELEMENT_BELONGS_TO_SCROLLRECT, targetObject, elementIsInsideScrollRect, isVerticalGrid);
+				UIEventController.Instance.DispatchUIEvent(EVENT_SCREEN_RESPONSE_ELEMENT_BELONGS_TO_SCROLLRECT, targetObject, elementIsInsideScrollRect, isVerticalGrid);
 			}
 
 			if (_nameEvent == EVENT_SCREEN_MOVED_SCROLL_RECT)
@@ -390,9 +396,9 @@ namespace YourVRUI
 			bool keepSearching = true;
 
 			// KEYS ACTION
-			if (_nameEvent == KeyEventInputController.ACTION_KEY_UP)
+			if (_nameEvent == KeysEventInputController.ACTION_KEY_UP_PRESSED)
 			{
-				ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
+				UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
 				do
 				{
 					m_selectionButton--;
@@ -411,9 +417,9 @@ namespace YourVRUI
 				} while (keepSearching);
 				EnableSelector();
 			}
-			if (_nameEvent == KeyEventInputController.ACTION_KEY_DOWN)
+			if (_nameEvent == KeysEventInputController.ACTION_KEY_DOWN_PRESSED)
 			{
-				ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
+				UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
 				do
 				{
 					m_selectionButton++;
@@ -432,9 +438,9 @@ namespace YourVRUI
 				} while (keepSearching);
 				EnableSelector();
 			}
-			if (_nameEvent == KeyEventInputController.ACTION_KEY_LEFT)
+			if (_nameEvent == KeysEventInputController.ACTION_KEY_LEFT_PRESSED)
 			{
-				ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
+				UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
 				do
 				{
 					m_selectionButton--;
@@ -453,9 +459,9 @@ namespace YourVRUI
 				} while (keepSearching);
 				EnableSelector();
 			}
-			if (_nameEvent == KeyEventInputController.ACTION_KEY_RIGHT)
+			if (_nameEvent == KeysEventInputController.ACTION_KEY_RIGHT_PRESSED)
 			{
-				ScreenVREventController.Instance.DispatchScreenVREvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
+				UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
 				do
 				{
 					m_selectionButton++;
@@ -504,7 +510,7 @@ namespace YourVRUI
 		{
 			if (m_scrollRectsVR == null)
 			{
-				UtilitiesYourVRUI.CalculateScrollRect(this.gameObject, ref m_scrollRectsVR);
+				Utilities.CalculateScrollRect(this.gameObject, ref m_scrollRectsVR);
 			}
 
 			Vector3 output = new Vector3(-1, -1, -1);
@@ -516,7 +522,7 @@ namespace YourVRUI
 				{
 					for (int i = 0; i < m_scrollRectsVR.Count; i++)
 					{
-						if (UtilitiesYourVRUI.FindGameObjectInChilds(m_scrollRectsVR[i].BaseObject, _element))
+						if (Utilities.FindGameObjectInChilds(m_scrollRectsVR[i].BaseObject, _element))
 						{
 							output = new Vector3(indexSelector, i, _element.transform.GetSiblingIndex());
 						}
@@ -618,11 +624,11 @@ namespace YourVRUI
 					if (m_timeToRefocus > DELAY_TO_REFOCUS)
 					{
 						Bounds canvasBounds = new Bounds(this.gameObject.transform.position, Vector3.one);
-						if (!UtilitiesYourVRUI.IsVisibleFrom(canvasBounds, YourVRUIScreenController.Instance.GameCamera))
+						if (!Utilities.IsVisibleFrom(canvasBounds, YourVRUIScreenController.Instance.GameCamera))
 						{
-							m_normal = UtilitiesYourVRUI.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward.normalized);
+							m_normal = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward.normalized);
 							Vector3 targetPosition = YourVRUIScreenController.Instance.GameCamera.transform.position + (m_normal * m_distance);
-							this.gameObject.transform.forward = UtilitiesYourVRUI.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward);
+							this.gameObject.transform.forward = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward);
 							InterpolatorController.Instance.Interpolate(this.gameObject, targetPosition, 0.95f * DELAY_TO_REFOCUS);
 							m_timeToRefocus = 0;
 						}
@@ -646,7 +652,7 @@ namespace YourVRUI
 			{
 				if (Vector3.Distance(m_playerInteracted.transform.position, m_characterOrigin.transform.position) > m_distanceToDestroy)
 				{
-					GameObject.DestroyObject(m_screen);
+					GameObject.Destroy(m_screen);
 				}
 			}
 		}

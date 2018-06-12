@@ -32,8 +32,6 @@ namespace YourVRUI
 		// EVENTS
 		// ----------------------------------------------	
 		public const string EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT = "EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT";
-		public const string EVENT_SCREENMANAGER_REPORT_DESTROYED = "EVENT_SCREENMANAGER_REPORT_DESTROYED";
-
 
 		public const string UI_TRIGGERER = "UI_TRIGGERER";
 
@@ -683,7 +681,7 @@ namespace YourVRUI
 			{
 				DestroyScreens();
 			}
-			if (_nameEvent == EVENT_SCREENMANAGER_REPORT_DESTROYED)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_REPORT_DESTROYED)
 			{
 				DestroyNullScreens();
 			}

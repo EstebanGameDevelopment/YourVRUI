@@ -161,6 +161,7 @@ namespace YourVRUI
 		public Camera GameCamera
 		{
 			get { return m_camera; }
+			set { m_camera = value; }
 		}
 
 		public bool EnableDebugTestingCode
@@ -447,7 +448,7 @@ namespace YourVRUI
 		/* 
 		 * Will create a screen linked to the camera
 		 */
-		public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy)
+		public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f)
 		{
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
 														   true,
@@ -460,13 +461,13 @@ namespace YourVRUI
 														   false, // interactedObject.ScreenLinkedToObject,
 														   false, // interactedObject.ScreenInCenterObject,
 														   true, // interactedObject.ForceScreen,
-														   false, // interactedObject.ForceOrthographic,
+														   _forceOrthographic, // interactedObject.ForceOrthographic,
 														   true, // interactedObject.AlignedToCamera,
 														   false, // interactedObject.UseCollisionPoint,
 														   _distance, // interactedObject.DistanceScreenDefault,
 														   true, // interactedObject.Refocus,
 														   false, // interactedObject.DestroyMessageOnDistance,
-														   -1f, // interactedObject.ScaleScreen,
+														   _scaleScreen, // interactedObject.ScaleScreen,
 														   true, // interactedObject.BlockOtherScreens,
 														   Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
 														   true, // Temporal Screen

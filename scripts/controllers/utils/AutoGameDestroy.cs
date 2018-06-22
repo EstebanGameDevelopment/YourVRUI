@@ -17,13 +17,15 @@ namespace YourVRUI
 	 */
 	public class AutoGameDestroy : MonoBehaviour
 	{
+        public float TimeToDestroy = 3;
+
 		// -------------------------------------------
 		/* 
 		 * Start
 		 */
 		void Start()
 		{
-			Destroy(gameObject, 2);
+			Destroy(gameObject, TimeToDestroy);
 		}
 	}
 }

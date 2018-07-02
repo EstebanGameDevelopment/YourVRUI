@@ -5,15 +5,6 @@ using YourCommonTools;
 
 namespace YourVRUI
 {
-
-	public enum TypePreviousActionEnum
-	{
-		DESTROY_ALL_SCREENS = 0x00,
-		DESTROY_CURRENT_SCREEN = 0x01,
-		KEEP_CURRENT_SCREEN = 0x02,
-		HIDE_CURRENT_SCREEN = 0x03
-	}
-
 	/******************************************
 	 * 
 	 * InteractionController
@@ -49,7 +40,7 @@ namespace YourVRUI
 		[Tooltip("Screen prefab you want to display for this object")]
 		public GameObject screenPrefab;
 		[Tooltip("Action you want to apply to the previous screens displayed")]
-		public TypePreviousActionEnum PreviousScreenAction;
+		public UIScreenTypePreviousAction PreviousScreenAction;
 		[Tooltip("Will override the global settings and it will use the local setting to display the screen")]
 		public bool OverrideGlobalSettings = false;
 		[Tooltip("It's a screen that should be placed in the world or it should be placed in the traditional screen way")]
@@ -178,7 +169,7 @@ namespace YourVRUI
 			if (TriggerMessageOnDetection || _force)
 			{
 				KeysEventInputController.Instance.EnableActionOnMouseDown = EnableActionOnMouseDown;
-				UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
+				UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
 													OverrideGlobalSettings,
 													_player,
 													this.gameObject,

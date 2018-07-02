@@ -267,6 +267,8 @@ namespace YourVRUI
 		 */
 		void Update()
 		{
+            if (YourVRUIScreenController.Instance == null) return;
+
 			// HIGHTLIGHT
 			if (!YourVRUIScreenController.Instance.IsDayDreamActivated)
 			{

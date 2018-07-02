@@ -15,8 +15,6 @@ namespace YourVRUI
 	 * @author Esteban Gallardo
 	 */
 	[RequireComponent(typeof(PlayerRaycasterController))]
-	[RequireComponent(typeof(CharacterController))]
-	[RequireComponent(typeof(Rigidbody))]
 	public class PlayerMovementController : MonoBehaviour
 	{
 		// ----------------------------------------------
@@ -90,79 +88,76 @@ namespace YourVRUI
 				targetPosition.y = this.gameObject.transform.position.y;
 				InterpolatorController.Instance.Interpolate(this.gameObject, targetPosition, 1);				
 			}
-			if (YourVRUIScreenController.Instance.EnableDebugTestingCode)
+			if (_nameEvent == KeysEventInputController.ACTION_INVENTORY_VERTICAL)
 			{
-				if (_nameEvent == KeysEventInputController.ACTION_INVENTORY_VERTICAL)
+				if (GameObject.FindObjectOfType<ScreenItemInventoryView>() != null)
 				{
-					if (GameObject.FindObjectOfType<ScreenItemInventoryView>() != null)
-					{
-						UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, GameObject.FindObjectOfType<ScreenItemInventoryView>().gameObject);
-					}
-					else
-					{
-						KeysEventInputController.Instance.EnableActionOnMouseDown = false;
-						UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
-																	true,
-																	this.gameObject,
-																	null,  // GameObject collided
-																	"SCREEN_INVENTORY_VERTICAL",            // interactedObject.screenName,
-																	TypePreviousActionEnum.DESTROY_ALL_SCREENS, // interactedObject.PreviousScreenAction,
-																	-1f, // interactedObject.DetectionDistance,
-																	true, // interactedObject.IsWorldObject,
-																	false, // interactedObject.ScreenLinkedToObject,
-																	false, // interactedObject.ScreenInCenterObject
-																	true, // interactedObject.ForceScreen,
-																	false, // interactedObject.ForceOrthographic,
-																	true, // interactedObject.AlignedToCamera,
-																	false, // interactedObject.UseCollisionPoint,
-																	2.5f, // interactedObject.DistanceScreenDefault,
-																	true, // interactedObject.Refocus,
-																	false, // interactedObject.DestroyMessageOnDistance,
-																	-1f, // interactedObject.ScaleScreen,
-																	true, // interactedObject.BlockOtherScreens,
-																	Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
-																	true, // Temporal Screen
-																	true, // interactedObject.IgnoreZOrderScreen,
-																	true, // HighlightSelector
-																	null // interactedObject.GetListPagesInformation()
-																	);
-					}
+					UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, GameObject.FindObjectOfType<ScreenItemInventoryView>().gameObject);
 				}
-				if (_nameEvent == KeysEventInputController.ACTION_INVENTORY_HORIZONTAL)
+				else
 				{
-					if (GameObject.FindObjectOfType<ScreenItemInventoryView>() != null)
-					{
-						UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, GameObject.FindObjectOfType<ScreenItemInventoryView>().gameObject);
-					}
-					else
-					{
-						KeysEventInputController.Instance.EnableActionOnMouseDown = false;
-						UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN,
-																	true,
-																	this.gameObject,
-																	null,  // GameObject collided
-																	"SCREEN_INVENTORY_HORIZONTAL", // interactedObject.screenName,
-																	TypePreviousActionEnum.DESTROY_ALL_SCREENS, // interactedObject.PreviousScreenAction,
-																	-1f, // interactedObject.DetectionDistance,
-																	true, // interactedObject.IsWorldObject,
-																	false, // interactedObject.ScreenLinkedToObject,
-																	false, // interactedObject.ScreenInCenterObject
-																	true, // interactedObject.ForceScreen,
-																	false, // interactedObject.ForceOrthographic,
-																	true, // interactedObject.AlignedToCamera,
-																	false, // interactedObject.UseCollisionPoint,
-																	2.5f, // interactedObject.DistanceScreenDefault,
-																	true, // interactedObject.Refocus,
-																	false, // interactedObject.DestroyMessageOnDistance,
-																	-1f, // interactedObject.ScaleScreen,
-																	true, // interactedObject.BlockOtherScreens,
-																	Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
-																	true, // Temporal Screen
-																	true, // interactedObject.IgnoreZOrderScreen,
-																	true, // HighlightSelector
-																	null // interactedObject.GetListPagesInformation()
-																	);
-					}
+					KeysEventInputController.Instance.EnableActionOnMouseDown = false;
+					UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
+																true,
+																this.gameObject,
+																null,  // GameObject collided
+																"SCREEN_INVENTORY_VERTICAL",            // interactedObject.screenName,
+                                                                UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, // interactedObject.PreviousScreenAction,
+																-1f, // interactedObject.DetectionDistance,
+																true, // interactedObject.IsWorldObject,
+																false, // interactedObject.ScreenLinkedToObject,
+																false, // interactedObject.ScreenInCenterObject
+																true, // interactedObject.ForceScreen,
+																false, // interactedObject.ForceOrthographic,
+																true, // interactedObject.AlignedToCamera,
+																false, // interactedObject.UseCollisionPoint,
+																2.5f, // interactedObject.DistanceScreenDefault,
+																true, // interactedObject.Refocus,
+																false, // interactedObject.DestroyMessageOnDistance,
+																-1f, // interactedObject.ScaleScreen,
+																true, // interactedObject.BlockOtherScreens,
+																Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
+																true, // Temporal Screen
+																true, // interactedObject.IgnoreZOrderScreen,
+																true, // HighlightSelector
+																null // interactedObject.GetListPagesInformation()
+																);
+				}
+			}
+			if (_nameEvent == KeysEventInputController.ACTION_INVENTORY_HORIZONTAL)
+			{
+				if (GameObject.FindObjectOfType<ScreenItemInventoryView>() != null)
+				{
+					UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, GameObject.FindObjectOfType<ScreenItemInventoryView>().gameObject);
+				}
+				else
+				{
+					KeysEventInputController.Instance.EnableActionOnMouseDown = false;
+					UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
+																true,
+																this.gameObject,
+																null,  // GameObject collided
+																"SCREEN_INVENTORY_HORIZONTAL", // interactedObject.screenName,
+                                                                UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, // interactedObject.PreviousScreenAction,
+																-1f, // interactedObject.DetectionDistance,
+																true, // interactedObject.IsWorldObject,
+																false, // interactedObject.ScreenLinkedToObject,
+																false, // interactedObject.ScreenInCenterObject
+																true, // interactedObject.ForceScreen,
+																false, // interactedObject.ForceOrthographic,
+																true, // interactedObject.AlignedToCamera,
+																false, // interactedObject.UseCollisionPoint,
+																2.5f, // interactedObject.DistanceScreenDefault,
+																true, // interactedObject.Refocus,
+																false, // interactedObject.DestroyMessageOnDistance,
+																-1f, // interactedObject.ScaleScreen,
+																true, // interactedObject.BlockOtherScreens,
+																Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
+																true, // Temporal Screen
+																true, // interactedObject.IgnoreZOrderScreen,
+																true, // HighlightSelector
+																null // interactedObject.GetListPagesInformation()
+																);
 				}
 			}
 		}
@@ -251,7 +246,9 @@ namespace YourVRUI
 		 */
 		void Update()
 		{
-			if (m_isMoving) return;
+            if (YourVRUIScreenController.Instance == null) return;
+
+            if (m_isMoving) return;
 
 			// USE ARROW KEYS TO MOVE
 			if (m_characterController != null)
@@ -261,8 +258,8 @@ namespace YourVRUI
 				m_characterController.SimpleMove(Physics.gravity);
 			}
 
-			// MOVE CAMERA
-			if (YourVRUIScreenController.Instance.EnableMoveCamera)
+            // MOVE CAMERA
+            if (YourVRUIScreenController.Instance.EnableMoveCamera)
 			{
 				MoveCameraWithMouse();
 			}

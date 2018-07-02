@@ -102,7 +102,8 @@ namespace YourVRUI
 		public bool DisableActionButtonInteraction
 		{
 			get { return m_disableActionButtonInteraction; }
-		}
+            set { m_disableActionButtonInteraction = value; }
+        }
 
 		// -------------------------------------------
 		/* 
@@ -205,7 +206,7 @@ namespace YourVRUI
 			{
 				if (_button != null)
 				{
-					_button.AddComponent<ButtonVRView>();
+                    _button.AddComponent<ButtonVRView>();
 					_button.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER);
 				}
 			}
@@ -250,6 +251,8 @@ namespace YourVRUI
 		 */
 		private void OnBaseScreenBasicEvent(string _nameEvent, params object[] _list)
 		{
+            if (this == null) return;
+            if (this.gameObject == null) return;
 			if (!this.gameObject.activeSelf) return;
 			if (m_selectors == null) return;
 			if (m_selectors.Count == 0) return;
@@ -264,8 +267,17 @@ namespace YourVRUI
 				}
 			}
 
+            if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RELOAD_SCREEN_DATA)
+            {
+                if (AutomaticallyAddButtons)
+                {
+                    ClearListSelectors();
+                    AddAutomaticallyButtons(m_screen);
+                }
+            }
 
-			if (!m_disableActionButtonInteraction)
+
+            if (!m_disableActionButtonInteraction)
 			{
 				if (m_highlightSelector)
 				{
@@ -679,7 +691,9 @@ namespace YourVRUI
 		 */
 		void Update()
 		{
-			RefocusScreen();
+            if (YourVRUIScreenController.Instance == null) return;
+
+            RefocusScreen();
 
 			DestroyOnDistanceScreen();
 		}

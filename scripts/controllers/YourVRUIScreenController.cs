@@ -707,6 +707,7 @@ namespace YourVRUI
 				m_enableScreens = true;
 				GameObject screen = (GameObject)_list[0];
 				DestroyGameObjectSingleScreen(screen, true);
+                ActivationLastScreen(true);
 			}
 			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN_BY_NAME)
 			{
@@ -844,7 +845,7 @@ namespace YourVRUI
 						// ++ YOU SHOULD INITIALIZE HERE YOUR OWN SCREEN BEFORE INITIALIZING THE BASE SCREEN CLASS ++
 						if (currentScreen.GetComponent<IBasicView>() != null)
 						{
-                            // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
+                            // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]::_list[22]="+ _list[22]);
 							currentScreen.GetComponent<IBasicView>().Initialize(_list[22]);
 						}
 						if (delayToDestroy > 0)
@@ -894,7 +895,8 @@ namespace YourVRUI
                     // ADDING THE SCREEN TO THE RIGHT LIST
 					if (isTemporalScreen)
 					{
-						m_screensTemporal.Add(currentScreen);
+                        ActivationScreens(false);
+                        m_screensTemporal.Add(currentScreen);                        
 					}
 					else
 					{
@@ -952,37 +954,61 @@ namespace YourVRUI
 		}
 
 
-		// -------------------------------------------
-		/* 
-		 * Will create the screen with the collection of parameters
-		 * 
-		 * @param _screenPrefab This is the screen we want to create an instance
-		 * @param _overrideGlobalSetting We override the global setting with the local settings
-		 * @param _isWorldObject If it's not a world object then we display the screen as a normal screen
-		 * @param _screenLinkedToObject The screen is linked to the object (we consider object's position to place the screen on the world) or related to the player's camera position
-		 * @param _screenInCenterObject The screen should be created in the center of the object
-		 * @param _forceScreen We force the screen not to disappear until player has interact with it
-		 * @param _forceOrthographic We force the orthographic mode
-		 * @param _alignedToCamera If the screen should be aligned to the camera
-		 * @param _useCollisionPoint If we must used the collision point to place the screen
-		 * @param _distance The distance we should place the screen
-		 * @param _refocus If the screen should realign with the camera after it's not visible
-		 * @param _ignoreLayers The layers to ignore
-		 * @param _scaleScreen The scale of the screen
+        // -------------------------------------------
+        /* 
+		 * Set the activation of the last screen
 		 */
-		public GameObject CreateUIScreen(GameObject _screenPrefab,
-										bool _overrideGlobalSetting,
-										bool _isWorldObject,
-										bool _screenLinkedToObject,
-										bool _screenInCenterObject,
-										bool _forceScreen,
-										bool _forceOrthographic,
-										bool _alignedToCamera,
-										bool _useCollisionPoint,
-										float _distance,
-										bool _refocus,
-										string[] _ignoreLayers,
-										float _scaleScreen)
+        public void ActivationLastScreen(bool _enable)
+        {
+            if (m_screensTemporal.Count > 0)
+            {
+                m_screensTemporal[m_screensTemporal.Count - 1].SetActive(_enable);
+            }
+        }
+
+        // -------------------------------------------
+        /* 
+		 * Activation of all the screens
+		 */
+        public void ActivationScreens(bool _enable)
+        {
+            for (int i = 0; i < m_screensTemporal.Count; i++)
+            {
+                m_screensTemporal[i].SetActive(_enable);
+            }
+        }
+
+        // -------------------------------------------
+        /* 
+            * Will create the screen with the collection of parameters
+            * 
+            * @param _screenPrefab This is the screen we want to create an instance
+            * @param _overrideGlobalSetting We override the global setting with the local settings
+            * @param _isWorldObject If it's not a world object then we display the screen as a normal screen
+            * @param _screenLinkedToObject The screen is linked to the object (we consider object's position to place the screen on the world) or related to the player's camera position
+            * @param _screenInCenterObject The screen should be created in the center of the object
+            * @param _forceScreen We force the screen not to disappear until player has interact with it
+            * @param _forceOrthographic We force the orthographic mode
+            * @param _alignedToCamera If the screen should be aligned to the camera
+            * @param _useCollisionPoint If we must used the collision point to place the screen
+            * @param _distance The distance we should place the screen
+            * @param _refocus If the screen should realign with the camera after it's not visible
+            * @param _ignoreLayers The layers to ignore
+            * @param _scaleScreen The scale of the screen
+            */
+        public GameObject CreateUIScreen(GameObject _screenPrefab,
+									bool _overrideGlobalSetting,
+									bool _isWorldObject,
+									bool _screenLinkedToObject,
+									bool _screenInCenterObject,
+									bool _forceScreen,
+									bool _forceOrthographic,
+									bool _alignedToCamera,
+									bool _useCollisionPoint,
+									float _distance,
+									bool _refocus,
+									string[] _ignoreLayers,
+									float _scaleScreen)
 		{
 			if (DebugMode) Debug.Log("++YourVRUIScreenController::CreateUIScreen::_screenPrefab=" + _screenPrefab.name);
 			if (!_isWorldObject)

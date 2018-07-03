@@ -135,13 +135,14 @@ namespace YourVRUI
 			{
 				AddAutomaticallyButtons(m_screen);
 			}
-		}
 
-		// -------------------------------------------
-		/* 
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Reset the reference with player object
 		 */
-		public void DestroyMessageOnDistance(GameObject _playerInteracted, float _distanceToDestroy)
+        public void DestroyMessageOnDistance(GameObject _playerInteracted, float _distanceToDestroy)
 		{
 			m_playerInteracted = _playerInteracted;
 			m_distanceToDestroy = _distanceToDestroy;
@@ -621,13 +622,47 @@ namespace YourVRUI
 			m_distance = _distance;
 			m_refocus = _refocus;
 			m_timeToRefocus = DELAY_TO_REFOCUS;
-		}
+            RunRefocusScreen(false);
+            Invoke("ResetScreenPosition", 0.1f);
+        }
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
+		 * ResetScreenPosition
+		 */
+        public void ResetScreenPosition()
+        {
+            RunRefocusScreen(false);
+        }
+
+        // -------------------------------------------
+        /* 
+        * RunRefocusScreen
+        */
+        private void RunRefocusScreen(bool _enableAnimation)
+        {
+            if (m_refocus)
+            {
+                m_normal = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward.normalized);
+                Vector3 targetPosition = YourVRUIScreenController.Instance.GameCamera.transform.position + (m_normal * m_distance);
+                this.gameObject.transform.forward = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward);
+                if (_enableAnimation)
+                {
+                    InterpolatorController.Instance.Interpolate(this.gameObject, targetPosition, 0.95f * DELAY_TO_REFOCUS);
+                }
+                else
+                {
+                    this.gameObject.transform.position = targetPosition;
+                }
+                m_timeToRefocus = 0;
+            }
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Calculate the logic of realigning the screen when it's not visible
 		 */
-		private void RefocusScreen()
+        private void RefocusScreen()
 		{
 			if (m_distance != -1)
 			{
@@ -638,12 +673,8 @@ namespace YourVRUI
 						Bounds canvasBounds = new Bounds(this.gameObject.transform.position, Vector3.one);
 						if (!Utilities.IsVisibleFrom(canvasBounds, YourVRUIScreenController.Instance.GameCamera))
 						{
-							m_normal = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward.normalized);
-							Vector3 targetPosition = YourVRUIScreenController.Instance.GameCamera.transform.position + (m_normal * m_distance);
-							this.gameObject.transform.forward = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward);
-							InterpolatorController.Instance.Interpolate(this.gameObject, targetPosition, 0.95f * DELAY_TO_REFOCUS);
-							m_timeToRefocus = 0;
-						}
+                            RunRefocusScreen(true);
+                        }
 					}
 				}
 				m_timeToRefocus += Time.deltaTime;

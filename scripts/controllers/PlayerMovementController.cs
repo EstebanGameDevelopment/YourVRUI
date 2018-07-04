@@ -65,11 +65,20 @@ namespace YourVRUI
 			
 		}
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * Destroy all references
 		 */
-		public void Destroy()
+        void OnDestroy()
+        {
+            Destroy();
+        }
+
+        // -------------------------------------------
+        /* 
+		 * Destroy all references
+		 */
+        public void Destroy()
 		{
 			UIEventController.Instance.UIEvent -= OnScreenVREvent;
 			BasicSystemEventController.Instance.BasicSystemEvent -= OnBasicSystemEvent;
@@ -235,7 +244,6 @@ namespace YourVRUI
 				if (this.gameObject == (GameObject)_list[0])
 				{
 					m_isMoving = false;
-					Debug.LogError("MOVEMENT COMPLETED");
 				}
 			}
 		}

@@ -1105,7 +1105,7 @@ namespace YourVRUI
 							vectorNormalUI = Utilities.ClonePoint(objectCollided.normal);
 							if (_screenInCenterObject)
 							{
-								collisionPoint = new Vector3(finalObject.transform.position.x, m_camera.transform.position.y, finalObject.transform.position.z);
+								collisionPoint = new Vector3(finalObject.transform.position.x, finalObject.transform.position.y, finalObject.transform.position.z);
 							}
 							else
 							{

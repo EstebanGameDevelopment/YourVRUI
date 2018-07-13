@@ -69,12 +69,20 @@ namespace YourVRUI
 			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
-
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * Destroy all references
 		 */
-		public void Destroy()
+        void OnDestroy()
+        {
+            Destroy();
+        }
+
+        // -------------------------------------------
+        /* 
+		 * Destroy all references
+		 */
+        public void Destroy()
 		{
 			UIEventController.Instance.UIEvent -= OnBasicEvent;
 		}

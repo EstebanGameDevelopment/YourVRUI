@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 223410383001660104}
   - component: {fileID: 114790316929821624}
   - component: {fileID: 114383918181312934}
-  - component: {fileID: 114314057816781022}
+  - component: {fileID: 114313234559017630}
   m_Layer: 5
   m_Name: SCREEN_WAIT
   m_TagString: Untagged
@@ -82,7 +82,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114314057816781022
+--- !u!114 &114313234559017630
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1594057188543142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc7b3f33de044fe4fa1e8f9079860509, type: 3}
+  m_Script: {fileID: 11500000, guid: dd5cd12fc56c193449170aa22e4a4a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SelectorGraphic: {fileID: 0}

@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 22331496}
   - component: {fileID: 11429284}
   - component: {fileID: 11424256}
-  - component: {fileID: 114169256927566096}
+  - component: {fileID: 114161457950744308}
   m_Layer: 5
   m_Name: SCREEN_DIALOG
   m_TagString: Untagged
@@ -1061,7 +1061,7 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146394}
   m_IsPrefabParent: 1
---- !u!114 &114169256927566096
+--- !u!114 &114161457950744308
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 146394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc7b3f33de044fe4fa1e8f9079860509, type: 3}
+  m_Script: {fileID: 11500000, guid: dd5cd12fc56c193449170aa22e4a4a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SelectorGraphic: {fileID: 0}

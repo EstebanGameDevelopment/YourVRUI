@@ -206,7 +206,8 @@ namespace YourVRUI
 					eventSystem.gameObject.GetComponent<EventSystemController>().Initialitzation();
 				}
 			}
-			if (EnableDesktopMode)
+#if !ENABLE_OCULUS
+            if (EnableDesktopMode)
 			{
 				GvrEditorEmulator gvrViewer = GameObject.FindObjectOfType<GvrEditorEmulator>();
 				if (gvrViewer != null)
@@ -233,20 +234,22 @@ namespace YourVRUI
 			{
 				controllerVisualManager.gameObject.SetActive(EnableDaydreamController);
 			}
-			if (MainCamera != null)
-			{
-				m_camera = MainCamera;
-			}
-			else
-			{
-				m_camera = Camera.main;
-			}
 			if (EnableDaydreamController)
 			{
 				InitDaydreamController();
 			}
+#endif
 
-			KeysEventInputController.Instance.Initialization();
+            if (MainCamera != null)
+            {
+                m_camera = MainCamera;
+            }
+            else
+            {
+                m_camera = Camera.main;
+            }
+
+            KeysEventInputController.Instance.Initialization();
 			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 
 			// ESSENTIAL PLAYER RAYCASTING
@@ -266,6 +269,7 @@ namespace YourVRUI
 		 */
 		private void InitDaydreamController()
 		{
+#if !ENABLE_OCULUS
 			if (EnableDaydreamController)
 			{
 				if (m_laserPointer == null)
@@ -284,6 +288,7 @@ namespace YourVRUI
 					}
 				}
 			}
+#endif
 		}
 
 		// -------------------------------------------

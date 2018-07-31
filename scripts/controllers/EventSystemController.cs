@@ -45,13 +45,15 @@ namespace YourVRUI
 		// PRIVATE MEMBERS
 		// ----------------------------------------------	
 		private StandaloneInputModule m_standAloneInputModule;
+#if !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
 		private GvrPointerInputModule m_gazeInputModule;
+#endif
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * Getting the reference of the input controllers
 		 */
-		void Start()
+        void Start()
 		{
 			Initialitzation();
 		}
@@ -68,13 +70,15 @@ namespace YourVRUI
 				this.gameObject.AddComponent<StandaloneInputModule>();
 				m_standAloneInputModule = this.gameObject.GetComponent<StandaloneInputModule>();
 			}
+#if !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
 			m_gazeInputModule = this.gameObject.GetComponent<GvrPointerInputModule>();
 			if (m_gazeInputModule == null)
 			{
 				Debug.LogError("WARNNING: The project can work in a non-VR related project, but it's meant to run mainly for VR projects");
 			}
+#endif
 
-			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
+            UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
 		// -------------------------------------------
@@ -96,8 +100,10 @@ namespace YourVRUI
 			{
 				bool activation = (bool)_list[0];
 				if (m_standAloneInputModule != null) m_standAloneInputModule.enabled = activation;
+#if !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
 				if (m_gazeInputModule != null) m_gazeInputModule.enabled = !activation;
-			}
-		}
+#endif
+            }
+        }
 	}
 }

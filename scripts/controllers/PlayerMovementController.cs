@@ -275,7 +275,7 @@ namespace YourVRUI
 			// USE DAYDREAM CONTROLLER INPUT TO MOVE
 			if (YourVRUIScreenController.Instance.IsDayDreamActivated)
 			{
-				#if UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR)
+				#if UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR) && !ENABLE_OCULUS
 				if (GvrController.IsTouching)
 				{
 					Vector2 touchPos = GvrController.TouchPos;

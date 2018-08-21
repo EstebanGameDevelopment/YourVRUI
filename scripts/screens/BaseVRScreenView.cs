@@ -277,6 +277,10 @@ namespace YourVRUI
                 }
             }
 
+            if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_CLEAR_SELECTOR_DATA)
+            {
+                ClearListSelectors();
+            }
 
             if (!m_disableActionButtonInteraction)
 			{

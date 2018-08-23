@@ -67,7 +67,9 @@ namespace YourVRUI
 		public Camera MainCamera;
 		[Tooltip("This shader will be applied on the UI elements and it allows to draw over everything else so the screen is not hidden by another object")]
 		public Material MaterialDrawOnTop;
-		[Tooltip("Default size that the screens can get")]
+        [Tooltip("This shader RED will be applied on the UI elements and it allows to draw over everything else so the screen is not hidden by another object")]
+        public Material MaterialRedDrawOnTop;
+        [Tooltip("Default size that the screens can get")]
 		public float GlobalScaleScreens = 2;
 
 		[Tooltip("It will allow to operate in desktop mode, it will remove all the elements related to Google VR")]
@@ -424,7 +426,7 @@ namespace YourVRUI
 		/* 
 		 * Will create the HUD
 		 */
-		public void CreateHUD(string _nameScreen, float _distance)
+		public void CreateHUD(string _nameScreen, float _distance, bool _ignoreZOrder = true)
 		{
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
 											false, // Override
@@ -447,7 +449,7 @@ namespace YourVRUI
 											false, // interactedObject.BlockOtherScreens,
 											Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
 											false, // Temporal Screen
-											true, // interactedObject.IgnoreZOrderScreen,
+                                            _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
 											true, // HighlightSelector                                        
 											null, // interactedObject.GetListPagesInformation()
 											-1f // DELAY TO DESTROY
@@ -458,7 +460,7 @@ namespace YourVRUI
 		/* 
 		 * Will create a screen linked to the camera
 		 */
-		public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS)
+		public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true)
 		{
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
 														   true,
@@ -481,7 +483,7 @@ namespace YourVRUI
                                                            true, // interactedObject.BlockOtherScreens,
 														   Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
 														   true, // Temporal Screen
-														   true, // interactedObject.IgnoreZOrderScreen,
+														   _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
 														   true, // HighlightSelector                                                       
 														   _pages,
 														   _delayToDestroy

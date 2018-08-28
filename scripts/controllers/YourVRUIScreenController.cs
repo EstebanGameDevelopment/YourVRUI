@@ -456,11 +456,45 @@ namespace YourVRUI
 											);
 		}
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
+		 * Will create the HUD
+		 */
+        public void CreateDelayHUD(string _nameScreen, float _distance, bool _ignoreZOrder = true, float _delay = 1f)
+        {
+            UIEventController.Instance.DelayUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN, _delay,
+                                            false, // Override
+                                            this.gameObject,
+                                            null,  // GameObject collided
+                                            _nameScreen,            // interactedObject.screenName,
+                                            UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, // interactedObject.PreviousScreenAction,
+                                            -1f, // interactedObject.DetectionDistance,
+                                            !YourVRUIScreenController.Instance.EnableDesktopMode, // interactedObject.IsWorldObject,
+                                            false, // interactedObject.ScreenLinkedToObject,
+                                            false, // interactedObject.ScreenInCenterObject
+                                            true, // interactedObject.ForceScreen,
+                                            true, // interactedObject.ForceOrthographic,
+                                            true, // interactedObject.AlignedToCamera,
+                                            false, // interactedObject.UseCollisionPoint,
+                                            _distance, // interactedObject.DistanceScreenDefault,
+                                            false, // interactedObject.Refocus,
+                                            false, // interactedObject.DestroyMessageOnDistance,
+                                            1f, // interactedObject.ScaleScreen,
+                                            false, // interactedObject.BlockOtherScreens,
+                                            Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
+                                            false, // Temporal Screen
+                                            _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
+                                            true, // HighlightSelector                                        
+                                            null, // interactedObject.GetListPagesInformation()
+                                            -1f // DELAY TO DESTROY
+                                            );
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Will create a screen linked to the camera
 		 */
-		public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true)
+        public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true)
 		{
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
 														   true,
@@ -489,6 +523,40 @@ namespace YourVRUI
 														   _delayToDestroy
 														   );
 		}
+
+        // -------------------------------------------
+        /* 
+		 * Will create a screen linked to the camera
+		 */
+        public void DelayScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, float _delay = 1)
+        {
+            UIEventController.Instance.DelayUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN, _delay,
+                                                           true,
+                                                           this.gameObject,
+                                                           null,  // GameObject collided
+                                                           _nameScreen,            // interactedObject.screenName,
+                                                           _typePreviousAction, // interactedObject.PreviousScreenAction,
+                                                           -1f, // interactedObject.DetectionDistance,
+                                                           true, // interactedObject.IsWorldObject,
+                                                           false, // interactedObject.ScreenLinkedToObject,
+                                                           false, // interactedObject.ScreenInCenterObject,
+                                                           true, // interactedObject.ForceScreen,
+                                                           _forceOrthographic, // interactedObject.ForceOrthographic,
+                                                           true, // interactedObject.AlignedToCamera,
+                                                           false, // interactedObject.UseCollisionPoint,
+                                                           _distance, // interactedObject.DistanceScreenDefault,
+                                                           true, // interactedObject.Refocus,
+                                                           false, // interactedObject.DestroyMessageOnDistance,
+                                                           _scaleScreen, // interactedObject.ScaleScreen,
+                                                           true, // interactedObject.BlockOtherScreens,
+                                                           Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
+                                                           true, // Temporal Screen
+                                                           _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
+                                                           true, // HighlightSelector                                                       
+                                                           _pages,
+                                                           _delayToDestroy
+                                                           );
+        }
 
         // -------------------------------------------
         /* 

@@ -34,11 +34,12 @@ namespace YourVRUI
 		public const string EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT = "EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT";
 
 		public const string UI_TRIGGERER = "UI_TRIGGERER";
+        public const string DEFAULT_YOURVUI_CONFIGURATION = "DEFAULT_YOURVUI_CONFIGURATION";
 
-		// ----------------------------------------------
-		// SINGLETON
-		// ----------------------------------------------	
-		private static YourVRUIScreenController _instance;
+        // ----------------------------------------------
+        // SINGLETON
+        // ----------------------------------------------	
+        private static YourVRUIScreenController _instance;
 
 		public static YourVRUIScreenController Instance
 		{
@@ -197,7 +198,13 @@ namespace YourVRUI
 				Debug.Log("YourVRUIScreenController::Start::First class to initialize for the whole system to work");
 			}
 
-			InitializePredefinedConfiguration();
+            int defaultConfiguration = PlayerPrefs.GetInt(DEFAULT_YOURVUI_CONFIGURATION, -1);
+            if (defaultConfiguration != -1)
+            {
+                DefaultConfiguration = (CONFIGURATIONS_YOURVRUI)defaultConfiguration;
+            }
+
+            InitializePredefinedConfiguration();
 
 			EventSystem eventSystem = GameObject.FindObjectOfType<EventSystem>();
 			if (eventSystem != null)

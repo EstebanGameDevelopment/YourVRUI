@@ -167,7 +167,6 @@ namespace YourVRUI
 			ClearListSelectors();
 			m_selectors = null;
 
-			KeysEventInputController.Instance.EnableActionOnMouseDown = true;
 			UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
 			UIEventController.Instance.DispatchUIEvent(EVENT_SCREEN_CLOSE_VIEW, this.gameObject);
 			UIEventController.Instance.DispatchUIEvent(InteractionController.EVENT_INTERACTIONCONTROLLER_SCREEN_DESTROYED, m_characterOrigin);

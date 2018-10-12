@@ -245,27 +245,27 @@ namespace YourVRUI
 			};
 		}
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * Global manager of events
 		 */
-		private void OnBaseScreenBasicEvent(string _nameEvent, params object[] _list)
-		{
+        private void OnBaseScreenBasicEvent(string _nameEvent, params object[] _list)
+        {
             if (this == null) return;
             if (this.gameObject == null) return;
-			if (!this.gameObject.activeSelf) return;
-			if (m_selectors == null) return;
-			if (m_selectors.Count == 0) return;
+            if (!this.gameObject.activeSelf) return;
+            if (m_selectors == null) return;
+            if (m_selectors.Count == 0) return;
 
-			if (_nameEvent == EVENT_SCREEN_DESTROYED_VIEW)
-			{
-				GameObject characterOrigin = (GameObject)_list[0];
-				if (m_characterOrigin == characterOrigin)
-				{
-					GameObject.Destroy(m_screen);
-					return;
-				}
-			}
+            if (_nameEvent == EVENT_SCREEN_DESTROYED_VIEW)
+            {
+                GameObject characterOrigin = (GameObject)_list[0];
+                if (m_characterOrigin == characterOrigin)
+                {
+                    GameObject.Destroy(m_screen);
+                    return;
+                }
+            }
 
             if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RELOAD_SCREEN_DATA)
             {
@@ -282,227 +282,231 @@ namespace YourVRUI
             }
 
             if (!m_disableActionButtonInteraction)
-			{
-				if (m_highlightSelector)
-				{
-					if (_nameEvent == ButtonVRView.EVENT_SELECTED_VR_BUTTON_COMPONENT)
-					{
-						if (!YourVRUIScreenController.Instance.KeysEnabled)
-						{
-							GameObject componentSelected = (GameObject)_list[0];
-							int indexSelected = IsComponentInsideScreen(componentSelected);
-							if (((indexSelected != m_selectionButton) || !m_firstHighlightConsumed) && (indexSelected != -1))
-							{
-								m_firstHighlightConsumed = true;
-								EnableSelectedComponent(componentSelected);
-							}
-						}
-					}
-				}
-			}
+            {
+                if (m_highlightSelector)
+                {
+                    if (_nameEvent == ButtonVRView.EVENT_SELECTED_VR_BUTTON_COMPONENT)
+                    {
+                        if (!YourVRUIScreenController.Instance.KeysEnabled)
+                        {
+                            GameObject componentSelected = (GameObject)_list[0];
+                            int indexSelected = IsComponentInsideScreen(componentSelected);
+                            if (((indexSelected != m_selectionButton) || !m_firstHighlightConsumed) && (indexSelected != -1))
+                            {
+                                m_firstHighlightConsumed = true;
+                                EnableSelectedComponent(componentSelected);
+                            }
+                        }
+                    }
+                }
+            }
 
-			if (_nameEvent == KeysEventInputController.ACTION_BACK_BUTTON)
-			{
-				if (YourVRUIScreenController.Instance.KeysEnabled)
-				{
-					UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
-				}
-				else
-				{
-					UIEventController.Instance.DispatchUIEvent(KeysEventInputController.ACTION_CANCEL_BUTTON);
-				}
-			}
+            if (_nameEvent == KeysEventInputController.ACTION_BACK_BUTTON)
+            {
+                if (YourVRUIScreenController.Instance.KeysEnabled)
+                {
+                    UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, false);
+                }
+                else
+                {
+                    UIEventController.Instance.DispatchUIEvent(KeysEventInputController.ACTION_CANCEL_BUTTON);
+                }
+            }
 
-			if (_nameEvent == KeysEventInputController.ACTION_BUTTON_DOWN)
-			{
-				if (!m_disableActionButtonInteraction)
-				{
-					if ((m_selectionButton >= 0) && (m_selectionButton < m_selectors.Count))
-					{
-						if (m_selectors[m_selectionButton] != null)
-						{							
-							if (m_selectors[m_selectionButton].GetComponent<ButtonVRView>() != null)
-							{
-								if (m_selectors[m_selectionButton].activeSelf)
-								{
-									m_selectors[m_selectionButton].GetComponent<ButtonVRView>().InvokeButton();
-								}
-							}
-						}
-					}
-				}
-			}
+            if (_nameEvent == KeysEventInputController.ACTION_BUTTON_DOWN)
+            {
+                if (!m_disableActionButtonInteraction)
+                {
+                    if ((m_selectionButton >= 0) && (m_selectionButton < m_selectors.Count))
+                    {
+                        if (m_selectors[m_selectionButton] != null)
+                        {
+                            if (m_selectors[m_selectionButton].GetComponent<ButtonVRView>() != null)
+                            {
+                                if (m_selectors[m_selectionButton].activeSelf)
+                                {
+                                    m_selectors[m_selectionButton].GetComponent<ButtonVRView>().InvokeButton();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-			if (_nameEvent == ButtonVRView.EVENT_CHECK_ELEMENT_CORNER_OUT_OF_LIST)
-			{
-				if (!m_disableActionButtonInteraction)
-				{
-					GameObject targetObject = (GameObject)_list[0];
-					Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
-					if ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1))
-					{
-						Utilities.MoveScrollWithSiblings(m_scrollRectsVR[(int)dataElement.y], targetObject);
-					}
-				}
-			}
+            if (_nameEvent == ButtonVRView.EVENT_CHECK_ELEMENT_CORNER_OUT_OF_LIST)
+            {
+                if (!m_disableActionButtonInteraction)
+                {
+                    GameObject targetObject = (GameObject)_list[0];
+                    Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
+                    if ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1))
+                    {
+                        Utilities.MoveScrollWithSiblings(m_scrollRectsVR[(int)dataElement.y], targetObject);
+                    }
+                }
+            }
 
-			if (_nameEvent == EVENT_SCREEN_CHECK_ELEMENT_BELONGS_TO_SCROLLRECT)
-			{
-				GameObject targetObject = (GameObject)_list[0];
-				m_initialPositionOnScrollList = -1;
-				Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
-				bool elementIsInsideScrollRect = ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1));
-				bool isVerticalGrid = false;
-				if (elementIsInsideScrollRect)
-				{
-					isVerticalGrid = m_scrollRectsVR[(int)dataElement.y].IsVerticalGrid();
-				}
-				UIEventController.Instance.DispatchUIEvent(EVENT_SCREEN_RESPONSE_ELEMENT_BELONGS_TO_SCROLLRECT, targetObject, elementIsInsideScrollRect, isVerticalGrid);
-			}
+            if (_nameEvent == EVENT_SCREEN_CHECK_ELEMENT_BELONGS_TO_SCROLLRECT)
+            {
+                GameObject targetObject = (GameObject)_list[0];
+                m_initialPositionOnScrollList = -1;
+                Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
+                bool elementIsInsideScrollRect = ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1));
+                bool isVerticalGrid = false;
+                if (elementIsInsideScrollRect)
+                {
+                    isVerticalGrid = m_scrollRectsVR[(int)dataElement.y].IsVerticalGrid();
+                }
+                UIEventController.Instance.DispatchUIEvent(EVENT_SCREEN_RESPONSE_ELEMENT_BELONGS_TO_SCROLLRECT, targetObject, elementIsInsideScrollRect, isVerticalGrid);
+            }
 
-			if (_nameEvent == EVENT_SCREEN_MOVED_SCROLL_RECT)
-			{
-				GameObject targetObject = (GameObject)_list[0];
-				float angleDiferenceFromOrigin = (float)_list[1];
-				bool directionToMove = (bool)_list[2];
-				Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
-				ScrollRectVR scrollRectVR = m_scrollRectsVR[(int)dataElement.y];
-				if (m_initialPositionOnScrollList == -1)
-				{
-					if (scrollRectVR.IsVerticalGrid())
-					{
-						m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.verticalNormalizedPosition;
-					}
-					else
-					{
-						m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.horizontalNormalizedPosition;
-					}
-				}
-				float finalNormalizedPosition = 0;
-				float angleBaseMovement = (scrollRectVR.IsVerticalGrid() ? 45 : 90);
-				if (directionToMove)
-				{
-					finalNormalizedPosition = m_initialPositionOnScrollList + (angleDiferenceFromOrigin / angleBaseMovement);
-				}
-				else
-				{
-					finalNormalizedPosition = m_initialPositionOnScrollList - (angleDiferenceFromOrigin / angleBaseMovement);
-				}
-				if (finalNormalizedPosition < 0) finalNormalizedPosition = 0;
-				if (finalNormalizedPosition > 1) finalNormalizedPosition = 1;
-				if (scrollRectVR.IsVerticalGrid())
-				{
-					scrollRectVR.ScrollRectObject.verticalNormalizedPosition = finalNormalizedPosition;
-				}
-				else
-				{
-					scrollRectVR.ScrollRectObject.horizontalNormalizedPosition = finalNormalizedPosition;
-				}
-			}
+            if (_nameEvent == EVENT_SCREEN_MOVED_SCROLL_RECT)
+            {
+                GameObject targetObject = (GameObject)_list[0];
+                float angleDiferenceFromOrigin = (float)_list[1];
+                bool directionToMove = (bool)_list[2];
+                Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
+                ScrollRectVR scrollRectVR = m_scrollRectsVR[(int)dataElement.y];
+                if (m_initialPositionOnScrollList == -1)
+                {
+                    if (scrollRectVR.IsVerticalGrid())
+                    {
+                        m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.verticalNormalizedPosition;
+                    }
+                    else
+                    {
+                        m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.horizontalNormalizedPosition;
+                    }
+                }
+                float finalNormalizedPosition = 0;
+                float angleBaseMovement = (scrollRectVR.IsVerticalGrid() ? 45 : 90);
+                if (directionToMove)
+                {
+                    finalNormalizedPosition = m_initialPositionOnScrollList + (angleDiferenceFromOrigin / angleBaseMovement);
+                }
+                else
+                {
+                    finalNormalizedPosition = m_initialPositionOnScrollList - (angleDiferenceFromOrigin / angleBaseMovement);
+                }
+                if (finalNormalizedPosition < 0) finalNormalizedPosition = 0;
+                if (finalNormalizedPosition > 1) finalNormalizedPosition = 1;
+                if (scrollRectVR.IsVerticalGrid())
+                {
+                    scrollRectVR.ScrollRectObject.verticalNormalizedPosition = finalNormalizedPosition;
+                }
+                else
+                {
+                    scrollRectVR.ScrollRectObject.horizontalNormalizedPosition = finalNormalizedPosition;
+                }
+            }
 
-			if (_nameEvent == EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION)
-			{
-				m_disableActionButtonInteraction = (bool)_list[0];
-				if (m_disableActionButtonInteraction)
-				{
-					EnableSelectedComponent(null);
-				}
-			}
+            if (_nameEvent == EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION)
+            {
+                m_disableActionButtonInteraction = (bool)_list[0];
+                if (m_disableActionButtonInteraction)
+                {
+                    EnableSelectedComponent(null);
+                }
+            }
 
-			bool keepSearching = true;
+            bool keepSearching = true;
 
-			// KEYS ACTION
-			if (_nameEvent == KeysEventInputController.ACTION_KEY_UP_PRESSED)
-			{
-				UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
-				do
-				{
-					m_selectionButton--;
-					if (m_selectionButton < 0)
-					{
-						m_selectionButton = m_selectors.Count - 1;
-					}
-					if (m_selectors[m_selectionButton] == null)
-					{
-						keepSearching = true;
-					}
-					else
-					{
-						keepSearching = !m_selectors[m_selectionButton].activeSelf;
-					}
-				} while (keepSearching);
-				EnableSelector();
-			}
-			if (_nameEvent == KeysEventInputController.ACTION_KEY_DOWN_PRESSED)
-			{
-				UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
-				do
-				{
-					m_selectionButton++;
-					if (m_selectionButton > m_selectors.Count - 1)
-					{
-						m_selectionButton = 0;
-					}
-					if (m_selectors[m_selectionButton] == null)
-					{
-						keepSearching = true;
-					}
-					else
-					{
-						keepSearching = !m_selectors[m_selectionButton].activeSelf;
-					}
-				} while (keepSearching);
-				EnableSelector();
-			}
-			if (_nameEvent == KeysEventInputController.ACTION_KEY_LEFT_PRESSED)
-			{
-				UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
-				do
-				{
-					m_selectionButton--;
-					if (m_selectionButton < 0)
-					{
-						m_selectionButton = m_selectors.Count - 1;
-					}
-					if (m_selectors[m_selectionButton] == null)
-					{
-						keepSearching = true;
-					}
-					else
-					{
-						keepSearching = !m_selectors[m_selectionButton].activeSelf;
-					}
-				} while (keepSearching);
-				EnableSelector();
-			}
-			if (_nameEvent == KeysEventInputController.ACTION_KEY_RIGHT_PRESSED)
-			{
-				UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
-				do
-				{
-					m_selectionButton++;
-					if (m_selectionButton > m_selectors.Count - 1)
-					{
-						m_selectionButton = 0;
-					}
-					if (m_selectors[m_selectionButton] == null)
-					{
-						keepSearching = true;
-					}
-					else
-					{
-						keepSearching = !m_selectors[m_selectionButton].activeSelf;
-					}
-				} while (keepSearching);
-				EnableSelector();
-			}
-		}
+            // KEYS ACTION
+            if (_nameEvent == KeysEventInputController.ACTION_KEY_UP_PRESSED)
+            {
+                UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
+                do
+                {
+                    m_selectionButton--;
+                    if (m_selectionButton < 0)
+                    {
+                        m_selectionButton = m_selectors.Count - 1;
+                    }
+                    if (m_selectors[m_selectionButton] == null)
+                    {
+                        keepSearching = true;
+                    }
+                    else
+                    {
+                        keepSearching = !m_selectors[m_selectionButton].activeSelf;
+                    }
+                } while (keepSearching);
+                EnableSelector();
+            }
+            if (_nameEvent == KeysEventInputController.ACTION_KEY_DOWN_PRESSED)
+            {
+                UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
+                do
+                {
+                    m_selectionButton++;
+                    if (m_selectionButton > m_selectors.Count - 1)
+                    {
+                        m_selectionButton = 0;
+                    }
+                    if (m_selectors[m_selectionButton] == null)
+                    {
+                        keepSearching = true;
+                    }
+                    else
+                    {
+                        keepSearching = !m_selectors[m_selectionButton].activeSelf;
+                    }
+                } while (keepSearching);
+                EnableSelector();
+            }
+            if (_nameEvent == KeysEventInputController.ACTION_KEY_LEFT_PRESSED)
+            {
+                UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
+                do
+                {
+                    m_selectionButton--;
+                    if (m_selectionButton < 0)
+                    {
+                        m_selectionButton = m_selectors.Count - 1;
+                    }
+                    if (m_selectors[m_selectionButton] == null)
+                    {
+                        keepSearching = true;
+                    }
+                    else
+                    {
+                        keepSearching = !m_selectors[m_selectionButton].activeSelf;
+                    }
+                } while (keepSearching);
+                EnableSelector();
+            }
+            if (_nameEvent == KeysEventInputController.ACTION_KEY_RIGHT_PRESSED)
+            {
+                UIEventController.Instance.DispatchUIEvent(YourVRUIScreenController.EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT, true);
+                do
+                {
+                    m_selectionButton++;
+                    if (m_selectionButton > m_selectors.Count - 1)
+                    {
+                        m_selectionButton = 0;
+                    }
+                    if (m_selectors[m_selectionButton] == null)
+                    {
+                        keepSearching = true;
+                    }
+                    else
+                    {
+                        keepSearching = !m_selectors[m_selectionButton].activeSelf;
+                    }
+                } while (keepSearching);
+                EnableSelector();
+            }
+            if (_nameEvent == KeysEventInputController.ACTION_RECENTER)
+            {
+                RunRefocusScreen(true, true);
+            }
+        }
 
-		// -------------------------------------------
-		/* 
-		 * Enable the hightlight of the selected component
-		 */
-		private void EnableSelectedComponent(GameObject _componentSelected)
+        // -------------------------------------------
+        /* 
+        * Enable the hightlight of the selected component
+        */
+        private void EnableSelectedComponent(GameObject _componentSelected)
 		{
 			for (int i = 0; i < m_selectors.Count; i++)
 			{
@@ -642,9 +646,9 @@ namespace YourVRUI
         /* 
         * RunRefocusScreen
         */
-        private void RunRefocusScreen(bool _enableAnimation)
+        private void RunRefocusScreen(bool _enableAnimation, bool _force = false)
         {
-            if (m_refocus)
+            if (m_refocus || _force)
             {
                 if (YourVRUIScreenController.Instance == null) return;
                 if (YourVRUIScreenController.Instance.GameCamera == null) return;

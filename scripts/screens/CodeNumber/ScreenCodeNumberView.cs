@@ -46,12 +46,22 @@ namespace YourVRUI
 				
 			}
 		}
+        public int Layer
+        {
+            get { return 0; }
+            set { }
+        }
+        public bool IsMarkedToBeDestroyed
+        {
+            get { return false; }
+            set { }
+        }
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * InitScreen
 		 */
-		public void Initialize(params object[] _list)
+        public void Initialize(params object[] _list)
 		{
 			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 

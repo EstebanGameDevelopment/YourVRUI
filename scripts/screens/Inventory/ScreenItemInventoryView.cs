@@ -59,12 +59,22 @@ namespace YourVRUI
 				
 			}
 		}
+        public int Layer
+        {
+            get { return 0; }
+            set { }
+        }
+        public bool IsMarkedToBeDestroyed
+        {
+            get { return false; }
+            set { }
+        }
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+        public void Initialize(params object[] _list)
 		{
 			// GET ALL THE REFERENCES TO LAYOUT
 			m_root = this.gameObject;

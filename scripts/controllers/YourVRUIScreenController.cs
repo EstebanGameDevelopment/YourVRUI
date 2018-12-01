@@ -215,6 +215,14 @@ namespace YourVRUI
 					eventSystem.gameObject.GetComponent<EventSystemController>().Initialitzation();
 				}
 			}
+
+#if ENABLE_WORLDSENSE
+            EnableDaydreamController = true;
+            TagPlayerDetectionCollision = "MainCamera";
+#else
+            EnableDaydreamController = false;
+#endif
+
 #if !ENABLE_OCULUS
             if (EnableDesktopMode)
 			{
@@ -238,7 +246,7 @@ namespace YourVRUI
 					gvrController = null;
 				}
 			}
-			GvrTrackedController controllerVisualManager = GameObject.FindObjectOfType<GvrTrackedController>();
+            GvrTrackedController controllerVisualManager = GameObject.FindObjectOfType<GvrTrackedController>();
 			if (controllerVisualManager != null)
 			{
 				controllerVisualManager.gameObject.SetActive(EnableDaydreamController);
@@ -270,13 +278,22 @@ namespace YourVRUI
 			{
 				Debug.LogError("YourVRUIScreenController::Start::PlayerRaycasterController NOT FOUND IN THE SYSTEM");
 			}
-		}
 
-		// -------------------------------------------
-		/* 
+#if UNITY_EDITOR && !ENABLE_WORLDSENSE
+            EnableMoveCamera = true;
+            if (GameObject.FindObjectOfType<GvrControllerInput>() != null) GameObject.FindObjectOfType<GvrControllerInput>().gameObject.SetActive(false);
+            if (GameObject.FindObjectOfType<GvrEditorEmulator>() != null) GameObject.FindObjectOfType<GvrEditorEmulator>().gameObject.SetActive(false);
+#else
+            EnableMoveCamera = false;
+#endif
+
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Initialitzation of the daydream controller
 		 */
-		private void InitDaydreamController()
+        private void InitDaydreamController()
 		{
 #if !ENABLE_OCULUS
 			if (EnableDaydreamController)

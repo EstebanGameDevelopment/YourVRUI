@@ -60,9 +60,7 @@ namespace YourVRUI
 				this.gameObject.GetComponent<Rigidbody>().useGravity = false;
 				this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
 			}
-			this.gameObject.tag = YourVRUIScreenController.Instance.TagPlayerDetectionCollision;
-
-			
+			this.gameObject.tag = YourVRUIScreenController.Instance.TagPlayerDetectionCollision;			
 		}
 
         // -------------------------------------------
@@ -276,15 +274,17 @@ namespace YourVRUI
 			if (YourVRUIScreenController.Instance.IsDayDreamActivated)
 			{
 				#if UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR) && !ENABLE_OCULUS
-				if (GvrController.IsTouching)
+                /*
+                if (ControllerInputDevice.GetButton(GvrControllerButton.TouchPadButton))
 				{
-					Vector2 touchPos = GvrController.TouchPos;
+                    Vector2 touchPos = GvrController.TouchPos;
 					float directionMove = -(touchPos.y - 0.5f);
 					directionMove = directionMove * MoveSpeed * 2 * Time.deltaTime;
 					Vector3 directionVectorForward = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward.normalized);
 					directionVectorForward.y = 0;
 					this.gameObject.transform.position += (directionVectorForward * directionMove);
 				}
+                */
 				#endif
 			}
 		}

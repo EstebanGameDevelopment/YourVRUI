@@ -295,8 +295,24 @@ namespace YourVRUI
 		 */
         private void InitDaydreamController()
 		{
-#if !ENABLE_OCULUS
-			if (EnableDaydreamController)
+#if ENABLE_OCULUS
+            if (m_laserPointer == null)
+            {
+                if (GameObject.FindObjectOfType<OVRTrackedRemote>() != null)
+                {
+                    m_laserPointer = GameObject.FindObjectOfType<OVRTrackedRemote>().gameObject;
+                    if (m_laserPointer.activeSelf)
+                    {
+                        // WILL FORCE THE LASER POINTER WHEN RUNNING IN EDITOR
+                        if (DebugMode)
+                        {
+                            m_laserPointer.AddComponent<AlignWithCamera>();
+                        }
+                    }
+                }
+            }
+#else
+            if (EnableDaydreamController)
 			{
 				if (m_laserPointer == null)
 				{
@@ -315,13 +331,13 @@ namespace YourVRUI
 				}
 			}
 #endif
-		}
+        }
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * Will use one of the predefined configurations
 		 */
-		public void InitializePredefinedConfiguration()
+        public void InitializePredefinedConfiguration()
 		{
 			switch (DefaultConfiguration)
 			{

@@ -23,6 +23,7 @@ namespace YourVRUI
 		// EVENTS
 		// ----------------------------------------------	
 		public const string EVENT_ACTIVATION_INPUT_STANDALONE = "EVENT_ACTIVATION_INPUT_STANDALONE";
+        public const string EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM = "EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM";
 
 		// ----------------------------------------------
 		// SINGLETON
@@ -81,8 +82,17 @@ namespace YourVRUI
             UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
+		 * OnDestroy
+		 */
+        void OnDestroy()
+        {
+            Destroy();
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Destroy
 		 */
 		public void Destroy()
@@ -103,6 +113,10 @@ namespace YourVRUI
 #if !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
 				if (m_gazeInputModule != null) m_gazeInputModule.enabled = !activation;
 #endif
+            }
+            if (_nameEvent == EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)
+            {
+                this.gameObject.SetActive(false);
             }
         }
 	}

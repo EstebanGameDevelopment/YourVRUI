@@ -192,10 +192,18 @@ namespace YourVRUI
 					m_previousCollidedObject = (InteractionController)_list[0];
 				}
 			}
-		}
 
-		// -------------------------------------------
-		/* 
+            if (_nameEvent == EventSystemController.EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)
+            {
+                if (this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>() != null)
+                {
+                    this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>().enabled = false;
+                }
+            }
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Check if there is a InteractionController object in the sight of the camera
 		 */
 		private InteractionController GetControllerCollided()

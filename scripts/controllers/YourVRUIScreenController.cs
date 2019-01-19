@@ -634,6 +634,40 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
+		 * Will create a screen linked to the camera
+		 */
+        public void CreateScreenLinkedToCamera(GameObject _prefabScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS)
+        {
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
+                                                           true,
+                                                           this.gameObject,
+                                                           null,  // GameObject collided
+                                                           _prefabScreen,            // interactedObject.screenName,
+                                                           _typePreviousAction, // interactedObject.PreviousScreenAction,
+                                                           -1f, // interactedObject.DetectionDistance,
+                                                           true, // interactedObject.IsWorldObject,
+                                                           false, // interactedObject.ScreenLinkedToObject,
+                                                           false, // interactedObject.ScreenInCenterObject,
+                                                           true, // interactedObject.ForceScreen,
+                                                           _forceOrthographic, // interactedObject.ForceOrthographic,
+                                                           true, // interactedObject.AlignedToCamera,
+                                                           false, // interactedObject.UseCollisionPoint,
+                                                           _distance, // interactedObject.DistanceScreenDefault,
+                                                           true, // interactedObject.Refocus,
+                                                           false, // interactedObject.DestroyMessageOnDistance,
+                                                           _scaleScreen, // interactedObject.ScaleScreen,
+                                                           true, // interactedObject.BlockOtherScreens,
+                                                           Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
+                                                           true, // Temporal Screen
+                                                           true, // interactedObject.IgnoreZOrderScreen,
+                                                           true, // HighlightSelector                                                       
+                                                           _pages,
+                                                           _delayToDestroy
+                                                           );
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Get the bounds of the object
 		 */
         private Vector2 GetMaxMinBounds(GameObject _gameObject)

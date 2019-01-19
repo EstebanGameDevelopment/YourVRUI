@@ -19,10 +19,12 @@ namespace YourVRUI
 	 */
 	public class ScreenItemInventoryView : MonoBehaviour, IBasicView
 	{
-		// ----------------------------------------------
-		// EVENTS
-		// ----------------------------------------------	
-		public const string EVENT_PANELINVENTROY_OPEN_VIEW = "EVENT_PANELINVENTROY_OPEN_VIEW";
+        public const string SCREEN_NAME = "SCREEN_INVENTORY";
+
+        // ----------------------------------------------
+        // EVENTS
+        // ----------------------------------------------	
+        public const string EVENT_PANELINVENTROY_OPEN_VIEW = "EVENT_PANELINVENTROY_OPEN_VIEW";
 		public const string EVENT_PANELINVENTROY_CLOSE_VIEW = "EVENT_PANELINVENTROY_CLOSE_VIEW";
 
 		// ----------------------------------------------

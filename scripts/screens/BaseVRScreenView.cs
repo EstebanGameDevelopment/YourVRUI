@@ -201,16 +201,19 @@ namespace YourVRUI
 		 */
 		private GameObject AddButtonToList(GameObject _button)
 		{
-			m_selectors.Add(_button);
-			if (m_enabledSelector)
-			{
-				if (_button != null)
-				{
-                    _button.AddComponent<ButtonVRView>();
-					_button.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER);
-				}
-			}
-			return _button;
+            if (!m_selectors.Contains(_button))
+            {
+                m_selectors.Add(_button);
+                if (m_enabledSelector)
+                {
+                    if (_button != null)
+                    {
+                        _button.AddComponent<ButtonVRView>();
+                        _button.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER);
+                    }
+                }
+            }
+            return _button;
 		}
 
 		// -------------------------------------------
@@ -269,7 +272,12 @@ namespace YourVRUI
 
             if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RELOAD_SCREEN_DATA)
             {
-                if (AutomaticallyAddButtons)
+                bool forceReaload = false;
+                if (_list.Length > 0)
+                {
+                    forceReaload = true;
+                }
+                if (AutomaticallyAddButtons || forceReaload)
                 {
                     ClearListSelectors();
                     AddAutomaticallyButtons(m_screen);

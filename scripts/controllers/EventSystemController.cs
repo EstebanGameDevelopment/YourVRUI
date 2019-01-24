@@ -116,7 +116,7 @@ namespace YourVRUI
             }
             if (_nameEvent == EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)
             {
-                this.gameObject.SetActive(false);
+                this.gameObject.SetActive((bool)_list[0]);
             }
         }
 	}

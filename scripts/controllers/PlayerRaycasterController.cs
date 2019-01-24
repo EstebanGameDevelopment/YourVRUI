@@ -197,7 +197,7 @@ namespace YourVRUI
             {
                 if (this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>() != null)
                 {
-                    this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>().enabled = false;
+                    this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>().enabled = (bool)_list[0];
                 }
             }
         }

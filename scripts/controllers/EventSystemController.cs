@@ -110,8 +110,10 @@ namespace YourVRUI
 			{
 				bool activation = (bool)_list[0];
 				if (m_standAloneInputModule != null) m_standAloneInputModule.enabled = activation;
-#if !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
-				if (m_gazeInputModule != null) m_gazeInputModule.enabled = !activation;
+#if ENABLE_WORLDSENSE
+                if (m_gazeInputModule != null) m_gazeInputModule.enabled = false;
+#elif !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
+                if (m_gazeInputModule != null) m_gazeInputModule.enabled = !activation;
 #endif
             }
             if (_nameEvent == EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)

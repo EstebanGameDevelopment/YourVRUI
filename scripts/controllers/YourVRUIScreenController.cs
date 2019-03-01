@@ -77,7 +77,9 @@ namespace YourVRUI
 		public bool EnableDesktopMode = false;
 		[Tooltip("It will enable to move the camera with the mouse, only in desktop mode")]
 		public bool EnableMoveCamera = false;
-		[Tooltip("It's the tag used when there is a collision with colliders to activate the screens")]
+        [Tooltip("It will enable the default GVR Emulator")]
+        public bool EnableGVREmulator = true;
+        [Tooltip("It's the tag used when there is a collision with colliders to activate the screens")]
 		public string TagPlayerDetectionCollision = "Player";
 
 		[Tooltip("Enable the display of the screen with the collision triggering")]
@@ -265,6 +267,18 @@ namespace YourVRUI
             {
                 m_camera = Camera.main;
             }
+
+#if UNITY_EDITOR
+            if (!EnableGVREmulator)
+            {
+                GvrEditorEmulator gvrViewerEmulator = GameObject.FindObjectOfType<GvrEditorEmulator>();
+                if (gvrViewerEmulator != null)
+                {
+                    GameObject.Destroy(gvrViewerEmulator.gameObject);
+                    gvrViewerEmulator = null;
+                }
+            }
+#endif
 
             KeysEventInputController.Instance.Initialization();
 			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);

@@ -57,6 +57,14 @@ namespace YourVRUI
             set { }
         }
 
+        public bool MustBeDestroyed
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         // -------------------------------------------
         /* 
 		 * InitScreen

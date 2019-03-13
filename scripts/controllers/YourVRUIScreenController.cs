@@ -514,6 +514,40 @@ namespace YourVRUI
         /* 
 		 * Will create the HUD
 		 */
+        public void CreateHUD(GameObject _prefabScreen, float _distance, bool _ignoreZOrder = true, bool _isInWorld = true, float _scaleScreen = 1)
+        {
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
+                                            false, // Override
+                                            this.gameObject,
+                                            null,  // GameObject collided
+                                            _prefabScreen,            // interactedObject.screenName,
+                                            UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, // interactedObject.PreviousScreenAction,
+                                            -1f, // interactedObject.DetectionDistance,
+                                            _isInWorld, // interactedObject.IsWorldObject,
+                                            false, // interactedObject.ScreenLinkedToObject,
+                                            false, // interactedObject.ScreenInCenterObject
+                                            true, // interactedObject.ForceScreen,
+                                            true, // interactedObject.ForceOrthographic,
+                                            true, // interactedObject.AlignedToCamera,
+                                            false, // interactedObject.UseCollisionPoint,
+                                            _distance, // interactedObject.DistanceScreenDefault,
+                                            false, // interactedObject.Refocus,
+                                            false, // interactedObject.DestroyMessageOnDistance,
+                                            _scaleScreen, // interactedObject.ScaleScreen,
+                                            false, // interactedObject.BlockOtherScreens,
+                                            Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
+                                            false, // Temporal Screen
+                                            _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
+                                            true, // HighlightSelector                                        
+                                            null, // interactedObject.GetListPagesInformation()
+                                            -1f // DELAY TO DESTROY
+                                            );
+        }
+
+        // -------------------------------------------
+        /* 
+		 * Will create the HUD
+		 */
         public void CreateDelayHUD(string _nameScreen, float _distance, bool _ignoreZOrder = true, float _delay = 1f)
         {
             UIEventController.Instance.DelayUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN, _delay,
@@ -738,49 +772,90 @@ namespace YourVRUI
 		 */
 		public void DestroyScreens()
 		{
-			// DESTROY TEMPORAL
-			for (int i = 0; i < m_screensTemporal.Count; i++)
+            // DESTROY TEMPORAL
+            List<GameObject> listNotToDestroy = new List<GameObject>();
+            for (int i = 0; i < m_screensTemporal.Count; i++)
 			{
-				if (m_screensTemporal[i] != null)
+                bool isNotToDestroy = false;
+                if (m_screensTemporal[i] != null)
 				{
 					if (m_screensTemporal[i].GetComponent<IBasicView>() != null)
 					{
-						m_screensTemporal[i].GetComponent<IBasicView>().Destroy();
-					}
-					if (i < m_screensTemporal.Count)
-					{
-                        if (m_screensTemporal[i] != null)
+                        if (m_screensTemporal[i].GetComponent<IBasicView>().MustBeDestroyed)
                         {
-                            GameObject.Destroy(m_screensTemporal[i]);
-                            m_screensTemporal[i] = null;
+                            m_screensTemporal[i].GetComponent<IBasicView>().Destroy();
+                        }
+                        else
+                        {
+                            listNotToDestroy.Add(m_screensTemporal[i]);
+                            isNotToDestroy = true;
+                        }
+                    }
+                    if (!isNotToDestroy)
+                    {
+                        if (i < m_screensTemporal.Count)
+                        {
+                            if (m_screensTemporal[i] != null)
+                            {
+                                GameObject.Destroy(m_screensTemporal[i]);
+                                m_screensTemporal[i] = null;
+                            }
                         }
                     }
 				}
 			}
 			m_screensTemporal.Clear();
-			KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
+            if (listNotToDestroy.Count > 0)
+            {
+                for (int i = 0; i < listNotToDestroy.Count; i++)
+                {
+                    m_screensTemporal.Add(listNotToDestroy[i]);
+                }
+                listNotToDestroy.Clear();
+            }
+            KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
 
 			// DESTROY FOREVER
 			for (int i = 0; i < m_screensForever.Count; i++)
 			{
 				if (m_screensForever[i] != null)
 				{
+                    bool isNotToDestroy = false;
 					if (m_screensForever[i].GetComponent<IBasicView>() != null)
 					{
-						m_screensForever[i].GetComponent<IBasicView>().Destroy();
-					}
-					if (i < m_screensForever.Count)
-					{
-                        if (m_screensForever[i] != null)
+                        if (m_screensForever[i].GetComponent<IBasicView>().MustBeDestroyed)
                         {
-                            GameObject.Destroy(m_screensForever[i]);
-                            m_screensForever[i] = null;
+                            m_screensForever[i].GetComponent<IBasicView>().Destroy();
+                        }
+                        else
+                        {
+                            listNotToDestroy.Add(m_screensForever[i]);
+                            isNotToDestroy = true;
                         }
 					}
-				}
+                    if (!isNotToDestroy)
+                    {
+                        if (i < m_screensForever.Count)
+                        {
+                            if (m_screensForever[i] != null)
+                            {
+                                GameObject.Destroy(m_screensForever[i]);
+                                m_screensForever[i] = null;
+                            }
+                        }
+                    }
+                }
 			}
 			m_screensForever.Clear();
-		}
+            if (listNotToDestroy.Count > 0)
+            {
+                for (int i = 0; i < listNotToDestroy.Count; i++)
+                {
+                    m_screensForever.Add(listNotToDestroy[i]);
+                }
+                listNotToDestroy.Clear();
+            }
+        }
 
 		// -------------------------------------------
 		/* 

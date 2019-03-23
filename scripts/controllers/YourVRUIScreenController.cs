@@ -314,13 +314,17 @@ namespace YourVRUI
             {
                 if (GameObject.FindObjectOfType<OVRTrackedRemote>() != null)
                 {
-                    m_laserPointer = GameObject.FindObjectOfType<OVRTrackedRemote>().gameObject;
-                    if (m_laserPointer.activeSelf)
+                    GameObject ovrTrackedRemote = GameObject.FindObjectOfType<OVRTrackedRemote>().gameObject;
+                    if (ovrTrackedRemote.GetComponentInChildren<LineRenderer>() != null)
                     {
-                        // WILL FORCE THE LASER POINTER WHEN RUNNING IN EDITOR
-                        if (DebugMode)
+                        m_laserPointer = ovrTrackedRemote.GetComponentInChildren<LineRenderer>().gameObject;
+                        if (m_laserPointer.activeSelf)
                         {
-                            m_laserPointer.AddComponent<AlignWithCamera>();
+                            // WILL FORCE THE LASER POINTER WHEN RUNNING IN EDITOR
+                            if (DebugMode)
+                            {
+                                m_laserPointer.AddComponent<AlignWithCamera>();
+                            }
                         }
                     }
                 }

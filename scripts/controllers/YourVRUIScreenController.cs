@@ -1100,19 +1100,22 @@ namespace YourVRUI
 						// ++ YOU SHOULD INITIALIZE HERE YOUR OWN SCREEN BEFORE INITIALIZING THE BASE SCREEN CLASS ++
 						for (int i = 0; i < ScreensPrefabs.Length; i++)
 						{
-							if (ScreensPrefabs[i].name == screenName)
-							{
-                                // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
-                                currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
-								currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
-								currentScreen.gameObject.name = screenName;
-								if (delayToDestroy > 0)
-								{
-									Destroy(currentScreen, delayToDestroy);
-								}
-								break;
-							}
-						}
+                            if (ScreensPrefabs[i] != null)
+                            {
+                                if (ScreensPrefabs[i].name == screenName)
+                                {
+                                    // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
+                                    currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
+                                    currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
+                                    currentScreen.gameObject.name = screenName;
+                                    if (delayToDestroy > 0)
+                                    {
+                                        Destroy(currentScreen, delayToDestroy);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
 					}
 					// NOW THE BASE SCREEN CLASS INITIALIZES HAD THE BEHAVIOUR SO YOU CAN FORGET ABOUT THE SCREEN IN VR
 					if (currentScreen.GetComponent<BaseVRScreenView>() == null)

@@ -208,7 +208,15 @@ namespace YourVRUI
 		 */
 		private InteractionController GetControllerCollided()
 		{
-			RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
+            RaycastHit objectCollided = new RaycastHit();
+            if (YourVRUIScreenController.Instance.LayersToRaycast.Length == 0)
+            {
+                objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
+            }
+            else
+            {
+                Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, ref objectCollided, YourVRUIScreenController.Instance.LayersToRaycast);
+            }
 			if (objectCollided.collider != null)
 			{
 				GameObject goCollided = objectCollided.collider.gameObject;
@@ -224,8 +232,16 @@ namespace YourVRUI
 		 */
 		private void CheckRaycastingNormal(bool _actionButtonPressed)
 		{
-			RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
-			CheckRaycasting(_actionButtonPressed, objectCollided);
+            RaycastHit objectCollided = new RaycastHit();
+            if (YourVRUIScreenController.Instance.LayersToRaycast.Length == 0)
+            {
+                objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
+            }
+            else
+            {
+                Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, ref objectCollided, YourVRUIScreenController.Instance.LayersToRaycast);
+            }
+            CheckRaycasting(_actionButtonPressed, objectCollided);
 		}
 
 		// -------------------------------------------
@@ -234,8 +250,16 @@ namespace YourVRUI
 		 */
 		private void CheckRaycastingDaydream(bool _actionButtonPressed)
 		{
-			RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, IgnoreLayers);
-			CheckRaycasting(_actionButtonPressed, objectCollided);
+            RaycastHit objectCollided = new RaycastHit();
+            if (YourVRUIScreenController.Instance.LayersToRaycast.Length == 0)
+            {
+                objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, IgnoreLayers);
+            }
+            else
+            {
+                Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, ref objectCollided, YourVRUIScreenController.Instance.LayersToRaycast);
+            }
+            CheckRaycasting(_actionButtonPressed, objectCollided);
 		}
 
 		// -------------------------------------------

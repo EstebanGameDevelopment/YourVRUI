@@ -119,10 +119,13 @@ namespace YourVRUI
 		[Tooltip("Used for debug, get rid of it when you understand the whole thing")]
 		public GUISkin SkinYourVRUI;
 
-		// ----------------------------------------------
-		// PRIVATE MEMBERS
-		// ----------------------------------------------	
-		private Camera m_camera;
+        [Tooltip("The collection of layers to apply the raycasting, using the Default layer if there are none")]
+        public string[] LayersToRaycast;
+
+        // ----------------------------------------------
+        // PRIVATE MEMBERS
+        // ----------------------------------------------	
+        private Camera m_camera;
 		private List<GameObject> m_screensForever = new List<GameObject>();
 		private List<GameObject> m_screensTemporal = new List<GameObject>();
 		private bool m_enableScreens = true;

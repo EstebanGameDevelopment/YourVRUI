@@ -1346,8 +1346,16 @@ namespace YourVRUI
 					}
 					else
 					{
-						objectCollided = Utilities.GetRaycastHitInfoByRay(m_camera.transform.position, m_camera.transform.forward, _ignoreLayers);
-						if (objectCollided.collider != null)
+                        objectCollided = new RaycastHit();
+                        if (LayersToRaycast.Length == 0)
+                        {
+                            objectCollided = Utilities.GetRaycastHitInfoByRay(m_camera.transform.position, m_camera.transform.forward, _ignoreLayers);
+                        }
+                        else
+                        {
+                            Utilities.GetRaycastHitInfoByRayWithMask(m_camera.transform.position, m_camera.transform.forward, ref objectCollided, LayersToRaycast);
+                        }
+                        if (objectCollided.collider != null)
 						{
 							GameObject finalObject = objectCollided.collider.gameObject;
 							vectorNormalUI = Utilities.ClonePoint(objectCollided.normal);

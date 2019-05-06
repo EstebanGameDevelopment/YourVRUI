@@ -208,7 +208,10 @@ namespace YourVRUI
                 {
                     if (_button != null)
                     {
-                        _button.AddComponent<ButtonVRView>();
+                        if (_button.GetComponent<ButtonVRView>() == null)
+                        {
+                            _button.AddComponent<ButtonVRView>();
+                        }
                         _button.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER);
                     }
                 }
@@ -257,18 +260,6 @@ namespace YourVRUI
             if (this == null) return;
             if (this.gameObject == null) return;
             if (!this.gameObject.activeSelf) return;
-            if (m_selectors == null) return;
-            if (m_selectors.Count == 0) return;
-
-            if (_nameEvent == EVENT_SCREEN_DESTROYED_VIEW)
-            {
-                GameObject characterOrigin = (GameObject)_list[0];
-                if (m_characterOrigin == characterOrigin)
-                {
-                    GameObject.Destroy(m_screen);
-                    return;
-                }
-            }
 
             if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RELOAD_SCREEN_DATA)
             {
@@ -281,6 +272,19 @@ namespace YourVRUI
                 {
                     ClearListSelectors();
                     AddAutomaticallyButtons(m_screen);
+                }
+            }
+
+            if (m_selectors == null) return;
+            if (m_selectors.Count == 0) return;
+
+            if (_nameEvent == EVENT_SCREEN_DESTROYED_VIEW)
+            {
+                GameObject characterOrigin = (GameObject)_list[0];
+                if (m_characterOrigin == characterOrigin)
+                {
+                    GameObject.Destroy(m_screen);
+                    return;
                 }
             }
 

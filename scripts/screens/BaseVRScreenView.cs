@@ -272,9 +272,13 @@ namespace YourVRUI
                 {
                     ClearListSelectors();
                     AddAutomaticallyButtons(m_screen);
+                    if (forceReaload)
+                    {
+                        Utilities.ApplyMaterialOnImages(m_screen, YourVRUIScreenController.Instance.MaterialDrawOnTop);
+                    }                    
                 }
             }
-
+            
             if (m_selectors == null) return;
             if (m_selectors.Count == 0) return;
 

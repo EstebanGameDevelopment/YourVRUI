@@ -25,10 +25,12 @@ namespace YourVRUI
 
 		public const string EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER = "EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER";
 
-		// ----------------------------------------------
-		// CONSTANTS
-		// ----------------------------------------------
-		public const float DETECTION_DISTANCE_DEFAULT = 2;
+        public const string EVENT_INTERACTIONCONTROLLER_ENABLE_INTERACTION = "EVENT_INTERACTIONCONTROLLER_ENABLE_INTERACTION";
+
+        // ----------------------------------------------
+        // CONSTANTS
+        // ----------------------------------------------
+        public const float DETECTION_DISTANCE_DEFAULT = 2;
 		public const float DISTANCE_SCREEN_BY_DEFAULT = 2.5f;
 
 		// ----------------------------------------------
@@ -85,11 +87,12 @@ namespace YourVRUI
 		// PRIVATE MEMBERS
 		// ----------------------------------------------
 		private bool m_screenIsDisplayed = false;
+        private bool m_enableInteraction = true;
 
-		// ----------------------------------------------
-		// GETTERS/SETTERS
-		// ----------------------------------------------	
-		public bool ScreenIsDisplayed
+        // ----------------------------------------------
+        // GETTERS/SETTERS
+        // ----------------------------------------------	
+        public bool ScreenIsDisplayed
 		{
 			get { return m_screenIsDisplayed; }
 		}
@@ -125,6 +128,10 @@ namespace YourVRUI
 		{
 			if (this != null)
 			{
+                if (_nameEvent == EVENT_INTERACTIONCONTROLLER_ENABLE_INTERACTION)
+                {
+                    m_enableInteraction = (bool)_list[0];
+                }
 				if (_nameEvent == EVENT_INTERACTIONCONTROLLER_SCREEN_CREATED)
 				{
 					if (this.gameObject == (GameObject)_list[0])
@@ -163,8 +170,13 @@ namespace YourVRUI
         /* 
 		 * DispatchCustomScreen
 		 */
-        public void DispatchCustomScreen(GameObject _screenPrefab, List<PageInformation> _pages, float _scaleScreen)
+        public void DispatchCustomScreen(GameObject _screenPrefab, List<PageInformation> _pages, float _scaleScreen, bool _bypass = false)
         {
+            if (!_bypass)
+            {
+                if (!m_enableInteraction) return;
+            }            
+
             KeysEventInputController.Instance.EnableActionOnMouseDown = EnableActionOnMouseDown;
             UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
                                                 OverrideGlobalSettings,
@@ -199,7 +211,9 @@ namespace YourVRUI
 		 */
         public void DispatchScreen(GameObject _player, string[] _ignoreLayers, bool _force)
 		{
-			UIEventController.Instance.DispatchUIEvent(EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER, this);
+            if (!m_enableInteraction) return;
+
+            UIEventController.Instance.DispatchUIEvent(EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER, this);
 			if (TriggerMessageOnDetection || _force)
 			{
 				KeysEventInputController.Instance.EnableActionOnMouseDown = EnableActionOnMouseDown;
@@ -237,7 +251,9 @@ namespace YourVRUI
 		 */
 		public void OnCollisionEnter(Collision _collision)
 		{
-			if (YourVRUIScreenController.Instance.EnableCollisionDetection)
+            if (!m_enableInteraction) return;
+
+            if (YourVRUIScreenController.Instance.EnableCollisionDetection)
 			{
 				if (YourVRUIScreenController.Instance.DebugMode)
 				{
@@ -262,7 +278,9 @@ namespace YourVRUI
 		 */
 		public void OnCollisionExit(Collision _collision)
 		{
-			if (YourVRUIScreenController.Instance.EnableCollisionDetection)
+            if (!m_enableInteraction) return;
+
+            if (YourVRUIScreenController.Instance.EnableCollisionDetection)
 			{
 				if (YourVRUIScreenController.Instance.DebugMode)
 				{
@@ -288,7 +306,9 @@ namespace YourVRUI
 		 */
 		public void OnTriggerEnter(Collider _collider)
 		{
-			if (YourVRUIScreenController.Instance.EnableCollisionDetection)
+            if (!m_enableInteraction) return;
+
+            if (YourVRUIScreenController.Instance.EnableCollisionDetection)
 			{
 				if (YourVRUIScreenController.Instance.DebugMode)
 				{
@@ -313,7 +333,9 @@ namespace YourVRUI
 		 */
 		public void OnTriggerExit(Collider _collider)
 		{
-			if (YourVRUIScreenController.Instance.EnableCollisionDetection)
+            if (!m_enableInteraction) return;
+
+            if (YourVRUIScreenController.Instance.EnableCollisionDetection)
 			{
 				if (YourVRUIScreenController.Instance.DebugMode)
 				{

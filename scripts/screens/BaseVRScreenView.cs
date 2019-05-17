@@ -244,12 +244,38 @@ namespace YourVRUI
 			}
 			catch (Exception err)
 			{
-				if (YourVRUIScreenController.Instance.DebugMode)
+                if (YourVRUIScreenController.Instance.DebugMode)
 				{
 					Debug.LogError(err.StackTrace);
 				}
 			};
 		}
+
+        // -------------------------------------------
+        /* 
+		 * UpdateScrollRectItemsVisibility
+		 */
+        private void UpdateScrollRectItemsVisibility(ScrollRectVR _scrollRect, GameObject _target)
+        {
+            Transform allChilds = _target.transform.parent;
+            int hidingTotalNumber = 0;
+            for (int k = 0; k < allChilds.childCount; k++)
+            {
+                Transform childScroll = allChilds.GetChild(k);
+                if (childScroll.gameObject.GetComponent<CanvasGroup>() != null)
+                {
+                    if (Utilities.IsVisibleFrom(_scrollRect, childScroll.GetComponent<RectTransform>()))
+                    {
+                        childScroll.gameObject.GetComponent<CanvasGroup>().alpha = 1;
+                    }
+                    else
+                    {
+                        childScroll.gameObject.GetComponent<CanvasGroup>().alpha = 0;
+                        hidingTotalNumber++;
+                    }
+                }
+            }
+        }
 
         // -------------------------------------------
         /* 
@@ -358,6 +384,7 @@ namespace YourVRUI
                     if ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1))
                     {
                         Utilities.MoveScrollWithSiblings(m_scrollRectsVR[(int)dataElement.y], targetObject);
+                        UpdateScrollRectItemsVisibility(m_scrollRectsVR[(int)dataElement.y], targetObject);
                     }
                 }
             }
@@ -414,6 +441,7 @@ namespace YourVRUI
                 {
                     scrollRectVR.ScrollRectObject.horizontalNormalizedPosition = finalNormalizedPosition;
                 }
+                UpdateScrollRectItemsVisibility(scrollRectVR, targetObject);
             }
 
             if (_nameEvent == EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION)

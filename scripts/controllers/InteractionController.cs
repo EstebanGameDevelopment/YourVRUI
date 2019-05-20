@@ -27,6 +27,8 @@ namespace YourVRUI
 
         public const string EVENT_INTERACTIONCONTROLLER_ENABLE_INTERACTION = "EVENT_INTERACTIONCONTROLLER_ENABLE_INTERACTION";
 
+        public const string EVENT_INTERACTIONCONTROLLER_UPDATE_SETTINGS = "EVENT_INTERACTIONCONTROLLER_UPDATE_SETTINGS";
+
         // ----------------------------------------------
         // CONSTANTS
         // ----------------------------------------------
@@ -146,6 +148,11 @@ namespace YourVRUI
 						m_screenIsDisplayed = false;
 					}
 				}
+                if (_nameEvent == EVENT_INTERACTIONCONTROLLER_UPDATE_SETTINGS)
+                {
+                    OverrideGlobalSettings = (bool)_list[0];
+                    IsWorldObject = (bool)_list[1];
+                }
 			}
 		}
 

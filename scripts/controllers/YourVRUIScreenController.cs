@@ -315,9 +315,9 @@ namespace YourVRUI
 #if ENABLE_OCULUS
             if (m_laserPointer == null)
             {
-                if (GameObject.FindObjectOfType<OVRTrackedRemote>() != null)
+                if (GameObject.FindObjectOfType<OVRControllerHelper>() != null)
                 {
-                    GameObject ovrTrackedRemote = GameObject.FindObjectOfType<OVRTrackedRemote>().gameObject;
+                    GameObject ovrTrackedRemote = GameObject.FindObjectOfType<OVRControllerHelper>().gameObject;
                     if (ovrTrackedRemote.GetComponentInChildren<LineRenderer>() != null)
                     {
                         m_laserPointer = ovrTrackedRemote.GetComponentInChildren<LineRenderer>().gameObject;

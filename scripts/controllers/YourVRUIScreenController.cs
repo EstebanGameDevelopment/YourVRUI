@@ -592,7 +592,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void CreateScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, bool _isTemporal = true)
+        public void CreateScreenLinkedToCamera(string _nameScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, bool _isTemporal = true)
 		{
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
 														   true,
@@ -626,7 +626,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void DelayScreenLinkedToCamera(string _nameScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, float _delay = 1)
+        public void DelayScreenLinkedToCamera(string _nameScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, float _delay = 1)
         {
             UIEventController.Instance.DelayUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN, _delay,
                                                            true,
@@ -660,7 +660,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void CreateScreenLinkedToCamera(GameObject _prefabScreen, List<PageInformation> _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _isTemporal = true)
+        public void CreateScreenLinkedToCamera(GameObject _prefabScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _isTemporal = true)
         {
             UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
                                                            true,

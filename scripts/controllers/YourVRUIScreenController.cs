@@ -417,14 +417,18 @@ namespace YourVRUI
 					break;
 				case CONFIGURATIONS_YOURVRUI.CONFIGURATION_COMPUTER_RAYCAST_NORMAL_SCREENS:
 					EnableDesktopMode = true;
-					EnableMoveCamera = true;
-					EnableCollisionDetection = false;
+#if UNITY_EDITOR
+                    EnableMoveCamera = true;
+#else
+                    EnableMoveCamera = false;
+#endif
+                    EnableCollisionDetection = false;
 					EnableRaycastDetection = true;
 					ForceScreensInWindow = true;
 					ForceScreensAlignedToPlayer = false;
 					ForceScreensInCenterObject = false;
 					ForceNotLinkedToObject = false;
-					ForceNotHighlightElements = false;
+					ForceNotHighlightElements = true;
 					ForceScreensDistanceObject = -1;
 					ForceUseZDepth = false;
 					EnableDaydreamController = false;

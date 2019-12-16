@@ -233,7 +233,7 @@ namespace YourVRUI
 		private void CheckRaycastingNormal(bool _actionButtonPressed)
 		{
             RaycastHit objectCollided = new RaycastHit();
-            if (YourVRUIScreenController.Instance.LayersToRaycast.Length == 0)
+            if ((YourVRUIScreenController.Instance.LayersToRaycast == null) || (YourVRUIScreenController.Instance.LayersToRaycast.Length == 0))
             {
                 objectCollided = Utilities.GetRaycastHitInfoByRay(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
             }

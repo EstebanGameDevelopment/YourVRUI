@@ -195,10 +195,12 @@ namespace YourVRUI
 
             if (_nameEvent == EventSystemController.EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)
             {
+#if !ENABLE_OCULUS
                 if (this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>() != null)
                 {
                     this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>().enabled = (bool)_list[0];
                 }
+#endif
             }
         }
 

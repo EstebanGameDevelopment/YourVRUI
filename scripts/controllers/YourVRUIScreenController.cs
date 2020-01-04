@@ -271,6 +271,7 @@ namespace YourVRUI
                 m_camera = Camera.main;
             }
 
+#if !ENABLE_OCULUS
 #if UNITY_EDITOR
             if (!EnableGVREmulator)
             {
@@ -281,6 +282,7 @@ namespace YourVRUI
                     gvrViewerEmulator = null;
                 }
             }
+#endif
 #endif
 
             KeysEventInputController.Instance.Initialization();
@@ -296,6 +298,7 @@ namespace YourVRUI
 				Debug.LogError("YourVRUIScreenController::Start::PlayerRaycasterController NOT FOUND IN THE SYSTEM");
 			}
 
+#if !ENABLE_OCULUS
 #if UNITY_EDITOR && !ENABLE_WORLDSENSE
             EnableMoveCamera = true;
             if (GameObject.FindObjectOfType<GvrControllerInput>() != null) GameObject.FindObjectOfType<GvrControllerInput>().gameObject.SetActive(false);
@@ -303,7 +306,9 @@ namespace YourVRUI
 #else
             EnableMoveCamera = false;
 #endif
-
+#else
+            EnableMoveCamera = false;
+#endif
         }
 
         // -------------------------------------------

@@ -320,18 +320,32 @@ namespace YourVRUI
 #if ENABLE_OCULUS
             if (m_laserPointer == null)
             {
-                if (GameObject.FindObjectOfType<OVRControllerHelper>() != null)
+                if (GameObject.FindObjectsOfType<HandRayToolView>() != null)
                 {
-                    GameObject ovrTrackedRemote = GameObject.FindObjectOfType<OVRControllerHelper>().gameObject;
-                    if (ovrTrackedRemote.GetComponentInChildren<LineRenderer>() != null)
+                    HandRayToolView[] handRays = GameObject.FindObjectsOfType<HandRayToolView>();
+                    for (int j = 0; j < handRays.Length; j++)
                     {
-                        m_laserPointer = ovrTrackedRemote.GetComponentInChildren<LineRenderer>().gameObject;
-                        if (m_laserPointer.activeSelf)
+                        if (handRays[j].EnableState)
                         {
-                            // WILL FORCE THE LASER POINTER WHEN RUNNING IN EDITOR
-                            if (DebugMode)
+                            m_laserPointer = handRays[j].gameObject;
+                        }
+                    }
+                }
+                else
+                {
+                    if (GameObject.FindObjectOfType<OVRControllerHelper>() != null)
+                    {
+                        GameObject ovrTrackedRemote = GameObject.FindObjectOfType<OVRControllerHelper>().gameObject;
+                        if (ovrTrackedRemote.GetComponentInChildren<LineRenderer>() != null)
+                        {
+                            m_laserPointer = ovrTrackedRemote.GetComponentInChildren<LineRenderer>().gameObject;
+                            if (m_laserPointer.activeSelf)
                             {
-                                m_laserPointer.AddComponent<AlignWithCamera>();
+                                // WILL FORCE THE LASER POINTER WHEN RUNNING IN EDITOR
+                                if (DebugMode)
+                                {
+                                    m_laserPointer.AddComponent<AlignWithCamera>();
+                                }
                             }
                         }
                     }

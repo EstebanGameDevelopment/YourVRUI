@@ -320,6 +320,7 @@ namespace YourVRUI
 #if ENABLE_OCULUS
             if (m_laserPointer == null)
             {
+                bool lookForLaser = true;
                 if (GameObject.FindObjectsOfType<HandRayToolView>() != null)
                 {
                     HandRayToolView[] handRays = GameObject.FindObjectsOfType<HandRayToolView>();
@@ -328,10 +329,11 @@ namespace YourVRUI
                         if (handRays[j].EnableState)
                         {
                             m_laserPointer = handRays[j].gameObject;
+                            lookForLaser = false;
                         }
                     }
                 }
-                else
+                if (lookForLaser)
                 {
                     if (GameObject.FindObjectOfType<OVRControllerHelper>() != null)
                     {

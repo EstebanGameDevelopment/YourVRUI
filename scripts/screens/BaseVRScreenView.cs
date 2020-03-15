@@ -105,11 +105,17 @@ namespace YourVRUI
             set { m_disableActionButtonInteraction = value; }
         }
 
-		// -------------------------------------------
-		/* 
+        public int SelectionButton
+        {
+            get { return m_selectionButton; }
+            set { m_selectionButton = value; }
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Initialitzation
 		 */
-		public void InitBaseScreen(params object[] _list)
+        public void InitBaseScreen(params object[] _list)
 		{
 			m_characterOrigin = (GameObject)_list[0];
 			m_blockOtherScreens = (bool)_list[1];

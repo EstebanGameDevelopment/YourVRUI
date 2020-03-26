@@ -370,7 +370,11 @@ namespace YourVRUI
 							}
 						}
 					}
-				}
+                    if (GameObject.FindObjectOfType<CustomLaser>() != null)
+                    {
+                        m_laserPointer = GameObject.FindObjectOfType<CustomLaser>().gameObject;
+                    }
+                }
 			}
 #endif
         }

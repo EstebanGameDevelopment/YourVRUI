@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using YourCommonTools;
 using YourNetworkingTools;
 
@@ -121,6 +122,8 @@ namespace YourVRUI
 
         [Tooltip("The collection of layers to apply the raycasting, using the Default layer if there are none")]
         public string[] LayersToRaycast;
+
+        public GameObject VRKeyboard;
 
         // ----------------------------------------------
         // PRIVATE MEMBERS
@@ -286,7 +289,7 @@ namespace YourVRUI
 #endif
 
             KeysEventInputController.Instance.Initialization();
-			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnUIEvent);
 
 			// ESSENTIAL PLAYER RAYCASTING
 			if (GameObject.FindObjectOfType<PlayerRaycasterController>() != null)
@@ -506,7 +509,7 @@ namespace YourVRUI
 		{
 			if (_instance == null) return;
 
-			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnUIEvent;
 
             DestroyForeverScreens();
             DestroyScreens();
@@ -957,13 +960,23 @@ namespace YourVRUI
 			KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
 		}
 
+        private InputField m_inputFieldVR;
+        private GameObject m_vrKeyboard;
+
 		// -------------------------------------------
 		/* 
 		 * Manager of global events
 		 */
-		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		private void OnUIEvent(string _nameEvent, params object[] _list)
 		{
-			if (DebugThrowProjectile)
+            if (_nameEvent == ButtonVRView.EVENT_BUTTONVR_SELECTED_INPUTFIELD)
+            {
+                m_inputFieldVR = (InputField)_list[0];
+                Vector3 inputWorldPosition = m_inputFieldVR.transform.position;
+
+                CreateScreenLinkedToCamera(VRKeyboard, m_inputFieldVR, 2, -1, false, -1f, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true);
+            }
+            if (DebugThrowProjectile)
 			{
 				if (_nameEvent == KeysEventInputController.ACTION_SECONDARY_BUTTON_DOWN)
 				{

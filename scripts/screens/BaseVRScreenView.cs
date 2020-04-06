@@ -191,8 +191,8 @@ namespace YourVRUI
 		 */
 		private void AddAutomaticallyButtons(GameObject _go)
 		{
-			if (_go.GetComponent<Button>() != null)
-			{
+			if ((_go.GetComponent<Button>() != null) || (_go.GetComponent<InputField>() != null))
+            {
 				AddButtonToList(_go);
 			}
 			foreach (Transform child in _go.transform)

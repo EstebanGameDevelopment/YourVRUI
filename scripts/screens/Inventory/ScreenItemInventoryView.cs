@@ -230,5 +230,14 @@ namespace YourVRUI
 		private void DropItemButton()
 		{
 		}
-	}
+
+        // -------------------------------------------
+        /* 
+		 * ApplyStretch
+		 */
+        public void ApplyCentered()
+        {
+
+        }
+    }
 }

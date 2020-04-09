@@ -1141,16 +1141,21 @@ namespace YourVRUI
                     }
 
                     // CREATION OF THE NEW SCREEN
+                    Screen.SetResolution(350, 720, true);
                     GameObject currentScreen = null;
 					if (currentPrefab != null)
 					{
-						currentScreen = CreateUIScreen(currentPrefab, overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
+                        if (currentPrefab.GetComponent<IBasicView>() != null)
+                        {
+                            currentPrefab.GetComponent<IBasicView>().ApplyCentered();
+                        }
+                        currentScreen = CreateUIScreen(currentPrefab, overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
 						// ++ YOU SHOULD INITIALIZE HERE YOUR OWN SCREEN BEFORE INITIALIZING THE BASE SCREEN CLASS ++
 						if (currentScreen.GetComponent<IBasicView>() != null)
 						{
                             // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]::_list[22]="+ _list[22]);
 							currentScreen.GetComponent<IBasicView>().Initialize(_list[22]);
-						}
+                        }
 						if (delayToDestroy > 0)
 						{
 							Destroy(currentScreen, delayToDestroy);
@@ -1166,8 +1171,9 @@ namespace YourVRUI
                                 if (ScreensPrefabs[i].name == screenName)
                                 {
                                     // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
+                                    ScreensPrefabs[i].GetComponent<IBasicView>().ApplyCentered();
                                     currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
-                                    currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
+                                    currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);                                    
                                     currentScreen.gameObject.name = screenName;
                                     if (delayToDestroy > 0)
                                     {

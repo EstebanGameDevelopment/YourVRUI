@@ -274,5 +274,14 @@ namespace YourVRUI
 		{
 			m_codeNumber.text = m_codeNumber.text + "9";
 		}
-	}
+
+        // -------------------------------------------
+        /* 
+		 * ApplyStretch
+		 */
+        public void ApplyCentered()
+        {
+
+        }
+    }
 }

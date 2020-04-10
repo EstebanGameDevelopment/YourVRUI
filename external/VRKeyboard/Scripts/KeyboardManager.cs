@@ -12,7 +12,6 @@ namespace YourVRUI
 {
     public class KeyboardManager : MonoBehaviour
     {
-        #region Public Variables
         [Header("User defined")]
         [Tooltip("If the character is uppercase at the initialization")]
         public bool isUppercase = false;
@@ -23,9 +22,7 @@ namespace YourVRUI
 
         [Header("Essentials")]
         public Transform keys;
-        #endregion
 
-        #region Private Variables
         private string Input
         {
             get { return inputText.text; }
@@ -33,9 +30,7 @@ namespace YourVRUI
         }
         private Key[] keyList;
         private bool capslockFlag;
-        #endregion
 
-        #region Monobehaviour Callbacks
         void Awake()
         {
             keyList = keys.GetComponentsInChildren<Key>();
@@ -50,9 +45,7 @@ namespace YourVRUI
             capslockFlag = isUppercase;
             CapsLock();
         }
-        #endregion
 
-        #region Public Methods
         public void Backspace()
         {
             if (Input.Length > 0)
@@ -89,19 +82,19 @@ namespace YourVRUI
                 if (key is Shift)
                 {
                     key.ShiftKey();
-                    Debug.LogError("Shift::PRESSED KEY SHIFT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    UIEventController.Instance.DispatchUIEvent(ScreenVRKeyboardView.EVENT_SCREENVRKEYBOARD_CONFIRM_INPUT);
                 }
             }
         }
 
+        public void Enter()
+        {
+            UIEventController.Instance.DispatchUIEvent(ScreenVRKeyboardView.EVENT_SCREENVRKEYBOARD_CONFIRM_INPUT);
+        }
+
         public void GenerateInput(string s)
         {
-            Debug.LogError("GenerateInput::PRESSED KEY[" + s + "]++++++++++++++++++++++++++");
             if (Input.Length > maxInputLength) { return; }
             Input += s;
-            Debug.LogError("GenerateInput::RESULT[" + Input + "]++++++++++++++++++++++++++");
         }
-        #endregion
     }
 }

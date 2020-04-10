@@ -1141,7 +1141,13 @@ namespace YourVRUI
                     }
 
                     // CREATION OF THE NEW SCREEN
-                    Screen.SetResolution(350, 720, true);
+                    if (GameObject.FindObjectOfType<CardboardLoaderVR>() != null)
+                    {
+                        if (!GameObject.FindObjectOfType<CardboardLoaderVR>().IsCardboardDevice())
+                        {
+                            Screen.SetResolution(350, 720, true);
+                        }
+                    }
                     GameObject currentScreen = null;
 					if (currentPrefab != null)
 					{

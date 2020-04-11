@@ -7,11 +7,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using YourCommonTools;
+using System;
 
 namespace YourVRUI
 {
     public class KeyboardManager : MonoBehaviour
     {
+        public const string EVENT_KEYBOARDMANAGER_KEYCODE = "EVENT_KEYBOARDMANAGER_KEYCODE";
+        public const string EVENT_KEYBOARDMANAGER_ENTER = "EVENT_KEYBOARDMANAGER_ENTER";
+        public const string EVENT_KEYBOARDMANAGER_BACKSPACE = "EVENT_KEYBOARDMANAGER_BACKSPACE";
+        public const string EVENT_KEYBOARDMANAGER_CLEAR = "EVENT_KEYBOARDMANAGER_CLEAR";
+        public const string EVENT_KEYBOARDMANAGER_CAPSLOCK = "EVENT_KEYBOARDMANAGER_CAPSLOCK";
+        public const string EVENT_KEYBOARDMANAGER_SHIFT = "EVENT_KEYBOARDMANAGER_SHIFT";
+
         [Header("User defined")]
         [Tooltip("If the character is uppercase at the initialization")]
         public bool isUppercase = false;
@@ -31,39 +39,20 @@ namespace YourVRUI
         private Key[] keyList;
         private bool capslockFlag;
 
-        void Awake()
+        public void Initialize()
         {
             keyList = keys.GetComponentsInChildren<Key>();
-        }
-
-        void Start()
-        {
-            foreach (var key in keyList)
-            {
-                key.OnKeyClicked += GenerateInput;
-            }
+            UIEventController.Instance.UIEvent += new UIEventHandler(OnUIEvent);
             capslockFlag = isUppercase;
-            CapsLock();
+            CapsLocK();
         }
-
-        public void Backspace()
+        
+        public void Destroy()
         {
-            if (Input.Length > 0)
-            {
-                Input = Input.Remove(Input.Length - 1);
-            }
-            else
-            {
-                return;
-            }
+            UIEventController.Instance.UIEvent -= OnUIEvent;
         }
 
-        public void Clear()
-        {
-            Input = "";
-        }
-
-        public void CapsLock()
+        private void CapsLocK()
         {
             foreach (var key in keyList)
             {
@@ -75,26 +64,46 @@ namespace YourVRUI
             capslockFlag = !capslockFlag;
         }
 
-        public void Shift()
+        private void OnUIEvent(string _nameEvent, object[] _list)
         {
-            foreach (var key in keyList)
+            if (_nameEvent == EVENT_KEYBOARDMANAGER_KEYCODE)
             {
-                if (key is Shift)
+                if (Input.Length > maxInputLength) { return; }
+                Input += (string)_list[0];
+            }
+            if (_nameEvent == EVENT_KEYBOARDMANAGER_ENTER)
+            {
+                UIEventController.Instance.DispatchUIEvent(ScreenVRKeyboardView.EVENT_SCREENVRKEYBOARD_CONFIRM_INPUT);
+            }
+            if (_nameEvent == EVENT_KEYBOARDMANAGER_BACKSPACE)
+            {
+                if (Input.Length > 0)
                 {
-                    key.ShiftKey();
+                    Input = Input.Remove(Input.Length - 1);
+                }
+                else
+                {
+                    return;
                 }
             }
-        }
-
-        public void Enter()
-        {
-            UIEventController.Instance.DispatchUIEvent(ScreenVRKeyboardView.EVENT_SCREENVRKEYBOARD_CONFIRM_INPUT);
-        }
-
-        public void GenerateInput(string s)
-        {
-            if (Input.Length > maxInputLength) { return; }
-            Input += s;
+            if (_nameEvent == EVENT_KEYBOARDMANAGER_CLEAR)
+            {
+                Input = "";
+            }
+            if (_nameEvent == EVENT_KEYBOARDMANAGER_CAPSLOCK)
+            {
+                CapsLocK();
+            }
+            if (_nameEvent == EVENT_KEYBOARDMANAGER_SHIFT)
+            {
+                foreach (var key in keyList)
+                {
+                    if (key is Shift)
+                    {
+                        key.ShiftKey();
+                    }
+                }
+            }
         }
     }
 }

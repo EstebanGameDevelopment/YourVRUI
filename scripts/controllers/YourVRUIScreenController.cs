@@ -123,6 +123,9 @@ namespace YourVRUI
         [Tooltip("The collection of layers to apply the raycasting, using the Default layer if there are none")]
         public string[] LayersToRaycast;
 
+        [Tooltip("Enable the cheat to set the resolution to adapt the UI screens to VR")]
+        public bool EnableSetResolutionUIVR = false;
+
         public GameObject VRKeyboard;
 
         // ----------------------------------------------
@@ -969,12 +972,19 @@ namespace YourVRUI
 		 */
 		private void OnUIEvent(string _nameEvent, params object[] _list)
 		{
+            if (_nameEvent == ScreenVRKeyboardView.EVENT_SCREENVRKEYBOARD_CONFIRM_INPUT)
+            {
+                m_inputFieldVR = null;
+            }
             if (_nameEvent == ButtonVRView.EVENT_BUTTONVR_SELECTED_INPUTFIELD)
             {
-                m_inputFieldVR = (InputField)_list[0];
-                Vector3 inputWorldPosition = m_inputFieldVR.transform.position;
+                if ((GameObject.FindObjectOfType<ScreenVRKeyboardView>() == null) && (m_inputFieldVR == null))
+                {
+                    m_inputFieldVR = (InputField)_list[0];
+                    Vector3 inputWorldPosition = m_inputFieldVR.transform.position;
 
-                CreateScreenLinkedToCamera(VRKeyboard, m_inputFieldVR, 2, -1, false, -1f, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true);
+                    CreateScreenLinkedToCamera(VRKeyboard, m_inputFieldVR, 2, -1, false, -1f, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true);
+                }
             }
             if (DebugThrowProjectile)
 			{
@@ -1141,11 +1151,17 @@ namespace YourVRUI
                     }
 
                     // CREATION OF THE NEW SCREEN
-                    if (GameObject.FindObjectOfType<CardboardLoaderVR>() != null)
+                    if (EnableSetResolutionUIVR)
                     {
-                        if (!GameObject.FindObjectOfType<CardboardLoaderVR>().IsCardboardDevice())
+                        if (GameObject.FindObjectOfType<CardboardLoaderVR>() != null)
                         {
-                            Screen.SetResolution(350, 720, true);
+                            if (!GameObject.FindObjectOfType<CardboardLoaderVR>().IsCardboardDevice())
+                            {
+                                if (currentPrefab.GetComponentInChildren<ScreenVRKeyboardView>() == null)
+                                {
+                                    Screen.SetResolution(350, 720, true);
+                                }
+                            }
                         }
                     }
                     GameObject currentScreen = null;

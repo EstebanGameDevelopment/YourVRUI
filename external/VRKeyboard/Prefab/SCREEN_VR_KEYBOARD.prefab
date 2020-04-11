@@ -191,7 +191,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Clear All
+  m_Text: CLEAR
 --- !u!1 &8027858636485425545
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,10 +204,10 @@ GameObject:
   - component: {fileID: 7815922782527043027}
   - component: {fileID: 7996937168129552859}
   - component: {fileID: 7996442513985258519}
-  - component: {fileID: 8036636397379290167}
+  - component: {fileID: 9037813171262557370}
   m_Layer: 5
   m_Name: Back
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -308,33 +308,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7996937168129552859}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7996180936048827907}
-        m_MethodName: Backspace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!65 &8036636397379290167
-BoxCollider:
+--- !u!114 &9037813171262557370
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8027858636485425545}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 50, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8027958799201487877
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,7 +717,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Caps Lock
+  m_Text: CAPSLOCK
 --- !u!1 &8028018973789702615
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,10 +731,9 @@ GameObject:
   - component: {fileID: 7996497172504251217}
   - component: {fileID: 7996249296289471685}
   - component: {fileID: 7996402280226780291}
-  - component: {fileID: 8036064134845171439}
   m_Layer: 5
   m_Name: E
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -862,19 +849,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036064134845171439
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028018973789702615}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028019375418571403
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,10 +941,9 @@ GameObject:
   - component: {fileID: 7996365168870087085}
   - component: {fileID: 7996840725626646091}
   - component: {fileID: 7996454717335979489}
-  - component: {fileID: 8036597092213531679}
   m_Layer: 5
   m_Name: 8
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1087,19 +1060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036597092213531679
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028021491585047557}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028026545333203895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,7 +1073,6 @@ GameObject:
   - component: {fileID: 7996500237413966459}
   - component: {fileID: 7996297296239939705}
   - component: {fileID: 7996898633294188743}
-  - component: {fileID: 8036589206644755227}
   m_Layer: 5
   m_Name: S
   m_TagString: VRGazeInteractable
@@ -1232,19 +1191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036589206644755227
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028026545333203895}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028032253315844259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1416,10 +1362,9 @@ GameObject:
   - component: {fileID: 7996186752377264003}
   - component: {fileID: 7996956984784378805}
   - component: {fileID: 7996299195121964333}
-  - component: {fileID: 8036436275956563697}
   m_Layer: 5
   m_Name: Y
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1535,19 +1480,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036436275956563697
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028066681437896597}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028072767231208141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1561,10 +1493,9 @@ GameObject:
   - component: {fileID: 7996631633302738313}
   - component: {fileID: 7996780449176693287}
   - component: {fileID: 7996136496984430385}
-  - component: {fileID: 8036290238986966415}
   m_Layer: 5
   m_Name: 3
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1681,19 +1612,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036290238986966415
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028072767231208141}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028081688947865391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,7 +2006,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter
+  m_Text: ENTER
 --- !u!1 &8028134281056087289
 GameObject:
   m_ObjectHideFlags: 0
@@ -2102,7 +2020,6 @@ GameObject:
   - component: {fileID: 7996927438831940999}
   - component: {fileID: 7996195687059453967}
   - component: {fileID: 7996479173813574789}
-  - component: {fileID: 8036933438861989451}
   m_Layer: 5
   m_Name: G
   m_TagString: VRGazeInteractable
@@ -2221,19 +2138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036933438861989451
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028134281056087289}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028154547538272993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2405,10 +2309,9 @@ GameObject:
   - component: {fileID: 7996898367353472635}
   - component: {fileID: 7996867974090228229}
   - component: {fileID: 7996079905094374097}
-  - component: {fileID: 8036398650312942203}
   m_Layer: 5
   m_Name: '@'
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2524,19 +2427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036398650312942203
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028168715223539827}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028174362983386437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2708,10 +2598,9 @@ GameObject:
   - component: {fileID: 7996269789750590535}
   - component: {fileID: 7996084073782060939}
   - component: {fileID: 7996506733459550203}
-  - component: {fileID: 8036522066973739219}
   m_Layer: 5
   m_Name: Q
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2827,19 +2716,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036522066973739219
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028210864633785015}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028219184704541425
 GameObject:
   m_ObjectHideFlags: 0
@@ -2853,10 +2729,9 @@ GameObject:
   - component: {fileID: 7996854626363714467}
   - component: {fileID: 7996109239730301749}
   - component: {fileID: 7996304270217959625}
-  - component: {fileID: 8036909566519742819}
   m_Layer: 5
   m_Name: T
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2972,19 +2847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036909566519742819
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028219184704541425}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028229238717217175
 GameObject:
   m_ObjectHideFlags: 0
@@ -2998,10 +2860,9 @@ GameObject:
   - component: {fileID: 7996512268188181729}
   - component: {fileID: 7996063688776062919}
   - component: {fileID: 7996880066351294107}
-  - component: {fileID: 8036637447476891827}
   m_Layer: 5
   m_Name: 4
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -3118,19 +2979,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036637447476891827
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028229238717217175}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028230977009576753
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,10 +3150,9 @@ GameObject:
   - component: {fileID: 7996943137921929983}
   - component: {fileID: 7996360951312023011}
   - component: {fileID: 7996247002161640229}
-  - component: {fileID: 8036356169619053493}
   m_Layer: 5
   m_Name: 2
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -3422,19 +3269,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036356169619053493
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028241117688918323}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028244620352497235
 GameObject:
   m_ObjectHideFlags: 0
@@ -3754,10 +3588,9 @@ GameObject:
   - component: {fileID: 7995913549339117551}
   - component: {fileID: 7996161338145797587}
   - component: {fileID: 7996657966433054149}
-  - component: {fileID: 8036616758041686997}
   m_Layer: 5
   m_Name: 7
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -3874,19 +3707,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036616758041686997
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028263957183938583}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028267436066579021
 GameObject:
   m_ObjectHideFlags: 0
@@ -4000,8 +3820,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.07999992, y: -0.0000009536743}
+  m_SizeDelta: {x: -5.22, y: -5.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7816376202254788135
 CanvasRenderer:
@@ -4033,7 +3853,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 9
+    m_FontSize: 7
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -4044,7 +3864,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Backspace
+  m_Text: BACKSPACE
 --- !u!1 &8028291741612804273
 GameObject:
   m_ObjectHideFlags: 0
@@ -4058,10 +3878,9 @@ GameObject:
   - component: {fileID: 7996919184285594119}
   - component: {fileID: 7996796057017918551}
   - component: {fileID: 7996555885121052835}
-  - component: {fileID: 8036754642333125389}
   m_Layer: 5
   m_Name: 9
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4178,19 +3997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036754642333125389
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028291741612804273}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028295572938913399
 GameObject:
   m_ObjectHideFlags: 0
@@ -4362,10 +4168,9 @@ GameObject:
   - component: {fileID: 7996155505263124577}
   - component: {fileID: 7996341077914308119}
   - component: {fileID: 7996796420971675131}
-  - component: {fileID: 8036911208442272055}
   m_Layer: 5
   m_Name: O
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4481,19 +4286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036911208442272055
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028301817300180403}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028306521598042975
 GameObject:
   m_ObjectHideFlags: 0
@@ -4507,10 +4299,9 @@ GameObject:
   - component: {fileID: 7996212830252582603}
   - component: {fileID: 7996300509768269683}
   - component: {fileID: 7996709974261665815}
-  - component: {fileID: 8036494602808233985}
   m_Layer: 5
   m_Name: N
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4626,19 +4417,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036494602808233985
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028306521598042975}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028311492221446047
 GameObject:
   m_ObjectHideFlags: 0
@@ -4652,10 +4430,9 @@ GameObject:
   - component: {fileID: 7996730002580130679}
   - component: {fileID: 7996335182064574301}
   - component: {fileID: 7996169461889343215}
-  - component: {fileID: 8036775572044669793}
   m_Layer: 5
   m_Name: 6
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4772,19 +4549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036775572044669793
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028311492221446047}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028319889487302745
 GameObject:
   m_ObjectHideFlags: 0
@@ -5030,10 +4794,9 @@ GameObject:
   - component: {fileID: 7996469802696490097}
   - component: {fileID: 7996207696457420557}
   - component: {fileID: 7996633403344431605}
-  - component: {fileID: 8036653158608367711}
   m_Layer: 5
   m_Name: Z
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5149,19 +4912,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036653158608367711
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028355981731961073}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028364591468014193
 GameObject:
   m_ObjectHideFlags: 0
@@ -5175,10 +4925,9 @@ GameObject:
   - component: {fileID: 7996033709845334433}
   - component: {fileID: 7996670787365149681}
   - component: {fileID: 7996760198011128865}
-  - component: {fileID: 8036425761377284101}
   m_Layer: 5
   m_Name: Space
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5294,19 +5043,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036425761377284101
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028364591468014193}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 170, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028365725156052397
 GameObject:
   m_ObjectHideFlags: 0
@@ -5320,10 +5056,9 @@ GameObject:
   - component: {fileID: 7996172210219365985}
   - component: {fileID: 7996359873834889391}
   - component: {fileID: 7996560502392299501}
-  - component: {fileID: 8036895679921433819}
   m_Layer: 5
   m_Name: P
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5439,19 +5174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036895679921433819
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028365725156052397}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028378763523196019
 GameObject:
   m_ObjectHideFlags: 0
@@ -5623,10 +5345,9 @@ GameObject:
   - component: {fileID: 7996149335948198589}
   - component: {fileID: 7996592382791563815}
   - component: {fileID: 7996778422885332619}
-  - component: {fileID: 8036266763778060865}
   m_Layer: 5
   m_Name: I
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5742,19 +5463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036266763778060865
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028393066976095683}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028394877752296487
 GameObject:
   m_ObjectHideFlags: 0
@@ -5926,10 +5634,9 @@ GameObject:
   - component: {fileID: 7996926316364183355}
   - component: {fileID: 7996865041741770141}
   - component: {fileID: 7995924126885689969}
-  - component: {fileID: 8036180945945016441}
   m_Layer: 5
   m_Name: V
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -6045,19 +5752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036180945945016441
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028406971577672153}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028413169756189243
 GameObject:
   m_ObjectHideFlags: 0
@@ -6150,10 +5844,9 @@ GameObject:
   - component: {fileID: 7996057166774089429}
   - component: {fileID: 7996038044905631471}
   - component: {fileID: 7996900087954233423}
-  - component: {fileID: 8036110815134036763}
   m_Layer: 5
   m_Name: R
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -6269,19 +5962,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036110815134036763
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028414004917269817}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028414825622914731
 GameObject:
   m_ObjectHideFlags: 0
@@ -6439,7 +6119,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Shift
+  m_Text: SHIFT
 --- !u!1 &8028424684038023883
 GameObject:
   m_ObjectHideFlags: 0
@@ -6453,7 +6133,6 @@ GameObject:
   - component: {fileID: 7996666463468657519}
   - component: {fileID: 7996513088667257011}
   - component: {fileID: 7996296256636464855}
-  - component: {fileID: 8036115054870217917}
   m_Layer: 5
   m_Name: D
   m_TagString: VRGazeInteractable
@@ -6572,19 +6251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036115054870217917
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028424684038023883}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028428704062912345
 GameObject:
   m_ObjectHideFlags: 0
@@ -6598,10 +6264,9 @@ GameObject:
   - component: {fileID: 7996429862365896593}
   - component: {fileID: 7996671046326687959}
   - component: {fileID: 7996575484855450999}
-  - component: {fileID: 8036905254532632389}
   m_Layer: 5
   m_Name: .com
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -6717,19 +6382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036905254532632389
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028428704062912345}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 40, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028437341794130411
 GameObject:
   m_ObjectHideFlags: 0
@@ -6822,7 +6474,6 @@ GameObject:
   - component: {fileID: 7996388454298365685}
   - component: {fileID: 7996372405705433159}
   - component: {fileID: 7996067743458085901}
-  - component: {fileID: 8036241028404575183}
   m_Layer: 5
   m_Name: L
   m_TagString: VRGazeInteractable
@@ -6941,19 +6592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036241028404575183
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028500467921834951}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028503020138110159
 GameObject:
   m_ObjectHideFlags: 0
@@ -6967,10 +6605,9 @@ GameObject:
   - component: {fileID: 7996449989754096327}
   - component: {fileID: 7996860418966257887}
   - component: {fileID: 7996297110388954505}
-  - component: {fileID: 8036951153152843531}
   m_Layer: 5
   m_Name: M
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -7086,19 +6723,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036951153152843531
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028503020138110159}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028518467423749339
 GameObject:
   m_ObjectHideFlags: 0
@@ -7111,7 +6735,7 @@ GameObject:
   - component: {fileID: 7816808410100679279}
   - component: {fileID: 7996811279690851263}
   - component: {fileID: 7996507984256406117}
-  - component: {fileID: 8036132437195447799}
+  - component: {fileID: 7900189037568558033}
   m_Layer: 5
   m_Name: CapsLock
   m_TagString: VRGazeInteractable
@@ -7215,33 +6839,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7996811279690851263}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7996180936048827907}
-        m_MethodName: CapsLock
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!65 &8036132437195447799
-BoxCollider:
+--- !u!114 &7900189037568558033
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8028518467423749339}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 60, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8028519476812730255
 GameObject:
   m_ObjectHideFlags: 0
@@ -7255,10 +6867,9 @@ GameObject:
   - component: {fileID: 7996954892624811305}
   - component: {fileID: 7996860871390144793}
   - component: {fileID: 7996279526828680637}
-  - component: {fileID: 8037048275157147829}
   m_Layer: 5
   m_Name: X
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -7374,19 +6985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8037048275157147829
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028519476812730255}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028525864392829087
 GameObject:
   m_ObjectHideFlags: 0
@@ -7423,9 +7021,9 @@ RectTransform:
   m_Father: {fileID: 1513820868836326192}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 179, y: 437}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 4, y: -171}
   m_SizeDelta: {x: 370, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7815137990343114361
@@ -7537,10 +7135,10 @@ RectTransform:
   m_Father: {fileID: 7813929888909689859}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 74.9, y: 37.90001}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 370, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7996734821051787345
 MonoBehaviour:
@@ -7578,10 +7176,9 @@ GameObject:
   - component: {fileID: 7996638160051598079}
   - component: {fileID: 7996212503828771769}
   - component: {fileID: 7996052806281638219}
-  - component: {fileID: 8036823065096963797}
   m_Layer: 5
   m_Name: 1
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -7698,19 +7295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036823065096963797
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028539328438123531}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028542157213365945
 GameObject:
   m_ObjectHideFlags: 0
@@ -8248,7 +7832,6 @@ GameObject:
   - component: {fileID: 7996293748820860887}
   - component: {fileID: 7996598571679366051}
   - component: {fileID: 7996108880729988103}
-  - component: {fileID: 8036130493258007451}
   m_Layer: 5
   m_Name: A
   m_TagString: VRGazeInteractable
@@ -8367,19 +7950,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036130493258007451
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028609146238169435}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028622289941281479
 GameObject:
   m_ObjectHideFlags: 0
@@ -8472,10 +8042,9 @@ GameObject:
   - component: {fileID: 7996683028539366145}
   - component: {fileID: 7996397065639145793}
   - component: {fileID: 7996005172906698571}
-  - component: {fileID: 8036072885347132477}
   m_Layer: 5
   m_Name: B
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -8591,19 +8160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036072885347132477
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028628306275243839}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028642741889909405
 GameObject:
   m_ObjectHideFlags: 0
@@ -8917,10 +8473,9 @@ GameObject:
   - component: {fileID: 7996575225703850631}
   - component: {fileID: 7996235907774186217}
   - component: {fileID: 7996523919171760879}
-  - component: {fileID: 8036931887156450459}
   m_Layer: 5
   m_Name: C
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -9036,19 +8591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036931887156450459
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028662218517859705}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028681168871937847
 GameObject:
   m_ObjectHideFlags: 0
@@ -9061,10 +8603,10 @@ GameObject:
   - component: {fileID: 7816191160758155519}
   - component: {fileID: 7996101389360428357}
   - component: {fileID: 7996650105804154577}
-  - component: {fileID: 8036640814696168359}
+  - component: {fileID: 3590214168374808163}
   m_Layer: 5
   m_Name: Enter
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -9165,33 +8707,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7996101389360428357}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7996180936048827907}
-        m_MethodName: Enter
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!65 &8036640814696168359
-BoxCollider:
+--- !u!114 &3590214168374808163
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8028681168871937847}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 60, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8028687605226845007
 GameObject:
   m_ObjectHideFlags: 0
@@ -9205,7 +8735,6 @@ GameObject:
   - component: {fileID: 7996836349132610223}
   - component: {fileID: 7996564794535710375}
   - component: {fileID: 7996450771422158375}
-  - component: {fileID: 8036157948120039755}
   m_Layer: 5
   m_Name: K
   m_TagString: VRGazeInteractable
@@ -9324,19 +8853,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036157948120039755
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028687605226845007}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028696537888671349
 GameObject:
   m_ObjectHideFlags: 0
@@ -9888,7 +9404,6 @@ GameObject:
   - component: {fileID: 7996186670701930145}
   - component: {fileID: 7996883054773894629}
   - component: {fileID: 7996153490405803715}
-  - component: {fileID: 8036386791557083733}
   m_Layer: 5
   m_Name: H
   m_TagString: VRGazeInteractable
@@ -10007,19 +9522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036386791557083733
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028745856266092319}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028751619693444139
 GameObject:
   m_ObjectHideFlags: 0
@@ -10033,10 +9535,9 @@ GameObject:
   - component: {fileID: 7996174549597231403}
   - component: {fileID: 7996671649159240323}
   - component: {fileID: 7996262795905246129}
-  - component: {fileID: 8036142393138635479}
   m_Layer: 5
   m_Name: 0
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -10153,19 +9654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036142393138635479
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028751619693444139}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028769844336350121
 GameObject:
   m_ObjectHideFlags: 0
@@ -10179,7 +9667,6 @@ GameObject:
   - component: {fileID: 7996645274944161977}
   - component: {fileID: 7996818882529221965}
   - component: {fileID: 7996933067416002447}
-  - component: {fileID: 8036206621734607607}
   m_Layer: 5
   m_Name: J
   m_TagString: VRGazeInteractable
@@ -10298,19 +9785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036206621734607607
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028769844336350121}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028770029904369245
 GameObject:
   m_ObjectHideFlags: 0
@@ -10324,7 +9798,6 @@ GameObject:
   - component: {fileID: 7996729648001083337}
   - component: {fileID: 7996934733326536879}
   - component: {fileID: 7996709992927523579}
-  - component: {fileID: 8036391061195571473}
   m_Layer: 5
   m_Name: F
   m_TagString: VRGazeInteractable
@@ -10443,19 +9916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036391061195571473
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028770029904369245}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028783025805479395
 GameObject:
   m_ObjectHideFlags: 0
@@ -10626,10 +10086,10 @@ GameObject:
   - component: {fileID: 7816834472105070451}
   - component: {fileID: 7996334472994375887}
   - component: {fileID: 7996857932070794049}
-  - component: {fileID: 8035996261667050639}
+  - component: {fileID: 4647812082569487600}
   m_Layer: 5
   m_Name: Clear
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -10730,33 +10190,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7996334472994375887}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7996180936048827907}
-        m_MethodName: Clear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!65 &8035996261667050639
-BoxCollider:
+--- !u!114 &4647812082569487600
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8028796150857838547}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 60, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8028806441450448887
 GameObject:
   m_ObjectHideFlags: 0
@@ -10770,10 +10218,9 @@ GameObject:
   - component: {fileID: 7996367226769721829}
   - component: {fileID: 7996551419839766277}
   - component: {fileID: 7996337517349309315}
-  - component: {fileID: 8036869788656512133}
   m_Layer: 5
   m_Name: 5
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -10890,19 +10337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89323d19e268b541b47fec82f29a317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036869788656512133
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028806441450448887}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028872056291676673
 GameObject:
   m_ObjectHideFlags: 0
@@ -10915,10 +10349,10 @@ GameObject:
   - component: {fileID: 7816329332865163341}
   - component: {fileID: 7996159129217301461}
   - component: {fileID: 7996770715943573971}
-  - component: {fileID: 8036239663951529065}
+  - component: {fileID: 851536003613192378}
   m_Layer: 5
   m_Name: Shift
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -11019,33 +10453,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7996159129217301461}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7996180936048827907}
-        m_MethodName: Shift
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!65 &8036239663951529065
-BoxCollider:
+--- !u!114 &851536003613192378
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8028872056291676673}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 60, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8028879030465889787
 GameObject:
   m_ObjectHideFlags: 0
@@ -11059,10 +10481,9 @@ GameObject:
   - component: {fileID: 7996008742376301703}
   - component: {fileID: 7996927692456534743}
   - component: {fileID: 7996258016647432641}
-  - component: {fileID: 8036800831605711451}
   m_Layer: 5
   m_Name: .
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -11178,19 +10599,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb78fe3013af904db3d7d6fae61b79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036800831605711451
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028879030465889787}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028881569175580977
 GameObject:
   m_ObjectHideFlags: 0
@@ -11362,10 +10770,9 @@ GameObject:
   - component: {fileID: 7996554161379073895}
   - component: {fileID: 7996084353994044887}
   - component: {fileID: 7996787683434979559}
-  - component: {fileID: 8036840661604150809}
   m_Layer: 5
   m_Name: U
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -11481,19 +10888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036840661604150809
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028910098912463939}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8028926010103124785
 GameObject:
   m_ObjectHideFlags: 0
@@ -11586,10 +10980,9 @@ GameObject:
   - component: {fileID: 7996454929468220827}
   - component: {fileID: 7996405751055310471}
   - component: {fileID: 7996786953532276379}
-  - component: {fileID: 8036420415512309415}
   m_Layer: 5
   m_Name: W
-  m_TagString: VRGazeInteractable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -11705,16 +11098,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b141edaab3f7546b97c7ea5c42cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8036420415512309415
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028930732573049873}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

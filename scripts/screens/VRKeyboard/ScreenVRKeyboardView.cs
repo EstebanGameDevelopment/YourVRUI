@@ -46,6 +46,7 @@ namespace YourVRUI
 
             m_keyboardManager = m_container.GetComponentInChildren<KeyboardManager>();
             m_keyboardManager.inputText.text = m_inputFieldReference.text;
+            m_keyboardManager.Initialize();
 
             UIEventController.Instance.UIEvent += new UIEventHandler(OnUIEvent);
 		}
@@ -58,8 +59,10 @@ namespace YourVRUI
         {
             if (base.Destroy()) return true;
 
-            UIEventController.Instance.UIEvent -= OnUIEvent;
+            m_keyboardManager.Destroy();
+            m_keyboardManager = null;
 
+            UIEventController.Instance.UIEvent -= OnUIEvent;
             UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
 
             return false;

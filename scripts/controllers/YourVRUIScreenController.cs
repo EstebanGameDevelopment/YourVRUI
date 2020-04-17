@@ -204,7 +204,7 @@ namespace YourVRUI
 		 */
 		void Start()
 		{
-			if (DebugMode)
+            if (DebugMode)
 			{
 				Debug.Log("YourVRUIScreenController::Start::First class to initialize for the whole system to work");
 			}
@@ -1069,7 +1069,7 @@ namespace YourVRUI
 					{
 						isWorldObject = false;
 					}
-					bool screenLinkedToObject = (bool)_list[7];
+                    bool screenLinkedToObject = (bool)_list[7];
 					if (ForceNotLinkedToObject && !overrideGlobalSetting)
 					{
 						screenLinkedToObject = false;
@@ -1167,18 +1167,15 @@ namespace YourVRUI
                     GameObject currentScreen = null;
 					if (currentPrefab != null)
 					{
-                        if (currentPrefab.GetComponent<IBasicView>() != null)
-                        {
-                            currentPrefab.GetComponent<IBasicView>().ApplyCentered();
-                        }
                         currentScreen = CreateUIScreen(currentPrefab, overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
 						// ++ YOU SHOULD INITIALIZE HERE YOUR OWN SCREEN BEFORE INITIALIZING THE BASE SCREEN CLASS ++
 						if (currentScreen.GetComponent<IBasicView>() != null)
 						{
                             // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]::_list[22]="+ _list[22]);
 							currentScreen.GetComponent<IBasicView>().Initialize(_list[22]);
+                            currentScreen.GetComponent<IBasicView>().ApplyCentered();
                         }
-						if (delayToDestroy > 0)
+                        if (delayToDestroy > 0)
 						{
 							Destroy(currentScreen, delayToDestroy);
 						}
@@ -1193,9 +1190,9 @@ namespace YourVRUI
                                 if (ScreensPrefabs[i].name == screenName)
                                 {
                                     // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
-                                    ScreensPrefabs[i].GetComponent<IBasicView>().ApplyCentered();
                                     currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
-                                    currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);                                    
+                                    currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
+                                    currentScreen.GetComponent<IBasicView>().ApplyCentered();
                                     currentScreen.gameObject.name = screenName;
                                     if (delayToDestroy > 0)
                                     {
@@ -1229,7 +1226,6 @@ namespace YourVRUI
                     // ADDING THE SCREEN TO THE RIGHT LIST
 					if (isTemporalScreen)
 					{
-                        ActivationScreens(false);
                         m_screensTemporal.Add(currentScreen);                        
 					}
 					else

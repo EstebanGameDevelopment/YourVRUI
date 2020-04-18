@@ -1257,10 +1257,13 @@ namespace YourVRUI
 					if (screen != null)
 					{
 						GameObject.Destroy(screen);
-					}
-					m_screensTemporal.RemoveAt(i);
-					KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
-					return;
+                        if (i < m_screensTemporal.Count)
+                        {
+                            m_screensTemporal.RemoveAt(i);
+                            KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
+                        }
+                    }
+                    return;
 				}
 			}
 
@@ -1276,8 +1279,11 @@ namespace YourVRUI
 					if (screen != null)
 					{
 						GameObject.Destroy(screen);
-					}
-					m_screensForever.RemoveAt(i);
+                        if (i < m_screensForever.Count)
+                        {
+                            m_screensForever.RemoveAt(i);
+                        }
+                    }
 					return;
 				}
 			}

@@ -189,9 +189,11 @@ namespace YourVRUI
 		 * looking for interactable elements to add 
 		 * the beahavior of YourVRUI
 		 */
-		private void AddAutomaticallyButtons(GameObject _go)
+		public void AddAutomaticallyButtons(GameObject _go)
 		{
-			if ((_go.GetComponent<Button>() != null) || (_go.GetComponent<InputField>() != null))
+			if ((_go.GetComponent<Button>() != null) || 
+                (_go.GetComponent<ICustomButton>() != null) || 
+                (_go.GetComponent<InputField>() != null))
             {
 				AddButtonToList(_go);
 			}
@@ -225,11 +227,20 @@ namespace YourVRUI
             return _button;
 		}
 
-		// -------------------------------------------
-		/* 
-		 * It will remove and clean the interactable element and all his references
+        // -------------------------------------------
+        /* 
+		 * EmptyListSelectors
 		 */
-		private void ClearListSelectors()
+        public void EmptyListSelectors()
+        {
+            if (m_selectors != null) m_selectors.Clear();
+        }
+
+        // -------------------------------------------
+        /* 
+        * It will remove and clean the interactable element and all his references
+        */
+        private void ClearListSelectors()
 		{
 			try
 			{

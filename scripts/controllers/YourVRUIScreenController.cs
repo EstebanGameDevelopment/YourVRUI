@@ -1130,6 +1130,10 @@ namespace YourVRUI
                             break;
 
                         case UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN:
+                            if (m_screensTemporal.Count > 0)
+                            {
+                                m_screensTemporal[m_screensTemporal.Count - 1].SetActive(false);
+                            }
                             break;
 
                         case UIScreenTypePreviousAction.DESTROY_CURRENT_SCREEN:
@@ -1367,7 +1371,7 @@ namespace YourVRUI
 							Debug.Log("++++FORCED WORLD SCREEN(WILL STAY THERE UNTIL PLAYER CONFIRMATION) AND IT'S NOT LINKED TO ANY OBJECT");
 						}
 						UIEventController.Instance.DispatchUIEvent(EventSystemController.EVENT_ACTIVATION_INPUT_STANDALONE, false);
-						GameObject instance = (GameObject)Instantiate(_screenPrefab);
+						GameObject instance = (GameObject)Instantiate(_screenPrefab, this.transform);
 						float distanceToPlayer = _distance;
 						Vector3 collisionPoint = m_camera.transform.position + (m_camera.transform.forward.normalized * distanceToPlayer);
 						instance.layer = LayerMask.NameToLayer("UI");
@@ -1418,7 +1422,7 @@ namespace YourVRUI
 				else
 				{
 					UIEventController.Instance.DispatchUIEvent(EventSystemController.EVENT_ACTIVATION_INPUT_STANDALONE, false);
-					GameObject instance = (GameObject)Instantiate(_screenPrefab);
+					GameObject instance = (GameObject)Instantiate(_screenPrefab, this.transform);
 					RaycastHit objectCollided;
 					Vector3 vectorNormalUI = Utilities.ClonePoint(m_camera.transform.forward);
 					Vector3 collisionPoint = m_camera.transform.position + (m_camera.transform.forward.normalized * _distance);
@@ -1523,7 +1527,7 @@ namespace YourVRUI
 						instance.GetComponent<RectTransform>().localScale = new Vector3(_scaleScreen / 1000, _scaleScreen / 1000, _scaleScreen / 1000);
 					}
 					instance.transform.forward = vectorNormalUI;
-					return instance;
+                    return instance;
 				}
 			}
 		}

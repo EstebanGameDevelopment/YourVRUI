@@ -1059,7 +1059,6 @@ namespace YourVRUI
                     {
                         screenToMove.SetActive(false);
                         m_screensForever.Add(screenToMove);
-                        Debug.LogError("SCREEN[" + screenToMove.name + "] MOVED TO FOREVER+++++++++++++++++++++++++++++++++++");
                     }
                 }
                 if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_MOVE_FOREVER_TO_TEMPORAL)
@@ -1069,7 +1068,6 @@ namespace YourVRUI
                     {
                         screenToMove.SetActive(true);
                         m_screensTemporal.Add(screenToMove);
-                        Debug.LogError("SCREEN[" + screenToMove.name + "] MOVED TO TEMPORAL--------------------------------------");
                     }
                 }
                 if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN)
@@ -1212,7 +1210,7 @@ namespace YourVRUI
 						{
                             // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]::_list[22]="+ _list[22]);
 							currentScreen.GetComponent<IBasicView>().Initialize(_list[22]);
-                            currentScreen.GetComponent<IBasicView>().ApplyCentered();
+                            if (EnableSetResolutionUIVR) currentScreen.GetComponent<IBasicView>().ApplyCentered();
                             currentScreen.GetComponent<IBasicView>().SetLayer(layerScreenDestroy);
                         }
                         if (delayToDestroy > 0)
@@ -1232,7 +1230,7 @@ namespace YourVRUI
                                     // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
                                     currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
                                     currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
-                                    currentScreen.GetComponent<IBasicView>().ApplyCentered();
+                                    if (EnableSetResolutionUIVR) currentScreen.GetComponent<IBasicView>().ApplyCentered();
                                     currentScreen.GetComponent<IBasicView>().SetLayer(layerScreenDestroy);
                                     currentScreen.gameObject.name = screenName;
                                     if (delayToDestroy > 0)

@@ -14,9 +14,13 @@ namespace YourVRUI
 		{
 			if (transform.GetComponent<Button>() != null)
 			{
-				this.gameObject.AddComponent<ButtonVRView>();
-				this.gameObject.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER);
-			}
+                if (this.gameObject.GetComponentInParent<BaseVRScreenView>() != null)
+                {
+                    BaseVRScreenView parentScreen = this.gameObject.GetComponentInParent<BaseVRScreenView>();
+                    this.gameObject.AddComponent<ButtonVRView>();
+                    this.gameObject.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER, parentScreen.LayerScreen, parentScreen.gameObject.name);
+                }
+            }
 		}
 	}
 }

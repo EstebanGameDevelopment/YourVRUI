@@ -239,5 +239,13 @@ namespace YourVRUI
         {
 
         }
+
+        // -------------------------------------------
+        /* 
+		 * SetLayer
+		 */
+        public void SetLayer(int _layer)
+        {
+        }
     }
 }

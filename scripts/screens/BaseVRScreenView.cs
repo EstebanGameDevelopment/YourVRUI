@@ -76,6 +76,8 @@ namespace YourVRUI
 
 		private bool m_disableActionButtonInteraction = false;
 
+        private int m_layerScreen = 0;
+
 		// ----------------------------------------------
 		// GETTERS/SETTERS
 		// ----------------------------------------------	
@@ -109,6 +111,10 @@ namespace YourVRUI
         {
             get { return m_selectionButton; }
             set { m_selectionButton = value; }
+        }
+        public int LayerScreen
+        {
+            get { return m_layerScreen; }
         }
 
         // -------------------------------------------
@@ -160,12 +166,14 @@ namespace YourVRUI
 		 */
 		void OnDestroy()
 		{
-			if (this.gameObject.GetComponent<IBasicView>() != null)
+            // Debug.LogError("YourVRUI::BaseVRScreenView::OnDestroy::NAME OBJECT DESTROYED[" + this.gameObject.name + "]::+++++++++++BEGIN+++++++++++++");
+
+            if (this.gameObject.GetComponent<IBasicView>() != null)
 			{
 				this.gameObject.GetComponent<IBasicView>().Destroy();
 			}
 
-			Debug.Log("YourVRUI::BaseVRScreenView::OnDestroy::NAME OBJECT DESTROYED[" + this.gameObject.name + "]");
+			
 
 			m_distance = -1;
 			UIEventController.Instance.UIEvent -= OnBaseScreenBasicEvent;
@@ -181,7 +189,9 @@ namespace YourVRUI
 
 			m_playerInteracted = null;
 			m_screen = null;
-		}
+
+            // Debug.LogError("YourVRUI::BaseVRScreenView::OnDestroy::NAME OBJECT DESTROYED[" + this.gameObject.name + "]::+++++++++++END+++++++++++++");
+        }
 
 		// -------------------------------------------
 		/* 
@@ -220,7 +230,7 @@ namespace YourVRUI
                         {
                             _button.AddComponent<ButtonVRView>();
                         }
-                        _button.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER);
+                        _button.GetComponent<ButtonVRView>().Initialize(YourVRUIScreenController.Instance.SelectorGraphic, YourVRUIScreenController.UI_TRIGGERER, m_layerScreen, this.gameObject.name);
                     }
                 }
             }
@@ -799,5 +809,14 @@ namespace YourVRUI
 
 			DestroyOnDistanceScreen();
 		}
-	}
+
+        // -------------------------------------------
+        /* 
+		 * SetLayer
+		 */
+        public void SetLayer(int _layer)
+        {
+            m_layerScreen = _layer;
+        }
+    }
 }

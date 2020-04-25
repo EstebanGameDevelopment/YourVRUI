@@ -140,10 +140,12 @@ namespace YourVRUI
 		private bool m_keysEnabled = false;
 		private GameObject m_laserPointer = null;
 
-		// ----------------------------------------------
-		// GETTERS/SETTERS
-		// ----------------------------------------------	
-		public bool IsDayDreamActivated
+        private GameObject m_screenToDestroy = null;
+
+        // ----------------------------------------------
+        // GETTERS/SETTERS
+        // ----------------------------------------------	
+        public bool IsDayDreamActivated
 		{
 			get
 			{
@@ -627,7 +629,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void CreateScreenLinkedToCamera(string _nameScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, bool _isTemporal = true)
+        public void CreateScreenLinkedToCamera(string _nameScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, bool _isTemporal = true, int _layer = 0)
 		{
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
 														   true,
@@ -653,7 +655,8 @@ namespace YourVRUI
 														   _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
 														   true, // HighlightSelector                                                       
 														   _pages,
-														   _delayToDestroy
+														   _delayToDestroy,
+                                                           _layer
 														   );
 		}
 
@@ -661,7 +664,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void DelayScreenLinkedToCamera(string _nameScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, float _delay = 1)
+        public void DelayScreenLinkedToCamera(string _nameScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, float _delay = 1, int _layer = 0)
         {
             UIEventController.Instance.DelayUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN, _delay,
                                                            true,
@@ -687,7 +690,8 @@ namespace YourVRUI
                                                            _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
                                                            true, // HighlightSelector                                                       
                                                            _pages,
-                                                           _delayToDestroy
+                                                           _delayToDestroy,
+                                                           _layer
                                                            );
         }
 
@@ -695,7 +699,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void CreateScreenLinkedToCamera(GameObject _prefabScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _isTemporal = true)
+        public void CreateScreenLinkedToCamera(GameObject _prefabScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _isTemporal = true, int _layer = 0)
         {
             UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
                                                            true,
@@ -721,7 +725,8 @@ namespace YourVRUI
                                                            true, // interactedObject.IgnoreZOrderScreen,
                                                            true, // HighlightSelector                                                       
                                                            _pages,
-                                                           _delayToDestroy
+                                                           _delayToDestroy,
+                                                           _layer
                                                            );
         }
 
@@ -729,7 +734,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void CreateScreenLinkedToCamera(GameObject _prefabScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS)
+        public void CreateScreenLinkedToCamera(GameObject _prefabScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, int _layer = 0)
         {
             UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
                                                            true,
@@ -755,7 +760,8 @@ namespace YourVRUI
                                                            true, // interactedObject.IgnoreZOrderScreen,
                                                            true, // HighlightSelector                                                       
                                                            _pages,
-                                                           _delayToDestroy
+                                                           _delayToDestroy,
+                                                           _layer
                                                            );
         }
 
@@ -972,6 +978,10 @@ namespace YourVRUI
 		 */
 		private void OnUIEvent(string _nameEvent, params object[] _list)
 		{
+            if (_nameEvent == ButtonVRView.EVENT_BUTTONVR_REQUEST_LAYER_INFORMATION)
+            {
+                UIEventController.Instance.DispatchUIEvent(ButtonVRView.EVENT_BUTTONVR_RESPONSE_LAYER_INFORMATION, _list[0], MaximumCurrentLayerScreenActive());
+            }
             if (_nameEvent == ScreenVRKeyboardView.EVENT_SCREENVRKEYBOARD_CONFIRM_INPUT)
             {
                 m_inputFieldVR = null;
@@ -983,7 +993,8 @@ namespace YourVRUI
                     m_inputFieldVR = (InputField)_list[0];
                     Vector3 inputWorldPosition = m_inputFieldVR.transform.position;
 
-                    CreateScreenLinkedToCamera(VRKeyboard, m_inputFieldVR, 2, -1, false, -1f, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true);
+                    Debug.LogError("CREATING THE KEYBOARD VR SCREEN++++++++++++++++");
+                    CreateScreenLinkedToCamera(VRKeyboard, m_inputFieldVR, 1.2f, -1, false, -1f, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenController.TOTAL_LAYERS_SCREENS - 1);
                 }
             }
             if (DebugThrowProjectile)
@@ -1014,9 +1025,8 @@ namespace YourVRUI
 			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN)
 			{
 				m_enableScreens = true;
-				GameObject screen = (GameObject)_list[0];
-				DestroyGameObjectSingleScreen(screen, true);
-                ActivationLastScreen(true);
+				m_screenToDestroy = (GameObject)_list[0];
+                Invoke("DestroySpecificScreen", 0.05f);
 			}
 			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN_BY_NAME)
 			{
@@ -1042,7 +1052,27 @@ namespace YourVRUI
 			}
 			if (m_enableScreens)
 			{
-				if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN)
+                if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_MOVE_TEMPORAL_TO_FOREVER)
+                {
+                    GameObject screenToMove = (GameObject)_list[0];
+                    if (m_screensTemporal.Remove(screenToMove))
+                    {
+                        screenToMove.SetActive(false);
+                        m_screensForever.Add(screenToMove);
+                        Debug.LogError("SCREEN[" + screenToMove.name + "] MOVED TO FOREVER+++++++++++++++++++++++++++++++++++");
+                    }
+                }
+                if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_MOVE_FOREVER_TO_TEMPORAL)
+                {
+                    GameObject screenToMove = (GameObject)_list[0];
+                    if (m_screensForever.Remove(screenToMove))
+                    {
+                        screenToMove.SetActive(true);
+                        m_screensTemporal.Add(screenToMove);
+                        Debug.LogError("SCREEN[" + screenToMove.name + "] MOVED TO TEMPORAL--------------------------------------");
+                    }
+                }
+                if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN)
 				{
 					bool overrideGlobalSetting = (bool)_list[0];
 					GameObject playerInteracted = (GameObject)_list[1];
@@ -1113,8 +1143,13 @@ namespace YourVRUI
 					{
 						delayToDestroy = (float)_list[23];
 					}
+                    int layerScreenDestroy = 0;
+                    if (_list.Length > 24)
+                    {
+                        layerScreenDestroy = (int)_list[24];
+                    }
 
-					if (isTemporalScreen && EnableDesktopMode && !isWorldObject)
+                    if (isTemporalScreen && EnableDesktopMode && !isWorldObject)
 					{
 						BlockMouseMovement = true;
 					}
@@ -1178,6 +1213,7 @@ namespace YourVRUI
                             // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]::_list[22]="+ _list[22]);
 							currentScreen.GetComponent<IBasicView>().Initialize(_list[22]);
                             currentScreen.GetComponent<IBasicView>().ApplyCentered();
+                            currentScreen.GetComponent<IBasicView>().SetLayer(layerScreenDestroy);
                         }
                         if (delayToDestroy > 0)
 						{
@@ -1197,6 +1233,7 @@ namespace YourVRUI
                                     currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
                                     currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
                                     currentScreen.GetComponent<IBasicView>().ApplyCentered();
+                                    currentScreen.GetComponent<IBasicView>().SetLayer(layerScreenDestroy);
                                     currentScreen.gameObject.name = screenName;
                                     if (delayToDestroy > 0)
                                     {
@@ -1207,6 +1244,9 @@ namespace YourVRUI
                             }
                         }
 					}
+
+                    Debug.LogError("YourVRUIScreenController::OnUIEvent::currentScreen=" + currentScreen.name + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
 					// NOW THE BASE SCREEN CLASS INITIALIZES HAD THE BEHAVIOUR SO YOU CAN FORGET ABOUT THE SCREEN IN VR
 					if (currentScreen.GetComponent<BaseVRScreenView>() == null)
 					{
@@ -1241,11 +1281,21 @@ namespace YourVRUI
 			}
 		}
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
+		 * DestroySpecificScreen
+		 */
+        private void DestroySpecificScreen()
+        {
+            DestroyGameObjectSingleScreen(m_screenToDestroy, true);
+            ActivationLastScreen(true);
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Remove the screen from the list of screens
 		 */
-		private void DestroyGameObjectSingleScreen(GameObject _screen, bool _runDestroy)
+        private void DestroyGameObjectSingleScreen(GameObject _screen, bool _runDestroy)
 		{
 			if (_screen == null) return;
 
@@ -1317,6 +1367,25 @@ namespace YourVRUI
                 m_screensTemporal[i].SetActive(_enable);
             }
         }
+
+        // -------------------------------------------
+        /* 
+		 * MaximumCurrentLayerScreenActive
+		 */
+        public int MaximumCurrentLayerScreenActive()
+        {
+            BaseVRScreenView[] baseVRScreens = GameObject.FindObjectsOfType<BaseVRScreenView>();
+            int maxLayer = 0;
+            for (int i = 0; i < baseVRScreens.Length; i++)
+            {
+                if (baseVRScreens[i].LayerScreen > maxLayer)
+                {
+                    maxLayer = baseVRScreens[i].LayerScreen;
+                }
+            }
+            return maxLayer;
+        }
+
 
         // -------------------------------------------
         /* 

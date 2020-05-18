@@ -994,7 +994,7 @@ namespace YourVRUI
                     Vector3 inputWorldPosition = m_inputFieldVR.transform.position;
 
                     Debug.LogError("CREATING THE KEYBOARD VR SCREEN++++++++++++++++");
-                    CreateScreenLinkedToCamera(VRKeyboard, m_inputFieldVR, 1.2f, -1, false, -1f, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenController.TOTAL_LAYERS_SCREENS - 1);
+                    CreateScreenLinkedToCamera(VRKeyboard, m_inputFieldVR, 2.5f, -1, false, -1f, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenController.TOTAL_LAYERS_SCREENS - 1);
                 }
             }
             if (DebugThrowProjectile)
@@ -1194,9 +1194,12 @@ namespace YourVRUI
                         {
                             if (!GameObject.FindObjectOfType<CardboardLoaderVR>().IsCardboardDevice())
                             {
-                                if (currentPrefab.GetComponentInChildren<ScreenVRKeyboardView>() == null)
+                                if (currentPrefab != null)
                                 {
-                                    Screen.SetResolution(350, 720, true);
+                                    if (currentPrefab.GetComponentInChildren<ScreenVRKeyboardView>() == null)
+                                    {
+                                        Screen.SetResolution(350, 720, true);
+                                    }
                                 }
                             }
                         }

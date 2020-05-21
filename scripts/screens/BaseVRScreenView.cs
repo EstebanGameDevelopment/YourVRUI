@@ -757,13 +757,14 @@ namespace YourVRUI
                             RunRefocusScreen(true);
                         }
 					}
-				}
-				m_timeToRefocus += Time.deltaTime;
-				if (m_timeToRefocus > DELAY_TO_REFOCUS)
-				{
-					this.gameObject.transform.position = YourVRUIScreenController.Instance.GameCamera.transform.transform.position + (m_normal * m_distance);
-				}
-			}
+
+                    m_timeToRefocus += Time.deltaTime;
+                    if (m_timeToRefocus > DELAY_TO_REFOCUS)
+                    {
+                        this.gameObject.transform.position = YourVRUIScreenController.Instance.GameCamera.transform.transform.position + (m_normal * m_distance);
+                    }
+                }
+            }
 		}
 
 		// -------------------------------------------

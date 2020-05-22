@@ -717,7 +717,7 @@ namespace YourVRUI
         /* 
         * RunRefocusScreen
         */
-        private void RunRefocusScreen(bool _enableAnimation, bool _force = false)
+        public void RunRefocusScreen(bool _enableAnimation, bool _force = false)
         {
             if (m_refocus || _force)
             {

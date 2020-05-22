@@ -1057,7 +1057,14 @@ namespace YourVRUI
                     GameObject screenToMove = (GameObject)_list[0];
                     if (m_screensTemporal.Remove(screenToMove))
                     {
-                        screenToMove.SetActive(false);
+                        if (_list.Length > 1)
+                        {
+                            screenToMove.SetActive((bool)_list[1]); 
+                        }
+                        else
+                        {
+                            screenToMove.SetActive(false);
+                        }
                         m_screensForever.Add(screenToMove);
                     }
                 }

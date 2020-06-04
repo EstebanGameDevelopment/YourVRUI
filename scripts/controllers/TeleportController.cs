@@ -271,7 +271,7 @@ namespace YourVRUI
         /* 
 		 * Update
 		 */
-                private void OnBasicSystemEvent(string _nameEvent, object[] _list)
+        private void OnBasicSystemEvent(string _nameEvent, object[] _list)
         {
             if (_nameEvent == EVENT_TELEPORTCONTROLLER_ACTIVATION)
             {

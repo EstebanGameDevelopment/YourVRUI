@@ -1253,7 +1253,7 @@ namespace YourVRUI
                         }
 					}
 
-                    Debug.LogError("YourVRUIScreenController::OnUIEvent::currentScreen=" + currentScreen.name + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    // Debug.LogError("YourVRUIScreenController::OnUIEvent::currentScreen=" + currentScreen.name + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 					// NOW THE BASE SCREEN CLASS INITIALIZES HAD THE BEHAVIOUR SO YOU CAN FORGET ABOUT THE SCREEN IN VR
 					if (currentScreen.GetComponent<BaseVRScreenView>() == null)

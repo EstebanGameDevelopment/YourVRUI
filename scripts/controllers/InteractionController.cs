@@ -17,6 +17,8 @@ namespace YourVRUI
 	[RequireComponent(typeof(Rigidbody))]
 	public class InteractionController : MonoBehaviour
 	{
+        public static bool StaticEnableInteraction = true;
+
 		// ----------------------------------------------
 		// EVENTS
 		// ----------------------------------------------
@@ -179,10 +181,12 @@ namespace YourVRUI
 		 */
         public void DispatchCustomScreen(GameObject _screenPrefab, List<PageInformation> _pages, float _scaleScreen, bool _bypass = false)
         {
+            if (!StaticEnableInteraction) return;
+
             if (!_bypass)
             {
                 if (!m_enableInteraction) return;
-            }            
+            }
 
             KeysEventInputController.Instance.EnableActionOnMouseDown = EnableActionOnMouseDown;
             UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
@@ -218,6 +222,8 @@ namespace YourVRUI
 		 */
         public void DispatchScreen(GameObject _player, string[] _ignoreLayers, bool _force)
 		{
+            if (!StaticEnableInteraction) return;
+
             if (!m_enableInteraction) return;
 
             UIEventController.Instance.DispatchUIEvent(EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER, this);

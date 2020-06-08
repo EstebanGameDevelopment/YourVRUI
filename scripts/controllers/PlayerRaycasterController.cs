@@ -386,7 +386,7 @@ namespace YourVRUI
 				float angleBetweenForwardVectors = Vector3.Angle(m_forwardCollisionAnchor, newForwardMoved);
 				if (!m_detectionMovementScrollRect)
 				{
-					if (angleBetweenForwardVectors > 2)
+					if (angleBetweenForwardVectors > 3)
 					{
 						m_detectionMovementScrollRect = true;
 						UIEventController.Instance.DispatchUIEvent(BaseVRScreenView.EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION, true);

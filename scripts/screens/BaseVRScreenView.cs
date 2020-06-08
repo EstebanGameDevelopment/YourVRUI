@@ -173,8 +173,6 @@ namespace YourVRUI
 				this.gameObject.GetComponent<IBasicView>().Destroy();
 			}
 
-			
-
 			m_distance = -1;
 			UIEventController.Instance.UIEvent -= OnBaseScreenBasicEvent;
 
@@ -331,7 +329,15 @@ namespace YourVRUI
                     }                    
                 }
             }
-            
+            if (m_disableActionButtonInteraction)
+            {
+                if (_nameEvent == KeysEventInputController.ACTION_BUTTON_DOWN)
+                {
+                    m_disableActionButtonInteraction = false;
+                }
+            }
+
+
             if (m_selectors == null) return;
             if (m_selectors.Count == 0) return;
 

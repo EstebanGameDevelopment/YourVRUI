@@ -590,7 +590,15 @@ namespace YourVRUI
 				if (m_selectors[i] == _componentSelected)
 				{
 					m_selectionButton = i;
-					m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(true);
+                    bool enableDisplaySelector = true;
+                    if (m_selectors[i].GetComponent<Image>() != null)
+                    {
+                        if (m_selectors[i].GetComponent<Image>().color.a == 0)
+                        {
+                            enableDisplaySelector = false;
+                        }
+                    }
+                    m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(enableDisplaySelector);
 				}
 				else
 				{

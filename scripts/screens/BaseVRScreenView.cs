@@ -30,6 +30,8 @@ namespace YourVRUI
 		public const string EVENT_SCREEN_MOVED_SCROLL_RECT = "EVENT_SCREEN_MOVED_SCROLL_RECT";
 		public const string EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION = "EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION";
 
+        public const string EVENT_SCREEN_ENABLE_ALPHA_ZERO_IMAGE = "EVENT_SCREEN_ENABLE_ALPHA_ZERO_IMAGE";
+
 		// ----------------------------------------------
 		// CONSTANTS
 		// ----------------------------------------------	
@@ -78,10 +80,12 @@ namespace YourVRUI
 
         private int m_layerScreen = 0;
 
-		// ----------------------------------------------
-		// GETTERS/SETTERS
-		// ----------------------------------------------	
-		public GameObject Screen
+        private bool m_enableAlphaZero = true;
+
+        // ----------------------------------------------
+        // GETTERS/SETTERS
+        // ----------------------------------------------	
+        public GameObject Screen
 		{
 			get { return m_screen; }
 		}
@@ -576,6 +580,20 @@ namespace YourVRUI
             if (_nameEvent == KeysEventInputController.ACTION_RECENTER)
             {
                 RunRefocusScreen(true, true);
+            }
+            if (_nameEvent == EVENT_SCREEN_ENABLE_ALPHA_ZERO_IMAGE)
+            {
+                m_enableAlphaZero = (bool)_list[0];
+                for (int i = 0; i < m_selectors.Count; i++)
+                {
+                    if (m_selectors[i].GetComponent<Image>() != null)
+                    {
+                        if (m_selectors[i].GetComponent<Image>().color.a == 0)
+                        {
+                            m_selectors[i].GetComponent<BoxCollider>().enabled = m_enableAlphaZero;
+                        }
+                    }
+                }
             }
         }
 

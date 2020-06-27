@@ -629,7 +629,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void CreateScreenLinkedToCamera(string _nameScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, bool _isTemporal = true, int _layer = 0)
+        public void CreateScreenLinkedToCamera(string _nameScreen, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, bool _ignoreZOrder = true, bool _isTemporal = true, int _layer = 0, bool _refocus = true, bool _alignedToCamera = true)
 		{
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
 														   true,
@@ -643,10 +643,10 @@ namespace YourVRUI
 														   false, // interactedObject.ScreenInCenterObject,
 														   true, // interactedObject.ForceScreen,
 														   _forceOrthographic, // interactedObject.ForceOrthographic,
-														   true, // interactedObject.AlignedToCamera,
+                                                           _alignedToCamera, // interactedObject.AlignedToCamera,
 														   false, // interactedObject.UseCollisionPoint,
 														   _distance, // interactedObject.DistanceScreenDefault,
-														   true, // interactedObject.Refocus,
+                                                           _refocus, // interactedObject.Refocus,
 														   false, // interactedObject.DestroyMessageOnDistance,
 														   _scaleScreen, // interactedObject.ScaleScreen,
                                                            true, // interactedObject.BlockOtherScreens,

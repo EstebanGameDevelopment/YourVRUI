@@ -125,6 +125,8 @@ namespace YourVRUI
 
         [Tooltip("Enable the cheat to set the resolution to adapt the UI screens to VR")]
         public bool EnableSetResolutionUIVR = false;
+        public int ResolutionUIVRWidth = 350;
+        public int ResolutionUIVRHeight = 720;
 
         public GameObject VRKeyboard;
 
@@ -1205,7 +1207,7 @@ namespace YourVRUI
                                 {
                                     if (currentPrefab.GetComponentInChildren<ScreenVRKeyboardView>() == null)
                                     {
-                                        Screen.SetResolution(350, 720, true);
+                                        Screen.SetResolution(ResolutionUIVRWidth, ResolutionUIVRHeight, true);
                                     }
                                 }
                             }

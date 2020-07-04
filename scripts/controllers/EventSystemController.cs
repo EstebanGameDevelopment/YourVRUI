@@ -50,6 +50,9 @@ namespace YourVRUI
 		private GvrPointerInputModule m_gazeInputModule;
 #endif
 
+        private bool m_hasBeenInitialized = false;
+        private bool m_hasBeenDestroyed = false;
+
         // -------------------------------------------
         /* 
 		 * Getting the reference of the input controllers
@@ -65,7 +68,10 @@ namespace YourVRUI
 		 */
 		public void Initialitzation()
 		{
-			m_standAloneInputModule = this.gameObject.GetComponent<StandaloneInputModule>();
+            if (m_hasBeenInitialized) return;
+            m_hasBeenInitialized = true;
+
+            m_standAloneInputModule = this.gameObject.GetComponent<StandaloneInputModule>();
 			if (m_standAloneInputModule == null)
 			{
 				this.gameObject.AddComponent<StandaloneInputModule>();
@@ -97,7 +103,10 @@ namespace YourVRUI
 		 */
 		public void Destroy()
 		{
-			UIEventController.Instance.UIEvent -= OnBasicEvent;
+            if (m_hasBeenDestroyed) return;
+            m_hasBeenDestroyed = true;
+
+            UIEventController.Instance.UIEvent -= OnBasicEvent;
 		}
 
 		// -------------------------------------------

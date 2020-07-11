@@ -207,7 +207,7 @@ namespace YourVRUI
                 (_go.GetComponent<ICustomButton>() != null) || 
                 (_go.GetComponent<InputField>() != null))
             {
-				AddButtonToList(_go);
+                AddButtonToList(_go);
 			}
 			foreach (Transform child in _go.transform)
 			{
@@ -416,12 +416,15 @@ namespace YourVRUI
             {
                 if (!m_disableActionButtonInteraction)
                 {
-                    GameObject targetObject = (GameObject)_list[0];
-                    Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
-                    if ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1))
+                    if (YourVRUIScreenController.Instance.DisplayHighlightedItemInList)
                     {
-                        Utilities.MoveScrollWithSiblings(m_scrollRectsVR[(int)dataElement.y], targetObject);
-                        UpdateScrollRectItemsVisibility(m_scrollRectsVR[(int)dataElement.y], targetObject);
+                        GameObject targetObject = (GameObject)_list[0];
+                        Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
+                        if ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1))
+                        {
+                            Utilities.MoveScrollWithSiblings(m_scrollRectsVR[(int)dataElement.y], targetObject);
+                            UpdateScrollRectItemsVisibility(m_scrollRectsVR[(int)dataElement.y], targetObject);
+                        }
                     }
                 }
             }

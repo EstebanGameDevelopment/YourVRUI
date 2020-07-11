@@ -40,11 +40,11 @@ namespace YourVRUI
             base.Initialize(_list);
 
             m_inputFieldReference = (InputField)_list[0];
-
             m_root = this.gameObject;
             m_container = m_root.transform.Find("Content");
 
             m_keyboardManager = m_container.GetComponentInChildren<KeyboardManager>();
+            m_keyboardManager.maxInputLength = YourVRUIScreenController.Instance.VRKeyboardInputMaxCharacters;
             m_keyboardManager.inputText.text = m_inputFieldReference.text;
             m_keyboardManager.Initialize();
 
@@ -63,7 +63,7 @@ namespace YourVRUI
             m_keyboardManager = null;
 
             UIEventController.Instance.UIEvent -= OnUIEvent;
-            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject, SCREEN_NAME);
 
             return false;
         }

@@ -129,6 +129,9 @@ namespace YourVRUI
         public int ResolutionUIVRHeight = 720;
 
         public GameObject VRKeyboard;
+        public int VRKeyboardInputMaxCharacters = 30;
+
+        public bool DisplayHighlightedItemInList = true;
 
         // ----------------------------------------------
         // PRIVATE MEMBERS
@@ -994,8 +997,6 @@ namespace YourVRUI
                 {
                     m_inputFieldVR = (InputField)_list[0];
                     Vector3 inputWorldPosition = m_inputFieldVR.transform.position;
-
-                    Debug.LogError("CREATING THE KEYBOARD VR SCREEN++++++++++++++++");
                     CreateScreenLinkedToCamera(VRKeyboard, m_inputFieldVR, 2.5f, -1, false, -1f, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenController.TOTAL_LAYERS_SCREENS - 1);
                 }
             }

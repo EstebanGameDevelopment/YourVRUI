@@ -1211,6 +1211,10 @@ namespace YourVRUI
                                         Screen.SetResolution(ResolutionUIVRWidth, ResolutionUIVRHeight, true);
                                     }
                                 }
+                                else
+                                {
+                                    Screen.SetResolution(ResolutionUIVRWidth, ResolutionUIVRHeight, true);
+                                }
                             }
                         }
                     }

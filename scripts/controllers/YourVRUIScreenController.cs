@@ -1211,6 +1211,7 @@ namespace YourVRUI
                     }
 
                     // CREATION OF THE NEW SCREEN
+                    bool applyCentered = EnableSetResolutionUIVR;
                     if (EnableSetResolutionUIVR)
                     {
                         if (GameObject.FindObjectOfType<CardboardLoaderVR>() != null)
@@ -1219,7 +1220,8 @@ namespace YourVRUI
                             {
                                 if (currentPrefab != null)
                                 {
-                                    if (currentPrefab.GetComponentInChildren<ScreenVRKeyboardView>() == null)
+                                    applyCentered = (currentPrefab.GetComponentInChildren<ScreenVRKeyboardView>() == null);
+                                    if (applyCentered)
                                     {
                                         Screen.SetResolution(ResolutionUIVRWidth, ResolutionUIVRHeight, true);
                                     }
@@ -1240,7 +1242,7 @@ namespace YourVRUI
 						{
                             // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]::_list[22]="+ _list[22]);
 							currentScreen.GetComponent<IBasicView>().Initialize(_list[22]);
-                            if (EnableSetResolutionUIVR) currentScreen.GetComponent<IBasicView>().ApplyCentered();
+                            if (applyCentered) currentScreen.GetComponent<IBasicView>().ApplyCentered();
                             currentScreen.GetComponent<IBasicView>().SetLayer(layerScreenDestroy);
                         }
                         if (delayToDestroy > 0)
@@ -1260,7 +1262,7 @@ namespace YourVRUI
                                     // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
                                     currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
                                     currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
-                                    if (EnableSetResolutionUIVR) currentScreen.GetComponent<IBasicView>().ApplyCentered();
+                                    if (applyCentered) currentScreen.GetComponent<IBasicView>().ApplyCentered();
                                     currentScreen.GetComponent<IBasicView>().SetLayer(layerScreenDestroy);
                                     currentScreen.gameObject.name = screenName;
                                     if (delayToDestroy > 0)

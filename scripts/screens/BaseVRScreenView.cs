@@ -82,6 +82,10 @@ namespace YourVRUI
 
         private bool m_enableAlphaZero = true;
 
+        private GameObject m_dotProjectedUI = null;
+
+        private float m_timeToAlpha = 0;
+
         // ----------------------------------------------
         // GETTERS/SETTERS
         // ----------------------------------------------	
@@ -135,13 +139,37 @@ namespace YourVRUI
 			m_screen = this.gameObject;
 			if (m_screen.transform.Find(CONTENT_COMPONENT_NAME) != null)
 			{
-				m_canvasGroup = m_screen.transform.Find(CONTENT_COMPONENT_NAME).GetComponent<CanvasGroup>();
+                GameObject contentBaseRef = m_screen.transform.Find(CONTENT_COMPONENT_NAME).gameObject;
+                m_canvasGroup = contentBaseRef.GetComponent<CanvasGroup>();
 				if (m_canvasGroup != null)
 				{
-					m_canvasGroup.alpha = 1;
+					m_canvasGroup.alpha = YourVRUIScreenController.Instance.DefaultInitialAlpha;
 				}
-			}
-			UIEventController.Instance.UIEvent += new UIEventHandler(OnBaseScreenBasicEvent);
+                if (YourVRUIScreenController.Instance.DotProjectionUI != null)
+                {
+                    if (contentBaseRef.GetComponent<Collider>() == null)
+                    {
+                        contentBaseRef.AddComponent<BoxCollider>();
+                        if ((contentBaseRef.GetComponent<RectTransform>().rect.width > 0) && (contentBaseRef.GetComponent<RectTransform>().rect.height > 0))
+                        {
+                            contentBaseRef.GetComponent<BoxCollider>().size = new Vector3(contentBaseRef.GetComponent<RectTransform>().rect.width, contentBaseRef.GetComponent<RectTransform>().rect.height, 0.1f);
+                        }
+                        else
+                        {
+                            if (contentBaseRef.GetComponent<LayoutElement>() != null)
+                            {
+                                contentBaseRef.GetComponent<BoxCollider>().size = new Vector3(contentBaseRef.GetComponent<LayoutElement>().preferredWidth, contentBaseRef.GetComponent<LayoutElement>().preferredHeight, 0.1f);
+                            }
+                        }
+
+                        contentBaseRef.GetComponent<BoxCollider>().isTrigger = true;
+                        contentBaseRef.GetComponent<BoxCollider>().center += this.transform.root.forward * 20;
+                    }
+                }
+            }
+
+
+            UIEventController.Instance.UIEvent += new UIEventHandler(OnBaseScreenBasicEvent);
 			UIEventController.Instance.DispatchUIEvent(EVENT_SCREEN_OPEN_VIEW, this.gameObject, m_blockOtherScreens);
 			UIEventController.Instance.DispatchUIEvent(InteractionController.EVENT_INTERACTIONCONTROLLER_SCREEN_CREATED, m_characterOrigin);
 
@@ -833,19 +861,6 @@ namespace YourVRUI
 			return -1;
 		}
 
-		// -------------------------------------------
-		/* 
-		 * Runs the logic for realigning and destroying on distance
-		 */
-		void Update()
-		{
-            if (YourVRUIScreenController.Instance == null) return;
-
-            RefocusScreen();
-
-			DestroyOnDistanceScreen();
-		}
-
         // -------------------------------------------
         /* 
 		 * SetLayer
@@ -854,5 +869,76 @@ namespace YourVRUI
         {
             m_layerScreen = _layer;
         }
+
+        // -------------------------------------------
+        /* 
+		 * DotProjectedUIUpdate
+		 */
+        private void DotProjectedUIUpdate()
+        {
+            if (YourVRUIScreenController.Instance.EnableProjectionDot)
+            {
+                if (m_canvasGroup != null)
+                {
+                    if (m_dotProjectedUI == null)
+                    {
+                        m_dotProjectedUI = GameObject.Instantiate(YourVRUIScreenController.Instance.DotProjectionUI, m_canvasGroup.transform);
+                    }
+                    RaycastHit hitSurface;
+                    if (!YourVRUIScreenController.Instance.IsDayDreamActivated)
+                    {
+                        hitSurface = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, "UI");
+                    }
+                    else
+                    {
+                        hitSurface = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, "UI");
+                    }
+
+                    if (hitSurface.collider != null)
+                    {
+                        m_dotProjectedUI.transform.position = hitSurface.point;
+                    }
+                }
+            }
+        }
+
+        // -------------------------------------------
+        /* 
+		 * AlphaProgressLogic
+		 */
+        private void AlphaProgressLogic()
+        {
+            if (m_canvasGroup != null)
+            {
+                if (m_canvasGroup.alpha != YourVRUIScreenController.Instance.DefaultFinalAlpha)
+                {
+                    m_timeToAlpha += Time.deltaTime;
+                    float progressAlpha = m_timeToAlpha / YourVRUIScreenController.Instance.DefaultTimeoutToAlpha;
+                    m_canvasGroup.alpha = (YourVRUIScreenController.Instance.DefaultFinalAlpha - YourVRUIScreenController.Instance.DefaultInitialAlpha) * progressAlpha;
+                    if (m_timeToAlpha > YourVRUIScreenController.Instance.DefaultTimeoutToAlpha)
+                    {
+                        m_canvasGroup.alpha = YourVRUIScreenController.Instance.DefaultFinalAlpha;
+                    }
+                }
+            }
+        }
+
+        // -------------------------------------------
+        /* 
+		 * Runs the logic for realigning and destroying on distance
+		 */
+        void Update()
+        {
+            if (YourVRUIScreenController.Instance == null) return;
+
+            RefocusScreen();
+
+            DestroyOnDistanceScreen();
+
+            DotProjectedUIUpdate();
+
+            AlphaProgressLogic();
+        }
+
     }
 }

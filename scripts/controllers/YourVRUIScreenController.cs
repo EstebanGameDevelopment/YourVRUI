@@ -128,10 +128,23 @@ namespace YourVRUI
         public int ResolutionUIVRWidth = 350;
         public int ResolutionUIVRHeight = 720;
 
+        [Tooltip("A virtual keyboard where to introduce text")]
         public GameObject VRKeyboard;
+
+        [Tooltip("Maximum amount of characters allowed for the virtual keyboard to enter")]
         public int VRKeyboardInputMaxCharacters = 30;
 
+        [Tooltip("Allow the items of a list be highlighted")]
         public bool DisplayHighlightedItemInList = true;
+
+        [Tooltip("Enable the projection of a dot over a VR screen")]
+        public bool EnableProjectionDot = true;
+        public GameObject DotProjectionUI;
+
+        [Tooltip("The default initial alpha of the screens")]
+        public float DefaultInitialAlpha = 1;
+        public float DefaultFinalAlpha = 1;
+        public float DefaultTimeoutToAlpha = 0.5f;
 
         // ----------------------------------------------
         // PRIVATE MEMBERS

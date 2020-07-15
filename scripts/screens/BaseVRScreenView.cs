@@ -876,7 +876,7 @@ namespace YourVRUI
 		 */
         private void DotProjectedUIUpdate()
         {
-            if (YourVRUIScreenController.Instance.EnableProjectionDot)
+            if (YourVRUIScreenController.Instance.EnableProjectionDot && (YourVRUIScreenController.Instance.DotProjectionUI != null))
             {
                 if (m_canvasGroup != null)
                 {

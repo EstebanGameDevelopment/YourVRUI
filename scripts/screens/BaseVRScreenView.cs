@@ -231,9 +231,9 @@ namespace YourVRUI
 		 */
 		public void AddAutomaticallyButtons(GameObject _go)
 		{
-			if ((_go.GetComponent<Button>() != null) || 
+			if (((_go.GetComponent<Button>() != null) && (_go.GetComponent<Button>().enabled)) || 
                 (_go.GetComponent<ICustomButton>() != null) || 
-                (_go.GetComponent<InputField>() != null))
+                ((_go.GetComponent<InputField>() != null) && (_go.GetComponent<InputField>().enabled)))
             {
                 AddButtonToList(_go);
 			}

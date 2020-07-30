@@ -1275,10 +1275,16 @@ namespace YourVRUI
                         }
 					}
 
+                    ScreenController sc = GameObject.FindObjectOfType<ScreenController>();
+                    if (sc != null)
+                    {
+                        sc.AddScreenNameToStack(screenName, previousScreenAction);
+                    }
+
                     // Debug.LogError("YourVRUIScreenController::OnUIEvent::currentScreen=" + currentScreen.name + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-					// NOW THE BASE SCREEN CLASS INITIALIZES HAD THE BEHAVIOUR SO YOU CAN FORGET ABOUT THE SCREEN IN VR
-					if (currentScreen.GetComponent<BaseVRScreenView>() == null)
+                    // NOW THE BASE SCREEN CLASS INITIALIZES HAD THE BEHAVIOUR SO YOU CAN FORGET ABOUT THE SCREEN IN VR
+                    if (currentScreen.GetComponent<BaseVRScreenView>() == null)
 					{
 						currentScreen.AddComponent<BaseVRScreenView>();
 					}

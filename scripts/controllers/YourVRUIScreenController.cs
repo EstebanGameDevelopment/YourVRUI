@@ -337,6 +337,41 @@ namespace YourVRUI
 #endif
         }
 
+#if ENABLE_OCULUS
+        // -------------------------------------------
+        /* 
+		 * IsRightie
+		 */
+        private bool IsRightie()
+        {
+            OVRPlugin.Handedness handedness = OVRPlugin.GetDominantHand();
+            if (handedness == OVRPlugin.Handedness.RightHanded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // -------------------------------------------
+        /* 
+		 * IsRightHandController
+		 */
+        public bool IsRightHandController(OVRControllerHelper _overHelper)
+        {
+            if (_overHelper.m_controller == OVRInput.Controller.LTouch)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+#endif
+
         // -------------------------------------------
         /* 
 		 * Initialitzation of the daydream controller
@@ -363,7 +398,20 @@ namespace YourVRUI
                 {
                     if (GameObject.FindObjectOfType<OVRControllerHelper>() != null)
                     {
-                        GameObject ovrTrackedRemote = GameObject.FindObjectOfType<OVRControllerHelper>().gameObject;
+                        OVRControllerHelper[] ovrTrackedRemotes = GameObject.FindObjectsOfType<OVRControllerHelper>();
+                        bool isRightHand = IsRightie();
+                        GameObject ovrTrackedRemote = null;
+                        for (int z = 0; z < ovrTrackedRemotes.Length; z++)
+                        {
+                            if ((IsRightHandController(ovrTrackedRemotes[z])) && isRightHand)
+                            {
+                                ovrTrackedRemote = ovrTrackedRemotes[z].gameObject;
+                            }
+                            else
+                            {
+                                ovrTrackedRemote = ovrTrackedRemotes[z].gameObject;
+                            }                            
+                        }
                         if (ovrTrackedRemote.GetComponentInChildren<LineRenderer>() != null)
                         {
                             m_laserPointer = ovrTrackedRemote.GetComponentInChildren<LineRenderer>().gameObject;

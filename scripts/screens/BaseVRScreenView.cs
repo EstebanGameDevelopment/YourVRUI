@@ -32,10 +32,10 @@ namespace YourVRUI
 
         public const string EVENT_SCREEN_ENABLE_ALPHA_ZERO_IMAGE = "EVENT_SCREEN_ENABLE_ALPHA_ZERO_IMAGE";
 
-		// ----------------------------------------------
-		// CONSTANTS
-		// ----------------------------------------------	
-		public const float FADE_TIME = 1f;
+        // ----------------------------------------------
+        // CONSTANTS
+        // ----------------------------------------------	
+        public const float FADE_TIME = 1f;
 		public const float DELAY_TO_REFOCUS = 0.2f;
 
 		public const string CONTENT_COMPONENT_NAME = "Content";
@@ -336,6 +336,22 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
+		 * HideSelectorsOnScrollRect
+		 */
+        private void HideSelectorsOnScrollRect(GameObject _target)
+        {
+            ButtonVRView[] allChilds = _target.GetComponentsInChildren<ButtonVRView>();
+            for (int k = 0; k < allChilds.Length; k++)
+            {
+                if (allChilds[k] != null)
+                {
+                    allChilds[k].DisableSelectable();
+                }
+            }
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Global manager of events
 		 */
         private void OnBaseScreenBasicEvent(string _nameEvent, params object[] _list)
@@ -361,6 +377,17 @@ namespace YourVRUI
                     }                    
                 }
             }
+            if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RELOAD_SCREEN_AND_DISABLE)
+            {
+                ClearListSelectors();
+                AddAutomaticallyButtons(m_screen);
+                Utilities.ApplyMaterialOnImages(m_screen, YourVRUIScreenController.Instance.MaterialDrawOnTop);
+                GameObject targetObject = (GameObject)_list[0];
+                if (Utilities.FindGameObjectInChilds(this.gameObject, targetObject))
+                {
+                    HideSelectorsOnScrollRect(targetObject);
+                }
+            }
             if (m_disableActionButtonInteraction)
             {
                 if (_nameEvent == KeysEventInputController.ACTION_BUTTON_DOWN)
@@ -368,7 +395,6 @@ namespace YourVRUI
                     m_disableActionButtonInteraction = false;
                 }
             }
-
 
             if (m_selectors == null) return;
             if (m_selectors.Count == 0) return;

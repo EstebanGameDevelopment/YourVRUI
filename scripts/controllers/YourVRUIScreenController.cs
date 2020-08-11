@@ -418,6 +418,10 @@ namespace YourVRUI
                                     ovrTrackedRemote = ovrTrackedRemotes[z].gameObject;
                                 }                            
                             }
+                            if (ovrTrackedRemote == null)
+                            {
+                                ovrTrackedRemote = GameObject.FindObjectOfType<OVRControllerHelper>().gameObject;
+                            }
                             if (ovrTrackedRemote.GetComponentInChildren<LineRenderer>() != null)
                             {
                                 m_laserPointer = ovrTrackedRemote.GetComponentInChildren<LineRenderer>().gameObject;

@@ -344,6 +344,9 @@ namespace YourVRUI
 		 */
         private bool IsRightie()
         {
+#if ENABLE_QUEST
+            return true;
+#else
             OVRPlugin.Handedness handedness = OVRPlugin.GetDominantHand();
             if (handedness == OVRPlugin.Handedness.RightHanded)
             {
@@ -353,6 +356,7 @@ namespace YourVRUI
             {
                 return false;
             }
+#endif
         }
 
         // -------------------------------------------
@@ -361,13 +365,13 @@ namespace YourVRUI
 		 */
         public bool IsRightHandController(OVRControllerHelper _overHelper)
         {
-            if (_overHelper.m_controller == OVRInput.Controller.LTouch)
+            if (_overHelper.m_controller == OVRInput.Controller.RTouch)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 #endif
@@ -396,31 +400,34 @@ namespace YourVRUI
                 }
                 if (lookForLaser)
                 {
-                    if (GameObject.FindObjectOfType<OVRControllerHelper>() != null)
+                    if (m_laserPointer == null)
                     {
-                        OVRControllerHelper[] ovrTrackedRemotes = GameObject.FindObjectsOfType<OVRControllerHelper>();
-                        bool isRightHand = IsRightie();
-                        GameObject ovrTrackedRemote = null;
-                        for (int z = 0; z < ovrTrackedRemotes.Length; z++)
+                        if (GameObject.FindObjectOfType<OVRControllerHelper>() != null)
                         {
-                            if ((IsRightHandController(ovrTrackedRemotes[z])) && isRightHand)
+                            OVRControllerHelper[] ovrTrackedRemotes = GameObject.FindObjectsOfType<OVRControllerHelper>();
+                            bool isRightHand = IsRightie();
+                            GameObject ovrTrackedRemote = null;
+                            for (int z = 0; z < ovrTrackedRemotes.Length; z++)
                             {
-                                ovrTrackedRemote = ovrTrackedRemotes[z].gameObject;
-                            }
-                            else
-                            {
-                                ovrTrackedRemote = ovrTrackedRemotes[z].gameObject;
-                            }                            
-                        }
-                        if (ovrTrackedRemote.GetComponentInChildren<LineRenderer>() != null)
-                        {
-                            m_laserPointer = ovrTrackedRemote.GetComponentInChildren<LineRenderer>().gameObject;
-                            if (m_laserPointer.activeSelf)
-                            {
-                                // WILL FORCE THE LASER POINTER WHEN RUNNING IN EDITOR
-                                if (DebugMode)
+                                if ((IsRightHandController(ovrTrackedRemotes[z])) && isRightHand)
                                 {
-                                    m_laserPointer.AddComponent<AlignWithCamera>();
+                                    ovrTrackedRemote = ovrTrackedRemotes[z].gameObject;
+                                }
+                                if ((!IsRightHandController(ovrTrackedRemotes[z])) && !isRightHand)
+                                {
+                                    ovrTrackedRemote = ovrTrackedRemotes[z].gameObject;
+                                }                            
+                            }
+                            if (ovrTrackedRemote.GetComponentInChildren<LineRenderer>() != null)
+                            {
+                                m_laserPointer = ovrTrackedRemote.GetComponentInChildren<LineRenderer>().gameObject;
+                                if (m_laserPointer.activeSelf)
+                                {
+                                    // WILL FORCE THE LASER POINTER WHEN RUNNING IN EDITOR
+                                    if (DebugMode)
+                                    {
+                                        m_laserPointer.AddComponent<AlignWithCamera>();
+                                    }
                                 }
                             }
                         }
@@ -432,7 +439,7 @@ namespace YourVRUI
 			{
 				if (m_laserPointer == null)
 				{
-					if (GameObject.FindObjectOfType<GvrLaserPointer>() != null)
+                    if (GameObject.FindObjectOfType<GvrLaserPointer>() != null)
 					{
 						m_laserPointer = GameObject.FindObjectOfType<GvrLaserPointer>().gameObject;
 						if (m_laserPointer.activeSelf)

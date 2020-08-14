@@ -46,7 +46,7 @@ namespace YourVRUI
 		// PRIVATE MEMBERS
 		// ----------------------------------------------	
 		private StandaloneInputModule m_standAloneInputModule;
-#if (!ENABLE_OCULUS && UNITY_HAS_GOOGLEVR) || UNITY_WEBGL
+#if !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
 		private GvrPointerInputModule m_gazeInputModule;
 #endif
 
@@ -77,7 +77,7 @@ namespace YourVRUI
 				this.gameObject.AddComponent<StandaloneInputModule>();
 				m_standAloneInputModule = this.gameObject.GetComponent<StandaloneInputModule>();
 			}
-#if (!ENABLE_OCULUS && UNITY_HAS_GOOGLEVR) || UNITY_WEBGL
+#if !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
 			m_gazeInputModule = this.gameObject.GetComponent<GvrPointerInputModule>();
 			if (m_gazeInputModule == null)
 			{
@@ -121,10 +121,8 @@ namespace YourVRUI
 				if (m_standAloneInputModule != null) m_standAloneInputModule.enabled = activation;
 #if ENABLE_WORLDSENSE
                 if (m_gazeInputModule != null) m_gazeInputModule.enabled = false;
-#elif !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR && !UNITY_WEBGL
+#elif !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
                 if (m_gazeInputModule != null) m_gazeInputModule.enabled = !activation;
-#elif UNITY_WEBGL
-                if (m_gazeInputModule != null) m_gazeInputModule.enabled = false;
 #endif
             }
             if (_nameEvent == EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)

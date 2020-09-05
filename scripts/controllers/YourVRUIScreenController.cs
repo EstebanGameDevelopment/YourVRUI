@@ -728,7 +728,7 @@ namespace YourVRUI
                                                            _refocus, // interactedObject.Refocus,
                                                            false, // interactedObject.DestroyMessageOnDistance,
                                                            _scaleScreen, // interactedObject.ScaleScreen,
-                                                           true, // interactedObject.BlockOtherScreens,
+                                                           false, // interactedObject.BlockOtherScreens,
                                                            Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
                                                            _isTemporal, // Temporal Screen
                                                            _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
@@ -763,7 +763,7 @@ namespace YourVRUI
                                                            _refocus, // interactedObject.Refocus,
                                                            false, // interactedObject.DestroyMessageOnDistance,
                                                            _scaleScreen, // interactedObject.ScaleScreen,
-                                                           true, // interactedObject.BlockOtherScreens,
+                                                           false, // interactedObject.BlockOtherScreens,
                                                            Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
                                                            true, // Temporal Screen
                                                            _ignoreZOrder, // interactedObject.IgnoreZOrderScreen,
@@ -798,7 +798,7 @@ namespace YourVRUI
                                                            true, // interactedObject.Refocus,
                                                            false, // interactedObject.DestroyMessageOnDistance,
                                                            _scaleScreen, // interactedObject.ScaleScreen,
-                                                           true, // interactedObject.BlockOtherScreens,
+                                                           false, // interactedObject.BlockOtherScreens,
                                                            Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
                                                            _isTemporal, // Temporal Screen
                                                            true, // interactedObject.IgnoreZOrderScreen,
@@ -833,7 +833,7 @@ namespace YourVRUI
                                                            true, // interactedObject.Refocus,
                                                            false, // interactedObject.DestroyMessageOnDistance,
                                                            _scaleScreen, // interactedObject.ScaleScreen,
-                                                           true, // interactedObject.BlockOtherScreens,
+                                                           false, // interactedObject.BlockOtherScreens,
                                                            Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
                                                            true, // Temporal Screen
                                                            true, // interactedObject.IgnoreZOrderScreen,
@@ -1303,6 +1303,7 @@ namespace YourVRUI
                         {
                             // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]::_list[22]="+ _list[22]);
                             currentScreen.GetComponent<IBasicView>().Initialize(_list[22]);
+                            currentScreen.GetComponent<IBasicView>().NameOfScreen = currentPrefab.name;
                             if (applyCentered) currentScreen.GetComponent<IBasicView>().ApplyCentered();
                             currentScreen.GetComponent<IBasicView>().SetLayer(layerScreenDestroy);
                         }
@@ -1323,6 +1324,7 @@ namespace YourVRUI
                                     // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
                                     currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
                                     currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
+                                    currentScreen.GetComponent<IBasicView>().NameOfScreen = screenName;
                                     if (applyCentered) currentScreen.GetComponent<IBasicView>().ApplyCentered();
                                     currentScreen.GetComponent<IBasicView>().SetLayer(layerScreenDestroy);
                                     currentScreen.gameObject.name = screenName;

@@ -124,6 +124,10 @@ namespace YourVRUI
         {
             get { return m_layerScreen; }
         }
+        public GameObject DotProjectedUI
+        {
+            get { return m_dotProjectedUI; }
+        }
 
         // -------------------------------------------
         /* 

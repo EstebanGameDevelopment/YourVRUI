@@ -18,6 +18,11 @@ namespace YourVRUI
     public class PlayerRaycasterController : MonoBehaviour
     {
         // ----------------------------------------------
+        // PUBLIC EVENTS
+        // ----------------------------------------------	
+        public const string EVENT_PLAYERRAYSCASTER_REQUEST_RAYCAST = "EVENT_PLAYERRAYSCASTER_REQUEST_RAYCAST";
+
+        // ----------------------------------------------
         // PUBLIC MEMBERS
         // ----------------------------------------------	
         [Tooltip("Layers you want to ignore from the raycasting")]
@@ -183,7 +188,10 @@ namespace YourVRUI
                     }
                 }
             }
-
+            if (_nameEvent == EVENT_PLAYERRAYSCASTER_REQUEST_RAYCAST)
+            {
+                CheckRaycastingNormal(true, true);
+            }
 
             if (_nameEvent == InteractionController.EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER)
             {
@@ -232,7 +240,7 @@ namespace YourVRUI
         /* 
 		 * Check the raycasting using the gaze of the camera
 		 */
-        private void CheckRaycastingNormal(bool _actionButtonPressed)
+        private void CheckRaycastingNormal(bool _actionButtonPressed, bool _force = false)
         {
             RaycastHit objectCollided = new RaycastHit();
             if ((YourVRUIScreenController.Instance.LayersToRaycast == null) || (YourVRUIScreenController.Instance.LayersToRaycast.Length == 0))
@@ -243,7 +251,7 @@ namespace YourVRUI
             {
                 Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, ref objectCollided, YourVRUIScreenController.Instance.LayersToRaycast);
             }
-            CheckRaycasting(_actionButtonPressed, objectCollided);
+            CheckRaycasting(_actionButtonPressed, objectCollided, _force);
         }
 
         // -------------------------------------------
@@ -268,7 +276,7 @@ namespace YourVRUI
         /* 
 		 * Calculate the raycasting operation to look for InteractionController objects
 		 */
-        private void CheckRaycasting(bool _actionButtonPressed, RaycastHit _objectCollided)
+        private void CheckRaycasting(bool _actionButtonPressed, RaycastHit _objectCollided, bool _force = false)
         {
             if (_objectCollided.collider != null)
             {
@@ -283,7 +291,7 @@ namespace YourVRUI
                             || ((interactedObject.TriggerMessageOnDetection) && (m_previousCollidedObject == interactedObject) && _actionButtonPressed)
                             || (!interactedObject.TriggerMessageOnDetection && _actionButtonPressed))
                         {
-                            if (YourVRUIScreenController.Instance.EnableRaycastDetection || interactedObject.OverrideGlobalSettings)
+                            if (YourVRUIScreenController.Instance.EnableRaycastDetection || _force)
                             {
                                 if (_actionButtonPressed)
                                 {

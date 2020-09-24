@@ -145,6 +145,7 @@ namespace YourVRUI
         */
         private void CheckReleasedKey()
         {            
+            
                 bool keyReleased = false;
 #if ENABLE_WORLDSENSE && !UNITY_EDITOR
                 if (KeysEventInputController.Instance.GetAppButtonDowDaydreamController(false))
@@ -152,7 +153,7 @@ namespace YourVRUI
                     keyReleased = true;
                 }
 #endif
-#if ENABLE_OCULUS && ENABLE_QUEST && !UNITY_EDITOR
+#if ENABLE_OCULUS && ENABLE_QUEST
                 if (KeysEventInputController.Instance.GetTeleportUpOculusController())
                 {
                     keyReleased = true;

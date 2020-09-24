@@ -283,18 +283,19 @@ namespace YourVRUI
                             || ((interactedObject.TriggerMessageOnDetection) && (m_previousCollidedObject == interactedObject) && _actionButtonPressed)
                             || (!interactedObject.TriggerMessageOnDetection && _actionButtonPressed))
                         {
-                            if (YourVRUIScreenController.Instance.EnableRaycastDetection ||
-                                interactedObject.OverrideGlobalSettings ||
-                                _actionButtonPressed)
+                            if (YourVRUIScreenController.Instance.EnableRaycastDetection || interactedObject.OverrideGlobalSettings)
                             {
-                                m_previousCollidedObject = interactedObject;
-                                if (!interactedObject.ScreenIsDisplayed)
+                                if (_actionButtonPressed)
                                 {
-                                    if (YourVRUIScreenController.Instance.DebugMode)
+                                    m_previousCollidedObject = interactedObject;
+                                    if (!interactedObject.ScreenIsDisplayed)
                                     {
-                                        Debug.Log("PlayerRaycasterController::CheckRaycasting::COLLIDED WITH AN OBJECT[" + interactedObject.name + "] IS [" + distanceToCollidedObject + "] AWAY FROM PLAYER");
+                                        if (YourVRUIScreenController.Instance.DebugMode)
+                                        {
+                                            Debug.Log("PlayerRaycasterController::CheckRaycasting::COLLIDED WITH AN OBJECT[" + interactedObject.name + "] IS [" + distanceToCollidedObject + "] AWAY FROM PLAYER");
+                                        }
+                                        interactedObject.DispatchScreen(this.gameObject, IgnoreLayers, true);
                                     }
-                                    interactedObject.DispatchScreen(this.gameObject, IgnoreLayers, true);
                                 }
                             }
                         }

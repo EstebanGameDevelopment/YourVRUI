@@ -1057,6 +1057,14 @@ namespace YourVRUI
 		 */
         private void OnUIEvent(string _nameEvent, params object[] _list)
         {
+            if (_nameEvent == ScreenController.EVENT_SCREENCONTROLLER_REMOVE_SCREEN_NAME)
+            {
+                ScreenController sc = GameObject.FindObjectOfType<ScreenController>();
+                if (sc != null)
+                {
+                    sc.RemoveScreenName((string)_list[0]);
+                }
+            }
             if (_nameEvent == ButtonVRView.EVENT_BUTTONVR_REQUEST_LAYER_INFORMATION)
             {
                 UIEventController.Instance.DispatchUIEvent(ButtonVRView.EVENT_BUTTONVR_RESPONSE_LAYER_INFORMATION, _list[0], MaximumCurrentLayerScreenActive());

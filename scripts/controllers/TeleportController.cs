@@ -13,6 +13,7 @@ namespace YourVRUI
         public const string EVENT_TELEPORTCONTROLLER_ACTIVATION     = "EVENT_TELEPORTCONTROLLER_ACTIVATION";
         public const string EVENT_TELEPORTCONTROLLER_DEACTIVATION   = "EVENT_TELEPORTCONTROLLER_DEACTIVATION";
         public const string EVENT_TELEPORTCONTROLLER_TELEPORT       = "EVENT_TELEPORTCONTROLLER_TELEPORT";
+        public const string EVENT_TELEPORTCONTROLLER_KEY_RELEASED   = "EVENT_TELEPORTCONTROLLER_KEY_RELEASED";
 
         private const int PARABOLA_PRECISION = 450;
 
@@ -141,43 +142,6 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
-        * CheckReleasedKey
-        */
-        private void CheckReleasedKey()
-        {            
-            
-                bool keyReleased = false;
-#if ENABLE_WORLDSENSE && !UNITY_EDITOR
-                if (KeysEventInputController.Instance.GetAppButtonDowDaydreamController(false))
-                {
-                    keyReleased = true;
-                }
-#endif
-#if ENABLE_OCULUS && ENABLE_QUEST
-                if (KeysEventInputController.Instance.GetTeleportUpOculusController())
-                {
-                    keyReleased = true;
-                }
-#endif
-#if UNITY_EDITOR
-            if (Input.GetKeyUp(KeyCode.RightControl))
-            {
-                keyReleased = true;
-            }
-#endif
-            if (keyReleased)
-            {
-                m_calculateParabola = false;
-                Vector3 shiftToTarget = m_markerDestination.transform.position - transform.position;
-                DestroyMarkerTeleport();
-
-                BasicSystemEventController.Instance.DelayBasicSystemEvent(EVENT_TELEPORTCONTROLLER_TELEPORT, 0.01f, Utilities.Vector3ToString(shiftToTarget));
-                BasicSystemEventController.Instance.DelayBasicSystemEvent(EVENT_TELEPORTCONTROLLER_DEACTIVATION, 0.2f);
-            }
-        }
-
-        // -------------------------------------------
-        /* 
         * ComputeParabola
         */
         internal void ComputeParabola()
@@ -285,6 +249,24 @@ namespace YourVRUI
                 m_calculateParabola = false;
                 DestroyMarkerTeleport();
             }
+            if (_nameEvent == EVENT_TELEPORTCONTROLLER_KEY_RELEASED)
+            {
+                if (m_activateTeleport)
+                {
+                    if (m_calculateParabola)
+                    {
+                        if (m_markerDestination != null)
+                        {
+                            m_calculateParabola = false;
+                            Vector3 shiftToTarget = m_markerDestination.transform.position - transform.position;
+                            DestroyMarkerTeleport();
+
+                            BasicSystemEventController.Instance.DelayBasicSystemEvent(EVENT_TELEPORTCONTROLLER_TELEPORT, 0.01f, Utilities.Vector3ToString(shiftToTarget));
+                            BasicSystemEventController.Instance.DelayBasicSystemEvent(EVENT_TELEPORTCONTROLLER_DEACTIVATION, 0.2f);
+                        }
+                    }
+                }
+            }
         }
 
         // -------------------------------------------
@@ -297,7 +279,6 @@ namespace YourVRUI
             {
                 if (m_calculateParabola)
                 {
-                    CheckReleasedKey();
                     ComputeParabola();
                 }
             }            

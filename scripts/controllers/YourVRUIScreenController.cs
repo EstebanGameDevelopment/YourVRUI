@@ -846,6 +846,42 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
+		 * Will create a screen linked to the camera
+		 */
+        public void CreateScreenLinkedToObject(GameObject _prefabScreen, GameObject _target, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, int _layer = 0)
+        {
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
+                                                           true,
+                                                           this.gameObject,
+                                                           null,  // GameObject collided
+                                                           _prefabScreen,            // interactedObject.screenName,
+                                                           _typePreviousAction, // interactedObject.PreviousScreenAction,
+                                                           -1f, // interactedObject.DetectionDistance,
+                                                           true, // interactedObject.IsWorldObject,
+                                                           true, // interactedObject.ScreenLinkedToObject,
+                                                           true, // interactedObject.ScreenInCenterObject,
+                                                           false, // interactedObject.ForceScreen,
+                                                           false, // interactedObject.ForceOrthographic,
+                                                           false, // interactedObject.AlignedToCamera,
+                                                           false, // interactedObject.UseCollisionPoint,
+                                                           _distance, // interactedObject.DistanceScreenDefault,
+                                                           true, // interactedObject.Refocus,
+                                                           false, // interactedObject.DestroyMessageOnDistance,
+                                                           _scaleScreen, // interactedObject.ScaleScreen,
+                                                           false, // interactedObject.BlockOtherScreens,
+                                                           Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
+                                                           true, // Temporal Screen
+                                                           true, // interactedObject.IgnoreZOrderScreen,
+                                                           true, // HighlightSelector
+                                                           _pages,
+                                                           _delayToDestroy,
+                                                           _layer,
+                                                           _target
+                                                           );
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Get the bounds of the object
 		 */
         private Vector2 GetMaxMinBounds(GameObject _gameObject)
@@ -1238,6 +1274,14 @@ namespace YourVRUI
                     {
                         layerScreenDestroy = (int)_list[24];
                     }
+                    GameObject targetObject = null;
+                    if (_list.Length > 25)
+                    {
+                        if (_list[25] is GameObject)
+                        {
+                            targetObject = (GameObject)_list[25];
+                        }
+                    }
 
                     if (isTemporalScreen && EnableDesktopMode && !isWorldObject)
                     {
@@ -1305,7 +1349,7 @@ namespace YourVRUI
                     GameObject currentScreen = null;
                     if (currentPrefab != null)
                     {
-                        currentScreen = CreateUIScreen(currentPrefab, overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
+                        currentScreen = CreateUIScreen(currentPrefab, overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen, targetObject);
                         // ++ YOU SHOULD INITIALIZE HERE YOUR OWN SCREEN BEFORE INITIALIZING THE BASE SCREEN CLASS ++
                         if (currentScreen.GetComponent<IBasicView>() != null)
                         {
@@ -1330,7 +1374,7 @@ namespace YourVRUI
                                 if (ScreensPrefabs[i].name == screenName)
                                 {
                                     // Debug.LogError("CREATING NEW SCREEN["+ screenName + "]");
-                                    currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen);
+                                    currentScreen = CreateUIScreen(ScreensPrefabs[i], overrideGlobalSetting, isWorldObject, screenLinkedToObject, screenInCenterObject, forceScreen, forceOrthographic, alignedToCamera, useCollisionPoint, distanceObj, refocus, ignoreLayers, scaleScreen, targetObject);
                                     currentScreen.GetComponent<IBasicView>().Initialize(_list[22], originCharacter, blockOtherScreens);
                                     currentScreen.GetComponent<IBasicView>().NameOfScreen = screenName;
                                     if (applyCentered) currentScreen.GetComponent<IBasicView>().ApplyCentered();
@@ -1524,7 +1568,8 @@ namespace YourVRUI
                                     float _distance,
                                     bool _refocus,
                                     string[] _ignoreLayers,
-                                    float _scaleScreen)
+                                    float _scaleScreen,
+                                    GameObject _targetObject)
         {
             if (DebugMode) Debug.Log("++YourVRUIScreenController::CreateUIScreen::_screenPrefab=" + _screenPrefab.name);
             if (!_isWorldObject)
@@ -1614,79 +1659,87 @@ namespace YourVRUI
                     }
                     else
                     {
-                        objectCollided = new RaycastHit();
-                        if (LayersToRaycast.Length == 0)
+                        if (_targetObject != null)
                         {
-                            objectCollided = Utilities.GetRaycastHitInfoByRay(m_camera.transform.position, m_camera.transform.forward, _ignoreLayers);
+                            instance.transform.parent = _targetObject.transform;
+                            collisionPoint = _targetObject.transform.position;
                         }
                         else
                         {
-                            Utilities.GetRaycastHitInfoByRayWithMask(m_camera.transform.position, m_camera.transform.forward, ref objectCollided, LayersToRaycast);
-                        }
-                        if (objectCollided.collider != null)
-                        {
-                            GameObject finalObject = objectCollided.collider.gameObject;
-                            vectorNormalUI = Utilities.ClonePoint(objectCollided.normal);
-                            if (_screenInCenterObject)
+                            objectCollided = new RaycastHit();
+                            if (LayersToRaycast.Length == 0)
                             {
-                                collisionPoint = new Vector3(finalObject.transform.position.x, finalObject.transform.position.y, finalObject.transform.position.z);
+                                objectCollided = Utilities.GetRaycastHitInfoByRay(m_camera.transform.position, m_camera.transform.forward, _ignoreLayers);
                             }
                             else
                             {
-                                if (_useCollisionPoint)
+                                Utilities.GetRaycastHitInfoByRayWithMask(m_camera.transform.position, m_camera.transform.forward, ref objectCollided, LayersToRaycast);
+                            }
+                            if (objectCollided.collider != null)
+                            {
+                                GameObject finalObject = objectCollided.collider.gameObject;
+                                vectorNormalUI = Utilities.ClonePoint(objectCollided.normal);
+                                if (_screenInCenterObject)
+                                {
+                                    collisionPoint = new Vector3(finalObject.transform.position.x, finalObject.transform.position.y, finalObject.transform.position.z);
+                                }
+                                else
+                                {
+                                    if (_useCollisionPoint)
+                                    {
+                                        if (DebugMode)
+                                        {
+                                            Debug.Log("++++WE WILL USE THE COLLISION POINT TO PLACE THE WORLD SCREEN");
+                                        }
+                                        collisionPoint = Utilities.ClonePoint(objectCollided.point);
+                                    }
+                                    else
+                                    {
+                                        if (DebugMode)
+                                        {
+                                            Debug.Log("++++WE WILL USE THE BARYCENTER OF THE OBJECT COLLIDED AS POSITION OF THE WORLD SCREEN");
+                                        }
+
+                                        Vector3 posCenterIGamePlayer = new Vector3(finalObject.transform.position.x, m_camera.transform.position.y, finalObject.transform.position.z);
+
+                                        // GET DISTANCE TO BOUNDARY
+                                        Vector2 minMax = GetMaxMinBounds(finalObject);
+                                        Vector3 posStartingObject = posCenterIGamePlayer + (vectorNormalUI.normalized * (minMax.y / 2));
+                                        float distancePointToWall = 0;
+                                        RaycastHit pointToWall = Utilities.GetRaycastHitInfoByRay(posStartingObject, -vectorNormalUI.normalized);
+                                        if (pointToWall.collider != null)
+                                        {
+                                            distancePointToWall = Vector3.Distance(posCenterIGamePlayer, pointToWall.point);
+                                            if ((distancePointToWall < (minMax.x / 2)) || (distancePointToWall > 1.1f * (minMax.y / 2)))
+                                            {
+                                                distancePointToWall = 1.1f * (minMax.y / 2);
+                                            }
+                                        }
+
+                                        // UPDATE THE COLLISION POINT WITH THE POSITION WHERE THE UI WILL BE DISPLAYED
+                                        collisionPoint = posCenterIGamePlayer + (vectorNormalUI.normalized * distancePointToWall);
+                                    }
+                                }
+                                CreateQuietDotReference(collisionPoint, false);
+                                if (_alignedToCamera)
                                 {
                                     if (DebugMode)
                                     {
-                                        Debug.Log("++++WE WILL USE THE COLLISION POINT TO PLACE THE WORLD SCREEN");
+                                        Debug.Log("++++ALIGNED TO THE CAMERA");
                                     }
-                                    collisionPoint = Utilities.ClonePoint(objectCollided.point);
+                                    vectorNormalUI = Utilities.ClonePoint(m_camera.transform.forward);
+                                    instance.transform.forward = vectorNormalUI;
                                 }
                                 else
                                 {
                                     if (DebugMode)
                                     {
-                                        Debug.Log("++++WE WILL USE THE BARYCENTER OF THE OBJECT COLLIDED AS POSITION OF THE WORLD SCREEN");
+                                        Debug.Log("++++ALIGNED TO THE OBJECT NORMAL COLLISION");
                                     }
-
-                                    Vector3 posCenterIGamePlayer = new Vector3(finalObject.transform.position.x, m_camera.transform.position.y, finalObject.transform.position.z);
-
-                                    // GET DISTANCE TO BOUNDARY
-                                    Vector2 minMax = GetMaxMinBounds(finalObject);
-                                    Vector3 posStartingObject = posCenterIGamePlayer + (vectorNormalUI.normalized * (minMax.y / 2));
-                                    float distancePointToWall = 0;
-                                    RaycastHit pointToWall = Utilities.GetRaycastHitInfoByRay(posStartingObject, -vectorNormalUI.normalized);
-                                    if (pointToWall.collider != null)
-                                    {
-                                        distancePointToWall = Vector3.Distance(posCenterIGamePlayer, pointToWall.point);
-                                        if ((distancePointToWall < (minMax.x / 2)) || (distancePointToWall > 1.1f * (minMax.y / 2)))
-                                        {
-                                            distancePointToWall = 1.1f * (minMax.y / 2);
-                                        }
-                                    }
-
-                                    // UPDATE THE COLLISION POINT WITH THE POSITION WHERE THE UI WILL BE DISPLAYED
-                                    collisionPoint = posCenterIGamePlayer + (vectorNormalUI.normalized * distancePointToWall);
+                                    instance.transform.rotation = Quaternion.FromToRotation(Vector3.right, vectorNormalUI);
+                                    instance.transform.Rotate(new Vector3(0, -90, 0));
+                                    vectorNormalUI = Utilities.ClonePoint(instance.transform.forward);
                                 }
-                            }
-                            CreateQuietDotReference(collisionPoint, false);
-                            if (_alignedToCamera)
-                            {
-                                if (DebugMode)
-                                {
-                                    Debug.Log("++++ALIGNED TO THE CAMERA");
-                                }
-                                vectorNormalUI = Utilities.ClonePoint(m_camera.transform.forward);
-                                instance.transform.forward = vectorNormalUI;
-                            }
-                            else
-                            {
-                                if (DebugMode)
-                                {
-                                    Debug.Log("++++ALIGNED TO THE OBJECT NORMAL COLLISION");
-                                }
-                                instance.transform.rotation = Quaternion.FromToRotation(Vector3.right, vectorNormalUI);
-                                instance.transform.Rotate(new Vector3(0, -90, 0));
-                                vectorNormalUI = Utilities.ClonePoint(instance.transform.forward);
                             }
                         }
                     }

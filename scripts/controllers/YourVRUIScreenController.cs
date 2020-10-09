@@ -848,7 +848,7 @@ namespace YourVRUI
         /* 
 		 * Will create a screen linked to the camera
 		 */
-        public void CreateScreenLinkedToObject(GameObject _prefabScreen, GameObject _target, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, int _layer = 0)
+        public void CreateScreenLinkedToObject(GameObject _prefabScreen, GameObject _target, object _pages, float _distance, float _delayToDestroy, bool _forceOrthographic = false, float _scaleScreen = -1f, UIScreenTypePreviousAction _typePreviousAction = UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, int _layer = 0, bool _isTemporal = true)
         {
             UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
                                                            true,
@@ -870,7 +870,7 @@ namespace YourVRUI
                                                            _scaleScreen, // interactedObject.ScaleScreen,
                                                            false, // interactedObject.BlockOtherScreens,
                                                            Utilities.IgnoreLayersForDebug, // IgnoreLayers, 
-                                                           true, // Temporal Screen
+                                                           _isTemporal, // Temporal Screen
                                                            true, // interactedObject.IgnoreZOrderScreen,
                                                            true, // HighlightSelector
                                                            _pages,

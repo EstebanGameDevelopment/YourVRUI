@@ -70,6 +70,8 @@ namespace YourVRUI
         private bool m_activateTeleport = false;
         private bool m_calculateParabola = false;
 
+        private bool m_hitSomething = false;
+
         // ----------------------------------------------
         // GETTERS/SETTERS
         // ----------------------------------------------	
@@ -194,7 +196,7 @@ namespace YourVRUI
                 float raycastLength = length * 1.1f;
 
                 //	Check if we hit something
-                bool hitSomething = Physics.Raycast(newRay, out hit, raycastLength, AllowedLayers);
+                m_hitSomething = Physics.Raycast(newRay, out hit, raycastLength, AllowedLayers);
 
                 // don't allow to teleport to negative normals (we don't want to be stuck under floors)
                 if ((hit.normal.y > 0) && (Vector3.Distance(originalPosition, hit.point) > 1))
@@ -225,7 +227,7 @@ namespace YourVRUI
 
             m_lineRenderer.enabled = true;
 
-            m_lineRenderer.material.color= GoodDestinationColor;
+            m_lineRenderer.material.color = (m_hitSomething?GoodDestinationColor:BadDestinationColor);
 
             m_lineRenderer.positionCount = positions1.Count;
             m_lineRenderer.SetPositions(positions1.ToArray());
@@ -262,7 +264,10 @@ namespace YourVRUI
                             Vector3 shiftToTarget = m_markerDestination.transform.position - transform.position;
                             DestroyMarkerTeleport();
 
-                            BasicSystemEventController.Instance.DelayBasicSystemEvent(EVENT_TELEPORTCONTROLLER_TELEPORT, 0.01f, Utilities.Vector3ToString(shiftToTarget));
+                            if (m_hitSomething)
+                            {
+                                BasicSystemEventController.Instance.DelayBasicSystemEvent(EVENT_TELEPORTCONTROLLER_TELEPORT, 0.01f, Utilities.Vector3ToString(shiftToTarget));
+                            }
                             BasicSystemEventController.Instance.DelayBasicSystemEvent(EVENT_TELEPORTCONTROLLER_DEACTIVATION, 0.2f);
                         }
                     }

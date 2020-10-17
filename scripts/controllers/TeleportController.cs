@@ -49,6 +49,7 @@ namespace YourVRUI
         public float Curvature = 0.2f;
         public Color GoodDestinationColor = new Color(0, 0.6f, 1f, 0.2f);
         public Color BadDestinationColor = new Color(0.8f, 0, 0, 0.2f);
+        public List<GameObject> TargetsAllowedDestination = new List<GameObject>();
 
         // ----------------------------------------------
         // PRIVATE MEMBERS
@@ -145,6 +146,45 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
+        * AllowDestination
+        */
+        private bool AllowDestination(Ray _ray, out RaycastHit _hit, float _raycastLength)
+        {
+            bool hitSomething = Physics.Raycast(_ray, out _hit, _raycastLength, AllowedLayers);
+
+            if (hitSomething)
+            {
+                if (TargetsAllowedDestination == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (TargetsAllowedDestination.Count == 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        foreach (GameObject item in TargetsAllowedDestination)
+                        {
+                            if (item == _hit.collider.gameObject)
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // -------------------------------------------
+        /* 
         * ComputeParabola
         */
         internal void ComputeParabola()
@@ -196,7 +236,7 @@ namespace YourVRUI
                 float raycastLength = length * 1.1f;
 
                 //	Check if we hit something
-                m_hitSomething = Physics.Raycast(newRay, out hit, raycastLength, AllowedLayers);
+                m_hitSomething = AllowDestination(newRay, out hit, raycastLength);
 
                 // don't allow to teleport to negative normals (we don't want to be stuck under floors)
                 if ((hit.normal.y > 0) && (Vector3.Distance(originalPosition, hit.point) > 1))

@@ -33,6 +33,7 @@ namespace YourVRUI
         // EVENTS
         // ----------------------------------------------	
         public const string EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT = "EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT";
+        public const string EVENT_SCREENMANAGER_DEBUG_LOG = "EVENT_SCREENMANAGER_DEBUG_LOG";
 
         public const string UI_TRIGGERER = "UI_TRIGGERER";
         public const string DEFAULT_YOURVUI_CONFIGURATION = "DEFAULT_YOURVUI_CONFIGURATION";
@@ -254,7 +255,7 @@ namespace YourVRUI
             EnableDaydreamController = false;
 #endif
 
-#if !ENABLE_OCULUS && UNITY_HAS_GOOGLEVR
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR
             if (EnableDesktopMode)
             {
                 GvrEditorEmulator gvrViewer = GameObject.FindObjectOfType<GvrEditorEmulator>();
@@ -286,6 +287,8 @@ namespace YourVRUI
             {
                 InitDaydreamController();
             }
+#else
+            InitDaydreamController();
 #endif
 
             if (MainCamera != null)
@@ -297,7 +300,7 @@ namespace YourVRUI
                 m_camera = Camera.main;
             }
 
-#if !ENABLE_OCULUS
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE
 #if UNITY_EDITOR && UNITY_HAS_GOOGLEVR
             if (!EnableGVREmulator)
             {
@@ -324,7 +327,7 @@ namespace YourVRUI
                 Debug.LogError("YourVRUIScreenController::Start::PlayerRaycasterController NOT FOUND IN THE SYSTEM");
             }
 
-#if !ENABLE_OCULUS
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE
 #if UNITY_EDITOR && !ENABLE_WORLDSENSE && UNITY_HAS_GOOGLEVR
             EnableMoveCamera = true;
             if (GameObject.FindObjectOfType<GvrControllerInput>() != null) GameObject.FindObjectOfType<GvrControllerInput>().gameObject.SetActive(false);
@@ -405,7 +408,7 @@ namespace YourVRUI
                         if (GameObject.FindObjectOfType<OVRControllerHelper>() != null)
                         {
                             OVRControllerHelper[] ovrTrackedRemotes = GameObject.FindObjectsOfType<OVRControllerHelper>();
-                            bool isRightHand = IsRightie();
+                            bool isRightHand = KeysEventInputController.Instance.IsRightHanded();
                             GameObject ovrTrackedRemote = null;
                             for (int z = 0; z < ovrTrackedRemotes.Length; z++)
                             {
@@ -438,6 +441,15 @@ namespace YourVRUI
                     }
                 }
             }
+#elif ENABLE_HTCVIVE
+            if (m_laserPointer == null)
+            {
+                HTCHandController deviceController = GameObject.FindObjectOfType<HTCHandController>();
+                if (deviceController != null)
+                {
+                    m_laserPointer = deviceController.ControlledObject.gameObject;
+                }
+            }
 #else
             if (EnableDaydreamController)
             {
@@ -464,7 +476,7 @@ namespace YourVRUI
                 }
             }
 #endif
-        }
+            }
 
         // -------------------------------------------
         /* 
@@ -1775,8 +1787,6 @@ namespace YourVRUI
                     GUI.Box(new Rect(0, 0, 300, 40), "KEY INPUT ACTIVATED\n PRESS BACKSPACE OR BACK TO CANCEL");
                 }
             }
-
-            InitDaydreamController();
         }
     }
 }

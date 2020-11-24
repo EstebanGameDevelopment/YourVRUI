@@ -273,7 +273,7 @@ namespace YourVRUI
 			// USE DAYDREAM CONTROLLER INPUT TO MOVE
 			if (YourVRUIScreenController.Instance.IsDayDreamActivated)
 			{
-				#if UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR) && !ENABLE_OCULUS
+                #if UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR) && !ENABLE_OCULUS && !ENABLE_HTCVIVE
                 /*
                 if (ControllerInputDevice.GetButton(GvrControllerButton.TouchPadButton))
 				{
@@ -285,9 +285,9 @@ namespace YourVRUI
 					this.gameObject.transform.position += (directionVectorForward * directionMove);
 				}
                 */
-				#endif
-			}
-		}
+#endif
+            }
+        }
 
 	}
 }

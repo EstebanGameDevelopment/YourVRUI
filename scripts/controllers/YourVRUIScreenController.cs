@@ -447,7 +447,10 @@ namespace YourVRUI
                 HTCHandController deviceController = GameObject.FindObjectOfType<HTCHandController>();
                 if (deviceController != null)
                 {
-                    m_laserPointer = deviceController.ControlledObject.gameObject;
+                    if (deviceController.gameObject.GetComponentInChildren<LineRenderer>() != null)
+                    {
+                        m_laserPointer = deviceController.gameObject.GetComponentInChildren<LineRenderer>().gameObject;
+                    }
                 }
             }
 #else

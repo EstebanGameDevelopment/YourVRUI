@@ -816,6 +816,9 @@ namespace YourVRUI
             {
                 if (YourVRUIScreenController.Instance == null) return;
                 if (YourVRUIScreenController.Instance.GameCamera == null) return;
+                if (m_screen == null) return;
+                if (this == null) return;
+                if (this.gameObject == null) return;
 
                 m_normal = Utilities.ClonePoint(YourVRUIScreenController.Instance.GameCamera.transform.forward.normalized);
                 Vector3 targetPosition = YourVRUIScreenController.Instance.GameCamera.transform.position + (m_normal * m_distance);

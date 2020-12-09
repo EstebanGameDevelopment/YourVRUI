@@ -466,6 +466,7 @@ namespace YourVRUI
                 if (m_laserPointer == null)
                 {
 #if UNITY_HAS_GOOGLEVR
+#if ENABLE_WORLDSENSE
                     if (GameObject.FindObjectOfType<GvrLaserPointer>() != null)
                     {
                         m_laserPointer = GameObject.FindObjectOfType<GvrLaserPointer>().gameObject;
@@ -478,8 +479,45 @@ namespace YourVRUI
                             }
                         }
                     }
+                    else
+                    {
+                        WorldsenseHandController deviceController = GameObject.FindObjectOfType<WorldsenseHandController>();
+                        if (deviceController != null)
+                        {
+                            if (deviceController.LaserPointer != null)
+                            {
+                                m_laserPointer = deviceController.LaserPointer;
+                            }
+                            else
+                            {
+                                if (deviceController.gameObject.GetComponentInChildren<LineRenderer>() != null)
+                                {
+                                    m_laserPointer = deviceController.gameObject.GetComponentInChildren<LineRenderer>().gameObject;
+                                }
+                            }
+                        }
+                    }
+#else
+                    if (GameObject.FindObjectOfType<GvrLaserPointer>() != null)
+                    {
+                        m_laserPointer = GameObject.FindObjectOfType<GvrLaserPointer>().gameObject;
+                        if (m_laserPointer.activeSelf)
+                        {
+                            // WILL FORCE THE LASER POINTER WHEN RUNNING IN EDITOR
+                            if (DebugMode)
+                            {
+                                m_laserPointer.AddComponent<AlignWithCamera>();
+                            }
+                        }
+                    }
+                    WorldsenseHandController deviceController = GameObject.FindObjectOfType<WorldsenseHandController>();
+                    if (deviceController != null)
+                    {
+                        Utilities.SetActiveRecursively(deviceController.gameObject, false);
+                    }
 #endif
-                    if (GameObject.FindObjectOfType<CustomLaser>() != null)
+#endif
+                        if (GameObject.FindObjectOfType<CustomLaser>() != null)
                     {
                         m_laserPointer = GameObject.FindObjectOfType<CustomLaser>().gameObject;
                     }

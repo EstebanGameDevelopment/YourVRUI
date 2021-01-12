@@ -255,7 +255,7 @@ namespace YourVRUI
             EnableDaydreamController = false;
 #endif
 
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             if (EnableDesktopMode)
             {
                 GvrEditorEmulator gvrViewer = GameObject.FindObjectOfType<GvrEditorEmulator>();
@@ -301,7 +301,7 @@ namespace YourVRUI
             }
 
 #if !ENABLE_OCULUS && !ENABLE_HTCVIVE
-#if UNITY_EDITOR && UNITY_HAS_GOOGLEVR
+#if UNITY_EDITOR && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             if (!EnableGVREmulator)
             {
                 GvrEditorEmulator gvrViewerEmulator = GameObject.FindObjectOfType<GvrEditorEmulator>();
@@ -328,7 +328,7 @@ namespace YourVRUI
             }
 
 #if !ENABLE_OCULUS && !ENABLE_HTCVIVE
-#if UNITY_EDITOR && !ENABLE_WORLDSENSE && UNITY_HAS_GOOGLEVR
+#if UNITY_EDITOR && !ENABLE_WORLDSENSE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             EnableMoveCamera = true;
             if (GameObject.FindObjectOfType<GvrControllerInput>() != null) GameObject.FindObjectOfType<GvrControllerInput>().gameObject.SetActive(false);
             if (GameObject.FindObjectOfType<GvrEditorEmulator>() != null) GameObject.FindObjectOfType<GvrEditorEmulator>().gameObject.SetActive(false);
@@ -498,6 +498,7 @@ namespace YourVRUI
                         }
                     }
 #else
+#if ENABLE_PARTY_2018
                     if (GameObject.FindObjectOfType<GvrLaserPointer>() != null)
                     {
                         m_laserPointer = GameObject.FindObjectOfType<GvrLaserPointer>().gameObject;
@@ -510,6 +511,7 @@ namespace YourVRUI
                             }
                         }
                     }
+#endif
                     WorldsenseHandController deviceController = GameObject.FindObjectOfType<WorldsenseHandController>();
                     if (deviceController != null)
                     {
@@ -517,7 +519,7 @@ namespace YourVRUI
                     }
 #endif
 #endif
-                        if (GameObject.FindObjectOfType<CustomLaser>() != null)
+                    if (GameObject.FindObjectOfType<CustomLaser>() != null)
                     {
                         m_laserPointer = GameObject.FindObjectOfType<CustomLaser>().gameObject;
                     }

@@ -46,11 +46,11 @@ namespace YourVRUI
 		// PRIVATE MEMBERS
 		// ----------------------------------------------	
 		private StandaloneInputModule m_standAloneInputModule;
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
         private GvrPointerInputModule m_gazeInputModule;
 #endif
 
-        private bool m_hasBeenInitialized = false;
+		private bool m_hasBeenInitialized = false;
         private bool m_hasBeenDestroyed = false;
 
         // -------------------------------------------
@@ -77,7 +77,7 @@ namespace YourVRUI
 				this.gameObject.AddComponent<StandaloneInputModule>();
 				m_standAloneInputModule = this.gameObject.GetComponent<StandaloneInputModule>();
 			}
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             m_gazeInputModule = this.gameObject.GetComponent<GvrPointerInputModule>();
 			if (m_gazeInputModule == null)
 			{
@@ -85,7 +85,7 @@ namespace YourVRUI
 			}
 #endif
 
-            UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
         // -------------------------------------------
@@ -121,11 +121,11 @@ namespace YourVRUI
 				if (m_standAloneInputModule != null) m_standAloneInputModule.enabled = activation;
 #if ENABLE_WORLDSENSE
                 if (m_gazeInputModule != null) m_gazeInputModule.enabled = false;
-#elif !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR
+#elif !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
                 if (m_gazeInputModule != null) m_gazeInputModule.enabled = !activation;
 #endif
-            }
-            if (_nameEvent == EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)
+			}
+			if (_nameEvent == EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)
             {
                 this.gameObject.SetActive((bool)_list[0]);
             }

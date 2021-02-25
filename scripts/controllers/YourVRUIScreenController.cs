@@ -1725,6 +1725,7 @@ namespace YourVRUI
                         {
                             instance.transform.parent = _targetObject.transform;
                             collisionPoint = _targetObject.transform.position;
+                            vectorNormalUI = _targetObject.transform.forward;
                         }
                         else
                         {

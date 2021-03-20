@@ -159,7 +159,7 @@ namespace YourVRUI
         private bool m_keysEnabled = false;
         private GameObject m_laserPointer = null;
 
-        private GameObject m_screenToDestroy = null;
+        private List<GameObject> m_screenToDestroy = new List<GameObject>();
 
         // ----------------------------------------------
         // GETTERS/SETTERS
@@ -1163,6 +1163,14 @@ namespace YourVRUI
                     sc.RemoveScreenName((string)_list[0]);
                 }
             }
+            if (_nameEvent == ScreenController.EVENT_SCREENCONTROLLER_CLEAR_STACK_NAMES)
+            {
+                ScreenController sc = GameObject.FindObjectOfType<ScreenController>();
+                if (sc != null)
+                {
+                    sc.ClearScreenNameStack();
+                }
+            }
             if (_nameEvent == ButtonVRView.EVENT_BUTTONVR_REQUEST_LAYER_INFORMATION)
             {
                 UIEventController.Instance.DispatchUIEvent(ButtonVRView.EVENT_BUTTONVR_RESPONSE_LAYER_INFORMATION, _list[0], MaximumCurrentLayerScreenActive());
@@ -1208,7 +1216,8 @@ namespace YourVRUI
             if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN)
             {
                 m_enableScreens = true;
-                m_screenToDestroy = (GameObject)_list[0];
+                GameObject referenceGO = (GameObject)_list[0];
+                if (!m_screenToDestroy.Contains(referenceGO)) m_screenToDestroy.Add(referenceGO);
                 Invoke("DestroySpecificScreen", 0.05f);
             }
             if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN_BY_NAME)
@@ -1232,6 +1241,17 @@ namespace YourVRUI
             if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_REPORT_DESTROYED)
             {
                 DestroyNullScreens();
+            }
+            if (_nameEvent == ScreenBaseView.EVENT_SCREENBASE_REQUEST_SCREENVIEW_IN_POOL)
+            {
+                bool isVRScreen = (bool)_list[0];
+                if (isVRScreen)
+                {
+                    GameObject originGO = (GameObject)_list[1];
+                    string previousScreenName = (string)_list[2];
+                    GameObject screenView = LookPoolForScreen(previousScreenName);
+                    UIEventController.Instance.DispatchUIEvent(ScreenBaseView.EVENT_SCREENBASE_RESPONSE_SCREENVIEW_IN_POOL, isVRScreen, originGO, screenView, previousScreenName);
+                }
             }
             if (m_enableScreens)
             {
@@ -1356,14 +1376,28 @@ namespace YourVRUI
                         case UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN:
                             if (m_screensTemporal.Count > 0)
                             {
-                                m_screensTemporal[m_screensTemporal.Count - 1].SetActive(false);
+                                if (m_screensTemporal[m_screensTemporal.Count - 1].GetComponent<IBasicView>() != null)
+                                {
+                                    m_screensTemporal[m_screensTemporal.Count - 1].GetComponent<IBasicView>().SetActivation(false);
+                                }
+                                else
+                                {
+                                    m_screensTemporal[m_screensTemporal.Count - 1].SetActive(false);
+                                }                                
                             }
                             break;
 
                         case UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN:
                             if (m_screensTemporal.Count > 0)
                             {
-                                m_screensTemporal[m_screensTemporal.Count - 1].SetActive(false);
+                                if (m_screensTemporal[m_screensTemporal.Count - 1].GetComponent<IBasicView>() != null)
+                                {
+                                    m_screensTemporal[m_screensTemporal.Count - 1].GetComponent<IBasicView>().SetActivation(false);
+                                }
+                                else
+                                {
+                                    m_screensTemporal[m_screensTemporal.Count - 1].SetActive(false);
+                                }
                             }
                             break;
 
@@ -1455,7 +1489,11 @@ namespace YourVRUI
                     ScreenController sc = GameObject.FindObjectOfType<ScreenController>();
                     if (sc != null)
                     {
-                        sc.AddScreenNameToStack(screenName, previousScreenAction);
+                        if ((currentScreen.GetComponent<ScreenInformationView>() == null) &&
+                            (currentScreen.GetComponent<ScreenVRKeyboardView>() == null))
+                        {
+                            sc.AddScreenNameToStack(screenName, previousScreenAction, layerScreenDestroy);
+                        }                            
                     }
 
                     // Debug.LogError("YourVRUIScreenController::OnUIEvent::currentScreen=" + currentScreen.name + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -1484,6 +1522,7 @@ namespace YourVRUI
                     if (isTemporalScreen)
                     {
                         m_screensTemporal.Add(currentScreen);
+                        // Debug.LogError("+++++++++++ADD SCREEN=" + currentScreen.name + "::TOTAL SCREENS="+ m_screensTemporal.Count);
                     }
                     else
                     {
@@ -1500,8 +1539,16 @@ namespace YourVRUI
 		 */
         private void DestroySpecificScreen()
         {
-            DestroyGameObjectSingleScreen(m_screenToDestroy, true);
-            ActivationLastScreen(true);
+            if (m_screenToDestroy.Count > 0)
+            {
+                do
+                {
+                    GameObject screenToDestroy = m_screenToDestroy[0];
+                    DestroyGameObjectSingleScreen(screenToDestroy, true);
+                    m_screenToDestroy.RemoveAt(0);
+                } while (m_screenToDestroy.Count > 0);
+                ActivationLastScreen(true);
+            }
         }
 
         // -------------------------------------------
@@ -1517,6 +1564,7 @@ namespace YourVRUI
                 GameObject screen = (GameObject)m_screensTemporal[i];
                 if (_screen == screen)
                 {
+                    string nameScreen = screen.name;
                     if (_runDestroy)
                     {
                         screen.GetComponent<IBasicView>().Destroy();
@@ -1524,6 +1572,7 @@ namespace YourVRUI
                     if (screen != null)
                     {
                         GameObject.Destroy(screen);
+                        // Debug.LogError("DestroyGameObjectSingleScreen::SCREEN["+ nameScreen + "] FOUND AND DESTROYED");
                         if (i < m_screensTemporal.Count)
                         {
                             m_screensTemporal.RemoveAt(i);
@@ -1579,6 +1628,25 @@ namespace YourVRUI
             {
                 m_screensTemporal[i].SetActive(_enable);
             }
+        }
+
+        // -------------------------------------------
+        /* 
+		 * Loof for a screen name
+		 */
+        public GameObject LookPoolForScreen(string _nameScreen)
+        {
+            for (int i = 0; i < m_screensTemporal.Count; i++)
+            {
+                if (m_screensTemporal[i].GetComponent<ScreenBaseView>() != null)
+                {
+                    if (m_screensTemporal[i].GetComponent<ScreenBaseView>().NameOfScreen == _nameScreen)
+                    {
+                        return m_screensTemporal[i];
+                    }
+                }
+            }
+            return null;
         }
 
         // -------------------------------------------

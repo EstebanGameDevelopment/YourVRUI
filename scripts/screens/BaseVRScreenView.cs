@@ -364,6 +364,24 @@ namespace YourVRUI
             if (this.gameObject == null) return;
             if (!this.gameObject.activeSelf) return;
 
+            if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_CLEAR_LIST_SELECTORS)
+            {
+                if (this.gameObject == (GameObject)_list[0])
+                {
+                    ClearListSelectors();
+                    if (_list.Length > 1) m_disableActionButtonInteraction = (bool)_list[1];
+                }
+            }
+            if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RECALCULATE_LIST_SELECTORS)
+            {
+                if (this.gameObject == (GameObject)_list[0])
+                {
+                    ClearListSelectors();
+                    AddAutomaticallyButtons(m_screen);
+                    if (_list.Length > 1) m_disableActionButtonInteraction = (bool)_list[1];
+                }
+            }
+
             if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RELOAD_SCREEN_DATA)
             {
                 bool forceReaload = false;
@@ -462,6 +480,7 @@ namespace YourVRUI
                             {
                                 if (m_selectors[m_selectionButton].activeSelf)
                                 {
+                                    // Debug.LogError("INVOKE BUTTON[" + m_selectors[m_selectionButton].transform.name + "]");
                                     m_selectors[m_selectionButton].GetComponent<ButtonVRView>().InvokeButton();
                                 }
                             }
@@ -507,39 +526,43 @@ namespace YourVRUI
                 float angleDiferenceFromOrigin = (float)_list[1];
                 bool directionToMove = (bool)_list[2];
                 Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
-                ScrollRectVR scrollRectVR = m_scrollRectsVR[(int)dataElement.y];
-                if (m_initialPositionOnScrollList == -1)
+                bool elementIsInsideScrollRect = ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1));
+                if (elementIsInsideScrollRect)
                 {
-                    if (scrollRectVR.IsVerticalGrid())
+                    ScrollRectVR scrollRectVR = m_scrollRectsVR[(int)dataElement.y];
+                    if (m_initialPositionOnScrollList == -1)
                     {
-                        m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.verticalNormalizedPosition;
+                        if (scrollRectVR.IsVerticalGrid())
+                        {
+                            m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.verticalNormalizedPosition;
+                        }
+                        else
+                        {
+                            m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.horizontalNormalizedPosition;
+                        }
+                    }
+                    float finalNormalizedPosition = 0;
+                    float angleBaseMovement = (scrollRectVR.IsVerticalGrid() ? 45 : 90);
+                    if (directionToMove)
+                    {
+                        finalNormalizedPosition = m_initialPositionOnScrollList + (angleDiferenceFromOrigin / angleBaseMovement);
                     }
                     else
                     {
-                        m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.horizontalNormalizedPosition;
+                        finalNormalizedPosition = m_initialPositionOnScrollList - (angleDiferenceFromOrigin / angleBaseMovement);
                     }
+                    if (finalNormalizedPosition < 0) finalNormalizedPosition = 0;
+                    if (finalNormalizedPosition > 1) finalNormalizedPosition = 1;
+                    if (scrollRectVR.IsVerticalGrid())
+                    {
+                        scrollRectVR.ScrollRectObject.verticalNormalizedPosition = finalNormalizedPosition;
+                    }
+                    else
+                    {
+                        scrollRectVR.ScrollRectObject.horizontalNormalizedPosition = finalNormalizedPosition;
+                    }
+                    UpdateScrollRectItemsVisibility(scrollRectVR, targetObject);
                 }
-                float finalNormalizedPosition = 0;
-                float angleBaseMovement = (scrollRectVR.IsVerticalGrid() ? 45 : 90);
-                if (directionToMove)
-                {
-                    finalNormalizedPosition = m_initialPositionOnScrollList + (angleDiferenceFromOrigin / angleBaseMovement);
-                }
-                else
-                {
-                    finalNormalizedPosition = m_initialPositionOnScrollList - (angleDiferenceFromOrigin / angleBaseMovement);
-                }
-                if (finalNormalizedPosition < 0) finalNormalizedPosition = 0;
-                if (finalNormalizedPosition > 1) finalNormalizedPosition = 1;
-                if (scrollRectVR.IsVerticalGrid())
-                {
-                    scrollRectVR.ScrollRectObject.verticalNormalizedPosition = finalNormalizedPosition;
-                }
-                else
-                {
-                    scrollRectVR.ScrollRectObject.horizontalNormalizedPosition = finalNormalizedPosition;
-                }
-                UpdateScrollRectItemsVisibility(scrollRectVR, targetObject);
             }
 
             if (_nameEvent == EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION)
@@ -664,27 +687,32 @@ namespace YourVRUI
         */
         private void EnableSelectedComponent(GameObject _componentSelected)
 		{
-			for (int i = 0; i < m_selectors.Count; i++)
-			{
-				if (m_selectors[i] == _componentSelected)
-				{
-					m_selectionButton = i;
-                    bool enableDisplaySelector = true;
-                    if (m_selectors[i].GetComponent<Image>() != null)
+            try
+            {
+                for (int i = 0; i < m_selectors.Count; i++)
+                {
+                    if (m_selectors[i] == _componentSelected)
                     {
-                        if (m_selectors[i].GetComponent<Image>().color.a == 0)
+                        m_selectionButton = i;
+                        bool enableDisplaySelector = true;
+                        if (m_selectors[i].GetComponent<Image>() != null)
                         {
-                            enableDisplaySelector = false;
+                            if (m_selectors[i].GetComponent<Image>().color.a == 0)
+                            {
+                                enableDisplaySelector = false;
+                            }
                         }
+                        m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(enableDisplaySelector);
                     }
-                    m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(enableDisplaySelector);
-				}
-				else
-				{
-					m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(false);
-				}
-			}
-		}
+                    else
+                    {
+                        m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(false);
+                    }
+                }
+            }
+            catch (Exception err) {
+            };
+        }
 
 		// -------------------------------------------
 		/* 

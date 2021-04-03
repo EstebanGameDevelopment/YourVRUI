@@ -1253,6 +1253,16 @@ namespace YourVRUI
                     UIEventController.Instance.DispatchUIEvent(ScreenBaseView.EVENT_SCREENBASE_RESPONSE_SCREENVIEW_IN_POOL, isVRScreen, originGO, screenView, previousScreenName);
                 }
             }
+            if (_nameEvent == ScreenController.EVENT_SCREENCONTROLLER_ADD_NAME_TO_STACKNAMES)
+            {
+                string nameScreen = (string)_list[0];
+                int layerScreen = (int)_list[1];
+                ScreenController sc = GameObject.FindObjectOfType<ScreenController>();
+                if (sc != null)
+                {
+                    sc.AddScreenNameToStack(nameScreen, UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, layerScreen);
+                }
+            }            
             if (m_enableScreens)
             {
                 if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_MOVE_TEMPORAL_TO_FOREVER)

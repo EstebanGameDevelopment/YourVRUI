@@ -188,11 +188,32 @@ namespace YourVRUI
                     }
                 }
             }
-            if (_nameEvent == EVENT_PLAYERRAYSCASTER_REQUEST_RAYCAST)
+            if (_nameEvent == EVENT_PLAYERRAYSCASTER_REQUEST_RAYCAST) 
             {
                 CheckRaycastingNormal(true, true);
             }
 
+            if (_nameEvent == SpinningNumberView.EVENT_SPINNINGNUMBER_REQUEST_RAYCAST)
+            {
+                GameObject originGO = (GameObject)_list[0];
+                RaycastHit hitSurface;
+                if (!YourVRUIScreenController.Instance.IsDayDreamActivated)
+                {
+                    hitSurface = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
+                }
+                else
+                {
+                    hitSurface = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, IgnoreLayers);
+                }
+                if (hitSurface.collider != null)
+                {
+                    UIEventController.Instance.DispatchUIEvent(SpinningNumberView.EVENT_SPINNINGNUMBER_RESPONSE_RAYCAST, originGO, hitSurface.collider.gameObject);
+                }
+                else
+                {
+                    UIEventController.Instance.DispatchUIEvent(SpinningNumberView.EVENT_SPINNINGNUMBER_RESPONSE_RAYCAST, originGO, null);
+                }
+            }
             if (_nameEvent == InteractionController.EVENT_INTERACTIONCONTROLLER_COLLIDED_WITH_PLAYER)
             {
                 if (YourVRUIScreenController.Instance.EnableCollisionDetection)

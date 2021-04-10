@@ -82,6 +82,7 @@ namespace YourVRUI
             {
                 m_inputFieldReference.text = m_keyboardManager.inputText.text;
                 // m_inputFieldReference.transform.GetComponentInParent<ScreenBaseView>().gameObject.SetActive(true);
+                UIEventController.Instance.DispatchUIEvent(SpinningNumberView.EVENT_SPINNINGNUMBER_INPUTFIELD_UPDATED, m_inputFieldReference);
                 Destroy();
             }
 		}

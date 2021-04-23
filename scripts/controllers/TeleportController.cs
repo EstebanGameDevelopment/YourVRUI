@@ -15,6 +15,7 @@ namespace YourVRUI
         public const string EVENT_TELEPORTCONTROLLER_DEACTIVATION   = "EVENT_TELEPORTCONTROLLER_DEACTIVATION";
         public const string EVENT_TELEPORTCONTROLLER_TELEPORT       = "EVENT_TELEPORTCONTROLLER_TELEPORT";
         public const string EVENT_TELEPORTCONTROLLER_KEY_RELEASED   = "EVENT_TELEPORTCONTROLLER_KEY_RELEASED";
+        public const string EVENT_TELEPORTCONTROLLER_AWAKENED       = "EVENT_TELEPORTCONTROLLER_AWAKENED";
 
         private const int PARABOLA_PRECISION = 450;
 
@@ -113,6 +114,8 @@ namespace YourVRUI
             m_lineRenderer.SetPosition(1, Vector3.zero);
 
             m_forwardDirection = this.transform;
+
+            BasicSystemEventController.Instance.DelayBasicSystemEvent(EVENT_TELEPORTCONTROLLER_AWAKENED, 0.1f);
         }
 
         // -------------------------------------------

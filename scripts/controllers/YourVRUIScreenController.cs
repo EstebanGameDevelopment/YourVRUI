@@ -34,6 +34,7 @@ namespace YourVRUI
         // ----------------------------------------------	
         public const string EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT = "EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT";
         public const string EVENT_SCREENMANAGER_DEBUG_LOG = "EVENT_SCREENMANAGER_DEBUG_LOG";
+        public const string EVENT_SCREENMANAGER_CHECK_LINERENDER_LASER = "EVENT_SCREENMANAGER_CHECK_LINERENDER_LASER";
 
         public const string UI_TRIGGERER = "UI_TRIGGERER";
         public const string DEFAULT_YOURVUI_CONFIGURATION = "DEFAULT_YOURVUI_CONFIGURATION";
@@ -1155,6 +1156,10 @@ namespace YourVRUI
 		 */
         private void OnUIEvent(string _nameEvent, params object[] _list)
         {
+            if (_nameEvent == EVENT_SCREENMANAGER_CHECK_LINERENDER_LASER)
+            {
+                InitDaydreamController();
+            }
             if (_nameEvent == ScreenController.EVENT_SCREENCONTROLLER_REMOVE_SCREEN_NAME)
             {
                 ScreenController sc = GameObject.FindObjectOfType<ScreenController>();

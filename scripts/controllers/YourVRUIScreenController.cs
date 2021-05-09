@@ -35,6 +35,7 @@ namespace YourVRUI
         public const string EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT = "EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT";
         public const string EVENT_SCREENMANAGER_DEBUG_LOG = "EVENT_SCREENMANAGER_DEBUG_LOG";
         public const string EVENT_SCREENMANAGER_CHECK_LINERENDER_LASER = "EVENT_SCREENMANAGER_CHECK_LINERENDER_LASER";
+        public const string EVENT_SCREENMANAGER_ASSIGNED_LASER = "EVENT_SCREENMANAGER_ASSIGNED_LASER";
 
         public const string UI_TRIGGERER = "UI_TRIGGERER";
         public const string DEFAULT_YOURVUI_CONFIGURATION = "DEFAULT_YOURVUI_CONFIGURATION";
@@ -182,6 +183,9 @@ namespace YourVRUI
         public GameObject LaserPointer
         {
             get { return m_laserPointer; }
+            set { m_laserPointer = value;
+                UIEventController.Instance.DelayUIEvent(EVENT_SCREENMANAGER_ASSIGNED_LASER, 0.01f);
+            }
         }
         public float FinalScaleScreens
         {
@@ -219,6 +223,9 @@ namespace YourVRUI
         {
             get { return m_screensTemporal; }
         }
+        public GameObject LaserLeftPointer { get; set; }
+        public GameObject LaserRightPointer { get; set; }
+
 
         // -------------------------------------------
         /* 
@@ -231,11 +238,13 @@ namespace YourVRUI
                 Debug.Log("YourVRUIScreenController::Start::First class to initialize for the whole system to work");
             }
 
+#if !ENABLE_OCULUS
             int defaultConfiguration = PlayerPrefs.GetInt(DEFAULT_YOURVUI_CONFIGURATION, -1);
             if (defaultConfiguration != -1)
             {
                 DefaultConfiguration = (CONFIGURATIONS_YOURVRUI)defaultConfiguration;
             }
+#endif
 
             InitializePredefinedConfiguration();
 
@@ -386,7 +395,7 @@ namespace YourVRUI
 		 */
         private void InitDaydreamController()
         {
-#if ENABLE_OCULUS
+#if ENABLE_OCULUS && ENABLE_PARTY_2018
             if (m_laserPointer == null)
             {
                 bool lookForLaser = true;

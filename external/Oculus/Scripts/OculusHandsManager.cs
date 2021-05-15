@@ -21,7 +21,12 @@ namespace YourVRUI
      * 
      * @author Esteban Gallardo
      */
-    public class OculusHandsManager : HandsManager
+    public class OculusHandsManager :
+#if ENABLE_OCULUS
+        HandsManager
+#else
+        YourVRUI.HandsManager
+#endif
     {
         // ----------------------------------------------
         // EVENTS

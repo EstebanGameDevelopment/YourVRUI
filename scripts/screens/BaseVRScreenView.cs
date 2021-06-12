@@ -37,8 +37,9 @@ namespace YourVRUI
         // ----------------------------------------------	
         public const float FADE_TIME = 1f;
 		public const float DELAY_TO_REFOCUS = 0.2f;
+        public const float SCROLL_RECT_VR_SPEED_WITH_JOYSTICK = 1F;
 
-		public const string CONTENT_COMPONENT_NAME = "Content";
+        public const string CONTENT_COMPONENT_NAME = "Content";
 
 		// ----------------------------------------------
 		// PUBLIC MEMBERS
@@ -73,6 +74,7 @@ namespace YourVRUI
 		private bool m_firstHighlightConsumed = false;
 
 		private List<ScrollRectVR> m_scrollRectsVR = null;
+		private List<ScrollRectVR> m_staticScrollRectsVR = null;
 
 		private float m_initialPositionOnScrollList = -1;
 
@@ -85,6 +87,11 @@ namespace YourVRUI
         private GameObject m_dotProjectedUI = null;
 
         private float m_timeToAlpha = 0;
+
+        private bool m_enableScrollDown = false;
+        private bool m_enableScrollUp = false;
+        private bool m_enableScrollLeft = false;
+        private bool m_enableScrollRight = false;
 
         // ----------------------------------------------
         // GETTERS/SETTERS
@@ -184,6 +191,8 @@ namespace YourVRUI
 				AddAutomaticallyButtons(m_screen);
 			}
 
+            m_staticScrollRectsVR = new List<ScrollRectVR>();
+            Utilities.CalculateScrollRect(this.gameObject, ref m_staticScrollRectsVR);
         }
 
         // -------------------------------------------
@@ -491,6 +500,7 @@ namespace YourVRUI
 
             if (_nameEvent == ButtonVRView.EVENT_CHECK_ELEMENT_CORNER_OUT_OF_LIST)
             {
+                /*
                 if (!m_disableActionButtonInteraction)
                 {
                     if (YourVRUIScreenController.Instance.DisplayHighlightedItemInList)
@@ -504,8 +514,35 @@ namespace YourVRUI
                         }
                     }
                 }
+                */
             }
 
+            if (_nameEvent == KeysEventInputController.JOYSTICK_DOWN_PRESSED)
+            {
+                m_enableScrollDown = true;
+            }
+            if (_nameEvent == KeysEventInputController.JOYSTICK_UP_PRESSED)
+            {
+                m_enableScrollUp = true;
+            }
+            if (_nameEvent == KeysEventInputController.JOYSTICK_LEFT_PRESSED)
+            {
+                m_enableScrollLeft = true;
+            }
+            if (_nameEvent == KeysEventInputController.JOYSTICK_RIGHT_PRESSED)
+            {
+                m_enableScrollRight = true;
+            }
+            if ((_nameEvent == KeysEventInputController.JOYSTICK_DOWN_RELEASED)
+                || (_nameEvent == KeysEventInputController.JOYSTICK_UP_RELEASED)
+                || (_nameEvent == KeysEventInputController.JOYSTICK_RIGHT_RELEASED)
+                || (_nameEvent == KeysEventInputController.JOYSTICK_LEFT_RELEASED))
+            {
+                m_enableScrollDown = false;
+                m_enableScrollUp = false;
+                m_enableScrollLeft = false;
+                m_enableScrollRight = false;
+            }
             if (_nameEvent == EVENT_SCREEN_CHECK_ELEMENT_BELONGS_TO_SCROLLRECT)
             {
                 GameObject targetObject = (GameObject)_list[0];
@@ -986,6 +1023,42 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
+		 * ScrollRectVRWithJoystick
+		 */
+        private void ScrollRectVRWithJoystick()
+        {
+            if (m_staticScrollRectsVR != null)
+            {
+                foreach (ScrollRectVR item in m_staticScrollRectsVR)
+                {
+                    if (item.IsVerticalGrid())
+                    {
+                        if (m_enableScrollDown)
+                        {
+                            item.ScrollRectObject.verticalNormalizedPosition += Time.deltaTime * SCROLL_RECT_VR_SPEED_WITH_JOYSTICK;
+                        }
+                        if (m_enableScrollUp)
+                        {
+                            item.ScrollRectObject.verticalNormalizedPosition -= Time.deltaTime * SCROLL_RECT_VR_SPEED_WITH_JOYSTICK;
+                        }
+                    }
+                    else
+                    {
+                        if (m_enableScrollRight)
+                        {
+                            item.ScrollRectObject.horizontalNormalizedPosition += Time.deltaTime * SCROLL_RECT_VR_SPEED_WITH_JOYSTICK;
+                        }
+                        if (m_enableScrollLeft)
+                        {
+                            item.ScrollRectObject.horizontalNormalizedPosition -= Time.deltaTime * SCROLL_RECT_VR_SPEED_WITH_JOYSTICK;
+                        }
+                    }
+                }
+            }
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Runs the logic for realigning and destroying on distance
 		 */
         void Update()
@@ -999,6 +1072,8 @@ namespace YourVRUI
             DotProjectedUIUpdate();
 
             AlphaProgressLogic();
+
+            ScrollRectVRWithJoystick();
         }
 
     }

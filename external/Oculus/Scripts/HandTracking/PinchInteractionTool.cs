@@ -141,7 +141,7 @@ namespace YourVRUI
 
         private void OnDestroy()
         {
-            OculusEventObserver.Instance.OculusEvent -= OnOculusEvent;
+            if (OculusEventObserver.Instance != null) OculusEventObserver.Instance.OculusEvent -= OnOculusEvent;
         }
 
         private void OnOculusEvent(string _nameEvent, object[] _list)

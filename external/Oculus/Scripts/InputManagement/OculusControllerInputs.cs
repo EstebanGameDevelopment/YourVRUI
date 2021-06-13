@@ -48,15 +48,22 @@ namespace YourVRUI
         {
             get
             {
-                _instance = GameObject.FindObjectOfType(typeof(OculusControllerInputs)) as OculusControllerInputs;
                 if (!_instance)
                 {
-                    GameObject container = new GameObject();
-                    // DontDestroyOnLoad(container);
-                    container.name = "OculusControllerInputs";
-                    _instance = container.AddComponent(typeof(OculusControllerInputs)) as OculusControllerInputs;
+                    _instance = GameObject.FindObjectOfType(typeof(OculusControllerInputs)) as OculusControllerInputs;
+                    if (!_instance)
+                    {
+                        GameObject container = new GameObject();
+                        // DontDestroyOnLoad(container);
+                        container.name = "OculusControllerInputs";
+                        _instance = container.AddComponent(typeof(OculusControllerInputs)) as OculusControllerInputs;
+                    }
+                    return _instance;
                 }
-                return _instance;
+                else
+                {
+                    return _instance;
+                }
             }
         }
 
@@ -120,6 +127,21 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
+		 * OnDestroy
+		 */
+        private void OnDestroy()
+        {
+            if (Instance !=  null)
+            {
+                Deactivate();
+
+                GameObject.Destroy(_instance.gameObject);
+                _instance = null;
+            }
+        }
+
+        // -------------------------------------------
+        /* 
 		 * Deactivate
 		 */
         public void Deactivate()
@@ -129,11 +151,11 @@ namespace YourVRUI
             m_indexTriggerLeftPressed = false;
             m_indexTriggerRightPressed = false;
 
-            m_handLeftController.SetActive(false);
-            m_handRightController.SetActive(false);
+            if (m_handLeftController != null) m_handLeftController.SetActive(false);
+            if (m_handRightController != null) m_handRightController.SetActive(false);
 
-            m_raycastLineLeft.gameObject.SetActive(false);
-            m_raycastLineRight.gameObject.SetActive(false);
+            if (m_raycastLineLeft != null) m_raycastLineLeft.gameObject.SetActive(false);
+            if (m_raycastLineRight != null) m_raycastLineRight.gameObject.SetActive(false);
         }
 
         // -------------------------------------------

@@ -34,6 +34,19 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
+		 * OnDestroy
+		 */
+        private void OnDestroy()
+        {
+            if (Instance != null)
+            {
+                GameObject.Destroy(_instance.gameObject);
+                _instance = null;
+            }
+        }
+
+        // -------------------------------------------
+        /* 
 		 * TriggerVibration
 		 */
         public void TriggerVibration(AudioClip _audioclip, OVRInput.Controller _controller)

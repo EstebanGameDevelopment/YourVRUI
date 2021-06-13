@@ -1051,7 +1051,7 @@ namespace YourVRUI
                 }
                 listNotToDestroy.Clear();
             }
-            KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
+            if (KeysEventInputController.Instance != null) KeysEventInputController.Instance.TemporalNumberScreensActive = m_screensTemporal.Count;
         }
 
         // -------------------------------------------

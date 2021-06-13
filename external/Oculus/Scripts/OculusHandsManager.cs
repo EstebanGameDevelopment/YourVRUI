@@ -111,8 +111,14 @@ namespace YourVRUI
 		 */
         private void OnDestroy()
         {
-            OculusEventObserver.Instance.OculusEvent -= OnOculusEvent;
-            BasicSystemEventController.Instance.BasicSystemEvent -= OnBasicSystemEvent;
+            if (InstanceManager !=  null)
+            {
+                OculusEventObserver.Instance.OculusEvent -= OnOculusEvent;
+                BasicSystemEventController.Instance.BasicSystemEvent -= OnBasicSystemEvent;
+
+                GameObject.Destroy(_instanceManager.gameObject);
+                _instanceManager = null;
+            }
         }
 
         // -------------------------------------------

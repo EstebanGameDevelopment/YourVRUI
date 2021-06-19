@@ -1514,7 +1514,8 @@ namespace YourVRUI
                     if (sc != null)
                     {
                         if ((currentScreen.GetComponent<ScreenInformationView>() == null) &&
-                            (currentScreen.GetComponent<ScreenVRKeyboardView>() == null))
+                            (currentScreen.GetComponent<ScreenVRKeyboardView>() == null) &&
+                            (currentScreen.GetComponent<ScreenLoadingView>() == null))
                         {
                             sc.AddScreenNameToStack(screenName, previousScreenAction, layerScreenDestroy);
                         }                            

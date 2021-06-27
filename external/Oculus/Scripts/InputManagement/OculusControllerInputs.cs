@@ -115,8 +115,8 @@ namespace YourVRUI
 
             m_raycastLineLeft = m_handLeftController.GetComponentInChildren<LineRenderer>();
             m_raycastLineRight = m_handRightController.GetComponentInChildren<LineRenderer>();
-            m_raycastLineLeft.gameObject.SetActive(false);
-            m_raycastLineRight.gameObject.SetActive(false);
+            if (m_raycastLineLeft != null) m_raycastLineLeft.gameObject.SetActive(false);
+            if (m_raycastLineRight != null) m_raycastLineRight.gameObject.SetActive(false);
 
             if (!OculusHandsManager.InstanceManager.EnableVisualRays)
             {
@@ -170,8 +170,8 @@ namespace YourVRUI
             m_handLeftController.SetActive(true);
             m_handRightController.SetActive(true);
 
-            m_raycastLineLeft.gameObject.SetActive(false);
-            m_raycastLineRight.gameObject.SetActive(false);
+            if (m_raycastLineLeft != null) m_raycastLineLeft.gameObject.SetActive(false);
+            if (m_raycastLineRight != null) m_raycastLineRight.gameObject.SetActive(false);
         }
 
         // -------------------------------------------

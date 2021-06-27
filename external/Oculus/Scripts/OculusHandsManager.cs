@@ -113,7 +113,7 @@ namespace YourVRUI
         {
             if (InstanceManager !=  null)
             {
-                OculusEventObserver.Instance.OculusEvent -= OnOculusEvent;
+                if (OculusEventObserver.Instance != null) OculusEventObserver.Instance.OculusEvent -= OnOculusEvent;
                 BasicSystemEventController.Instance.BasicSystemEvent -= OnBasicSystemEvent;
 
                 GameObject.Destroy(_instanceManager.gameObject);
@@ -328,6 +328,10 @@ namespace YourVRUI
 		 */
         protected virtual void SwitchControlsHandToControllers(bool _handTrackingState)
         {
+#if DISABLE_HAND_TRACKING
+            DeActivateTrackingHands();
+            OculusControllerInputs.Instance.Activate();
+#else
             if (_handTrackingState)
             {
                 ActivateTrackingHands();
@@ -338,6 +342,7 @@ namespace YourVRUI
                 DeActivateTrackingHands();
                 OculusControllerInputs.Instance.Activate();
             }
+#endif
             RefreshSphereInteractionRadius();
             OculusEventObserver.Instance.DispatchOculusEvent(EVENT_OCULUSHANDMANAGER_SET_UP_LASER_POINTER_INITIALIZE, _handTrackingState, HAND.right, YourVRUIScreenController.Instance.LaserRightPointer, false);
         }

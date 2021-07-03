@@ -153,6 +153,8 @@ namespace YourVRUI
                     item.GetComponent<FingerInteractionRadius>().SetActive(false);
                 }
             }
+
+            ActivateTeleportController(m_handsBeingTracked);
         }
 
         // -------------------------------------------
@@ -429,6 +431,27 @@ namespace YourVRUI
                 HandleOculusDefaultHand(isHandTracking, _nameEvent, handSelected, myLaserPointer, triggerHandButtonDown, onHandEventDownConfirmed, onHandEventUpConfirmed, isOriginInHandTracking);
             }
         }
+
+        // -------------------------------------------
+        /* 
+         * ActivateTeleportController
+         */
+        private void ActivateTeleportController(bool _isHandTracking)
+        {
+            TeleportController[] teleportControllers = GameObject.FindObjectsOfType<TeleportController>();
+            for (int i = 0; i < teleportControllers.Length; i++)
+            {
+                if (_isHandTracking)
+                {
+                    teleportControllers[i].HasFocusTeleport = teleportControllers[i].IsHandTracking;
+                }
+                else
+                {
+                    teleportControllers[i].HasFocusTeleport = !teleportControllers[i].IsHandTracking;
+                }
+            }
+        }
+
 
         // -------------------------------------------
         /* 

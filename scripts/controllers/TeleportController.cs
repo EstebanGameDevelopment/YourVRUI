@@ -16,29 +16,14 @@ namespace YourVRUI
         public const string EVENT_TELEPORTCONTROLLER_TELEPORT       = "EVENT_TELEPORTCONTROLLER_TELEPORT";
         public const string EVENT_TELEPORTCONTROLLER_KEY_RELEASED   = "EVENT_TELEPORTCONTROLLER_KEY_RELEASED";
         public const string EVENT_TELEPORTCONTROLLER_AWAKENED       = "EVENT_TELEPORTCONTROLLER_AWAKENED";
+        public const string EVENT_TELEPORTCONTROLLER_SET_FORWARD_DIRECTION = "EVENT_TELEPORTCONTROLLER_SET_FORWARD_DIRECTION";
 
         private const int PARABOLA_PRECISION = 450;
 
         // ----------------------------------------------
-        // SINGLETON
-        // ----------------------------------------------	
-        private static TeleportController _instance;
-
-        public static TeleportController Instance
-        {
-            get
-            {
-                if (!_instance)
-                {
-                    _instance = GameObject.FindObjectOfType(typeof(TeleportController)) as TeleportController;
-                }
-                return _instance;
-            }
-        }
-
-        // ----------------------------------------------
         // PUBLIC MEMBERS
         // ----------------------------------------------	
+        public bool IsHandTracking = false;
         public GameObject CameraController;
         public GameObject MarkerDestination;
         public Material LineMaterial;
@@ -74,6 +59,8 @@ namespace YourVRUI
 
         private bool m_hitSomething = false;
 
+        private bool m_hasFocusTeleport = true;
+
         // ----------------------------------------------
         // GETTERS/SETTERS
         // ----------------------------------------------	
@@ -88,6 +75,11 @@ namespace YourVRUI
                 m_forwardDirection = value;
                 m_forceRotateBecauseHand = true;
             }
+        }
+        public bool HasFocusTeleport
+        {
+            get { return m_hasFocusTeleport; }
+            set { m_hasFocusTeleport = value; }
         }
 
         // -------------------------------------------
@@ -284,6 +276,12 @@ namespace YourVRUI
 		 */
         private void OnBasicSystemEvent(string _nameEvent, object[] _list)
         {
+            if (!m_hasFocusTeleport) return;
+
+            if (_nameEvent == EVENT_TELEPORTCONTROLLER_SET_FORWARD_DIRECTION)
+            {
+                ForwardDirection = (Transform)_list[0];
+            }
             if (_nameEvent == EVENT_TELEPORTCONTROLLER_ACTIVATION)
             {
                 m_activateTeleport = true;
@@ -324,13 +322,16 @@ namespace YourVRUI
 		 */
         private void Update()
         {
-            if (m_activateTeleport)
+            if (m_hasFocusTeleport)
             {
-                if (m_calculateParabola)
+                if (m_activateTeleport)
                 {
-                    ComputeParabola();
+                    if (m_calculateParabola)
+                    {
+                        ComputeParabola();
+                    }
                 }
-            }            
+            }
         }
     }
 }

@@ -37,9 +37,8 @@ namespace YourVRUI
         // ----------------------------------------------	
         public const float FADE_TIME = 1f;
 		public const float DELAY_TO_REFOCUS = 0.2f;
-        public const float SCROLL_RECT_VR_SPEED_WITH_JOYSTICK = 1F;
 
-        public const string CONTENT_COMPONENT_NAME = "Content";
+		public const string CONTENT_COMPONENT_NAME = "Content";
 
 		// ----------------------------------------------
 		// PUBLIC MEMBERS
@@ -74,7 +73,6 @@ namespace YourVRUI
 		private bool m_firstHighlightConsumed = false;
 
 		private List<ScrollRectVR> m_scrollRectsVR = null;
-		private List<ScrollRectVR> m_staticScrollRectsVR = null;
 
 		private float m_initialPositionOnScrollList = -1;
 
@@ -87,11 +85,6 @@ namespace YourVRUI
         private GameObject m_dotProjectedUI = null;
 
         private float m_timeToAlpha = 0;
-
-        private bool m_enableScrollDown = false;
-        private bool m_enableScrollUp = false;
-        private bool m_enableScrollLeft = false;
-        private bool m_enableScrollRight = false;
 
         // ----------------------------------------------
         // GETTERS/SETTERS
@@ -191,8 +184,6 @@ namespace YourVRUI
 				AddAutomaticallyButtons(m_screen);
 			}
 
-            m_staticScrollRectsVR = new List<ScrollRectVR>();
-            Utilities.CalculateScrollRect(this.gameObject, ref m_staticScrollRectsVR);
         }
 
         // -------------------------------------------
@@ -373,24 +364,6 @@ namespace YourVRUI
             if (this.gameObject == null) return;
             if (!this.gameObject.activeSelf) return;
 
-            if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_CLEAR_LIST_SELECTORS)
-            {
-                if (this.gameObject == (GameObject)_list[0])
-                {
-                    ClearListSelectors();
-                    if (_list.Length > 1) m_disableActionButtonInteraction = (bool)_list[1];
-                }
-            }
-            if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RECALCULATE_LIST_SELECTORS)
-            {
-                if (this.gameObject == (GameObject)_list[0])
-                {
-                    ClearListSelectors();
-                    AddAutomaticallyButtons(m_screen);
-                    if (_list.Length > 1) m_disableActionButtonInteraction = (bool)_list[1];
-                }
-            }
-
             if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_RELOAD_SCREEN_DATA)
             {
                 bool forceReaload = false;
@@ -489,7 +462,6 @@ namespace YourVRUI
                             {
                                 if (m_selectors[m_selectionButton].activeSelf)
                                 {
-                                    // Debug.LogError("INVOKE BUTTON[" + m_selectors[m_selectionButton].transform.name + "]");
                                     m_selectors[m_selectionButton].GetComponent<ButtonVRView>().InvokeButton();
                                 }
                             }
@@ -500,7 +472,6 @@ namespace YourVRUI
 
             if (_nameEvent == ButtonVRView.EVENT_CHECK_ELEMENT_CORNER_OUT_OF_LIST)
             {
-                /*
                 if (!m_disableActionButtonInteraction)
                 {
                     if (YourVRUIScreenController.Instance.DisplayHighlightedItemInList)
@@ -514,35 +485,8 @@ namespace YourVRUI
                         }
                     }
                 }
-                */
             }
 
-            if (_nameEvent == KeysEventInputController.JOYSTICK_DOWN_PRESSED)
-            {
-                m_enableScrollDown = true;
-            }
-            if (_nameEvent == KeysEventInputController.JOYSTICK_UP_PRESSED)
-            {
-                m_enableScrollUp = true;
-            }
-            if (_nameEvent == KeysEventInputController.JOYSTICK_LEFT_PRESSED)
-            {
-                m_enableScrollLeft = true;
-            }
-            if (_nameEvent == KeysEventInputController.JOYSTICK_RIGHT_PRESSED)
-            {
-                m_enableScrollRight = true;
-            }
-            if ((_nameEvent == KeysEventInputController.JOYSTICK_DOWN_RELEASED)
-                || (_nameEvent == KeysEventInputController.JOYSTICK_UP_RELEASED)
-                || (_nameEvent == KeysEventInputController.JOYSTICK_RIGHT_RELEASED)
-                || (_nameEvent == KeysEventInputController.JOYSTICK_LEFT_RELEASED))
-            {
-                m_enableScrollDown = false;
-                m_enableScrollUp = false;
-                m_enableScrollLeft = false;
-                m_enableScrollRight = false;
-            }
             if (_nameEvent == EVENT_SCREEN_CHECK_ELEMENT_BELONGS_TO_SCROLLRECT)
             {
                 GameObject targetObject = (GameObject)_list[0];
@@ -563,43 +507,39 @@ namespace YourVRUI
                 float angleDiferenceFromOrigin = (float)_list[1];
                 bool directionToMove = (bool)_list[2];
                 Vector3 dataElement = GetGameObjectElementInsideScrollRect(targetObject);
-                bool elementIsInsideScrollRect = ((dataElement.x != -1) && (dataElement.y != -1) && (dataElement.z != -1));
-                if (elementIsInsideScrollRect)
+                ScrollRectVR scrollRectVR = m_scrollRectsVR[(int)dataElement.y];
+                if (m_initialPositionOnScrollList == -1)
                 {
-                    ScrollRectVR scrollRectVR = m_scrollRectsVR[(int)dataElement.y];
-                    if (m_initialPositionOnScrollList == -1)
-                    {
-                        if (scrollRectVR.IsVerticalGrid())
-                        {
-                            m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.verticalNormalizedPosition;
-                        }
-                        else
-                        {
-                            m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.horizontalNormalizedPosition;
-                        }
-                    }
-                    float finalNormalizedPosition = 0;
-                    float angleBaseMovement = (scrollRectVR.IsVerticalGrid() ? 45 : 90);
-                    if (directionToMove)
-                    {
-                        finalNormalizedPosition = m_initialPositionOnScrollList + (angleDiferenceFromOrigin / angleBaseMovement);
-                    }
-                    else
-                    {
-                        finalNormalizedPosition = m_initialPositionOnScrollList - (angleDiferenceFromOrigin / angleBaseMovement);
-                    }
-                    if (finalNormalizedPosition < 0) finalNormalizedPosition = 0;
-                    if (finalNormalizedPosition > 1) finalNormalizedPosition = 1;
                     if (scrollRectVR.IsVerticalGrid())
                     {
-                        scrollRectVR.ScrollRectObject.verticalNormalizedPosition = finalNormalizedPosition;
+                        m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.verticalNormalizedPosition;
                     }
                     else
                     {
-                        scrollRectVR.ScrollRectObject.horizontalNormalizedPosition = finalNormalizedPosition;
+                        m_initialPositionOnScrollList = scrollRectVR.ScrollRectObject.horizontalNormalizedPosition;
                     }
-                    UpdateScrollRectItemsVisibility(scrollRectVR, targetObject);
                 }
+                float finalNormalizedPosition = 0;
+                float angleBaseMovement = (scrollRectVR.IsVerticalGrid() ? 45 : 90);
+                if (directionToMove)
+                {
+                    finalNormalizedPosition = m_initialPositionOnScrollList + (angleDiferenceFromOrigin / angleBaseMovement);
+                }
+                else
+                {
+                    finalNormalizedPosition = m_initialPositionOnScrollList - (angleDiferenceFromOrigin / angleBaseMovement);
+                }
+                if (finalNormalizedPosition < 0) finalNormalizedPosition = 0;
+                if (finalNormalizedPosition > 1) finalNormalizedPosition = 1;
+                if (scrollRectVR.IsVerticalGrid())
+                {
+                    scrollRectVR.ScrollRectObject.verticalNormalizedPosition = finalNormalizedPosition;
+                }
+                else
+                {
+                    scrollRectVR.ScrollRectObject.horizontalNormalizedPosition = finalNormalizedPosition;
+                }
+                UpdateScrollRectItemsVisibility(scrollRectVR, targetObject);
             }
 
             if (_nameEvent == EVENT_SCREEN_DISABLE_ACTION_BUTTON_INTERACTION)
@@ -724,32 +664,27 @@ namespace YourVRUI
         */
         private void EnableSelectedComponent(GameObject _componentSelected)
 		{
-            try
-            {
-                for (int i = 0; i < m_selectors.Count; i++)
-                {
-                    if (m_selectors[i] == _componentSelected)
+			for (int i = 0; i < m_selectors.Count; i++)
+			{
+				if (m_selectors[i] == _componentSelected)
+				{
+					m_selectionButton = i;
+                    bool enableDisplaySelector = true;
+                    if (m_selectors[i].GetComponent<Image>() != null)
                     {
-                        m_selectionButton = i;
-                        bool enableDisplaySelector = true;
-                        if (m_selectors[i].GetComponent<Image>() != null)
+                        if (m_selectors[i].GetComponent<Image>().color.a == 0)
                         {
-                            if (m_selectors[i].GetComponent<Image>().color.a == 0)
-                            {
-                                enableDisplaySelector = false;
-                            }
+                            enableDisplaySelector = false;
                         }
-                        m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(enableDisplaySelector);
                     }
-                    else
-                    {
-                        m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(false);
-                    }
-                }
-            }
-            catch (Exception err) {
-            };
-        }
+                    m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(enableDisplaySelector);
+				}
+				else
+				{
+					m_selectors[i].GetComponent<ButtonVRView>().EnableSelector(false);
+				}
+			}
+		}
 
 		// -------------------------------------------
 		/* 
@@ -1023,42 +958,6 @@ namespace YourVRUI
 
         // -------------------------------------------
         /* 
-		 * ScrollRectVRWithJoystick
-		 */
-        private void ScrollRectVRWithJoystick()
-        {
-            if (m_staticScrollRectsVR != null)
-            {
-                foreach (ScrollRectVR item in m_staticScrollRectsVR)
-                {
-                    if (item.IsVerticalGrid())
-                    {
-                        if (m_enableScrollDown)
-                        {
-                            item.ScrollRectObject.verticalNormalizedPosition += Time.deltaTime * SCROLL_RECT_VR_SPEED_WITH_JOYSTICK;
-                        }
-                        if (m_enableScrollUp)
-                        {
-                            item.ScrollRectObject.verticalNormalizedPosition -= Time.deltaTime * SCROLL_RECT_VR_SPEED_WITH_JOYSTICK;
-                        }
-                    }
-                    else
-                    {
-                        if (m_enableScrollRight)
-                        {
-                            item.ScrollRectObject.horizontalNormalizedPosition += Time.deltaTime * SCROLL_RECT_VR_SPEED_WITH_JOYSTICK;
-                        }
-                        if (m_enableScrollLeft)
-                        {
-                            item.ScrollRectObject.horizontalNormalizedPosition -= Time.deltaTime * SCROLL_RECT_VR_SPEED_WITH_JOYSTICK;
-                        }
-                    }
-                }
-            }
-        }
-
-        // -------------------------------------------
-        /* 
 		 * Runs the logic for realigning and destroying on distance
 		 */
         void Update()
@@ -1072,8 +971,6 @@ namespace YourVRUI
             DotProjectedUIUpdate();
 
             AlphaProgressLogic();
-
-            ScrollRectVRWithJoystick();
         }
 
     }

@@ -119,7 +119,7 @@ namespace YourVRUI
 			{
 				bool activation = (bool)_list[0];
 				if (m_standAloneInputModule != null) m_standAloneInputModule.enabled = activation;
-#if ENABLE_WORLDSENSE
+#if ENABLE_WORLDSENSE && ENABLE_PARTY_2018
                 if (m_gazeInputModule != null) m_gazeInputModule.enabled = false;
 #elif !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
                 if (m_gazeInputModule != null) m_gazeInputModule.enabled = !activation;

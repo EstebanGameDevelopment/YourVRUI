@@ -255,7 +255,7 @@ namespace YourVRUI
             EnableDaydreamController = false;
 #endif
 
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             if (EnableDesktopMode)
             {
                 GvrEditorEmulator gvrViewer = GameObject.FindObjectOfType<GvrEditorEmulator>();
@@ -300,7 +300,7 @@ namespace YourVRUI
                 m_camera = Camera.main;
             }
 
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO
 #if UNITY_EDITOR && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             if (!EnableGVREmulator)
             {
@@ -327,7 +327,7 @@ namespace YourVRUI
                 Debug.LogError("YourVRUIScreenController::Start::PlayerRaycasterController NOT FOUND IN THE SYSTEM");
             }
 
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO
 #if UNITY_EDITOR && !ENABLE_WORLDSENSE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             EnableMoveCamera = true;
             if (GameObject.FindObjectOfType<GvrControllerInput>() != null) GameObject.FindObjectOfType<GvrControllerInput>().gameObject.SetActive(false);
@@ -445,6 +445,25 @@ namespace YourVRUI
             if (m_laserPointer == null)
             {
                 HTCHandController deviceController = GameObject.FindObjectOfType<HTCHandController>();
+                if (deviceController != null)
+                {
+                    if (deviceController.LaserPointer != null)
+                    {
+                        m_laserPointer = deviceController.LaserPointer;
+                    }
+                    else
+                    {
+                        if (deviceController.gameObject.GetComponentInChildren<LineRenderer>() != null)
+                        {
+                            m_laserPointer = deviceController.gameObject.GetComponentInChildren<LineRenderer>().gameObject;
+                        }
+                    }
+                }
+            }
+#elif ENABLE_PICONEO
+            if (m_laserPointer == null)
+            {
+                PicoNeoHandController deviceController = GameObject.FindObjectOfType<PicoNeoHandController>();
                 if (deviceController != null)
                 {
                     if (deviceController.LaserPointer != null)

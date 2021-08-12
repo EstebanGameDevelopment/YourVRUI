@@ -128,6 +128,7 @@ namespace YourVRUI
 
         [Tooltip("Enable the cheat to set the resolution to adapt the UI screens to VR")]
         public bool EnableSetResolutionUIVR = false;
+        public bool EnableApplyOnlyCentered = false;
         public int ResolutionUIVRWidth = 350;
         public int ResolutionUIVRHeight = 720;
 
@@ -265,7 +266,7 @@ namespace YourVRUI
             EnableDaydreamController = false;
 #endif
 
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             if (EnableDesktopMode)
             {
                 GvrEditorEmulator gvrViewer = GameObject.FindObjectOfType<GvrEditorEmulator>();
@@ -310,7 +311,7 @@ namespace YourVRUI
                 m_camera = Camera.main;
             }
 
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO
 #if UNITY_EDITOR && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             if (!EnableGVREmulator)
             {
@@ -337,7 +338,7 @@ namespace YourVRUI
                 Debug.LogError("YourVRUIScreenController::Start::PlayerRaycasterController NOT FOUND IN THE SYSTEM");
             }
 
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO
 #if UNITY_EDITOR && !ENABLE_WORLDSENSE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
             EnableMoveCamera = true;
             if (GameObject.FindObjectOfType<GvrControllerInput>() != null) GameObject.FindObjectOfType<GvrControllerInput>().gameObject.SetActive(false);
@@ -459,13 +460,32 @@ namespace YourVRUI
                 {
                     if (deviceController.LaserPointer != null)
                     {
-                        m_laserPointer = deviceController.LaserPointer;
+                        LaserPointer = deviceController.LaserPointer;
                     }
                     else
                     {
                         if (deviceController.gameObject.GetComponentInChildren<LineRenderer>() != null)
                         {
-                            m_laserPointer = deviceController.gameObject.GetComponentInChildren<LineRenderer>().gameObject;
+                            LaserPointer = deviceController.gameObject.GetComponentInChildren<LineRenderer>().gameObject;
+                        }
+                    }
+                }
+            }
+#elif ENABLE_PICONEO
+            if (m_laserPointer == null)
+            {
+                PicoNeoHandController deviceController = GameObject.FindObjectOfType<PicoNeoHandController>();
+                if (deviceController != null)
+                {
+                    if (deviceController.LaserPointer != null)
+                    {
+                        LaserPointer = deviceController.LaserPointer;
+                    }
+                    else
+                    {
+                        if (deviceController.gameObject.GetComponentInChildren<LineRenderer>() != null)
+                        {
+                            LaserPointer = deviceController.gameObject.GetComponentInChildren<LineRenderer>().gameObject;
                         }
                     }
                 }
@@ -1169,6 +1189,10 @@ namespace YourVRUI
             {
                 InitDaydreamController();
             }
+            if (_nameEvent == PicoNeoHandController.EVENT_PICONEOHANDCONTROLLER_UPDATE_LASER)
+            {
+                LaserPointer = (GameObject)_list[0];
+            }
             if (_nameEvent == ScreenController.EVENT_SCREENCONTROLLER_REMOVE_SCREEN_NAME)
             {
                 ScreenController sc = GameObject.FindObjectOfType<ScreenController>();
@@ -1444,7 +1468,7 @@ namespace YourVRUI
                     }
 
                     // CREATION OF THE NEW SCREEN
-                    bool applyCentered = EnableSetResolutionUIVR;
+                    bool applyCentered = EnableSetResolutionUIVR || EnableApplyOnlyCentered;
                     if (EnableSetResolutionUIVR)
                     {
                         if (GameObject.FindObjectOfType<CardboardLoaderVR>() != null)
@@ -1456,12 +1480,12 @@ namespace YourVRUI
                                     applyCentered = (currentPrefab.GetComponentInChildren<ScreenVRKeyboardView>() == null);
                                     if (applyCentered)
                                     {
-                                        Screen.SetResolution(ResolutionUIVRWidth, ResolutionUIVRHeight, true);
+                                        if (EnableSetResolutionUIVR) Screen.SetResolution(ResolutionUIVRWidth, ResolutionUIVRHeight, true);
                                     }
                                 }
                                 else
                                 {
-                                    Screen.SetResolution(ResolutionUIVRWidth, ResolutionUIVRHeight, true);
+                                    if (EnableSetResolutionUIVR) Screen.SetResolution(ResolutionUIVRWidth, ResolutionUIVRHeight, true);
                                 }
                             }
                         }

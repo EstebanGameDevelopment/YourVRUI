@@ -224,7 +224,7 @@ namespace YourVRUI
 
             if (_nameEvent == EventSystemController.EVENT_EVENTSYSTEMCONTROLLER_RAYCASTING_SYSTEM)
             {
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
                 if (this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>() != null)
                 {
                     this.gameObject.GetComponent<GvrPointerPhysicsRaycaster>().enabled = (bool)_list[0];

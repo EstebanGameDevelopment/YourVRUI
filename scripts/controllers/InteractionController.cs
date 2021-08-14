@@ -249,7 +249,7 @@ namespace YourVRUI
 													DestroyMessageOnDistance,
 													ScaleScreen,
 													BlockOtherScreens,
-													null,
+													_ignoreLayers,
 													true, // Temporal Screen
 													IgnoreZOrderScreen,
 													HighlightSelector,

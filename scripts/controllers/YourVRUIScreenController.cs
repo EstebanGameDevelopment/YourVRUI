@@ -1847,7 +1847,7 @@ namespace YourVRUI
                         else
                         {
                             objectCollided = new RaycastHit();
-                            if (LayersToRaycast.Length == 0)
+                            if (_ignoreLayers != null)
                             {
                                 objectCollided = Utilities.GetRaycastHitInfoByRay(m_camera.transform.position, m_camera.transform.forward, _ignoreLayers);
                             }

@@ -27,7 +27,9 @@ namespace YourVRUI
         // ----------------------------------------------	
         [Tooltip("Layers you want to ignore from the raycasting")]
         public string[] IgnoreLayers = new string[] { "UI" };
-
+        [Tooltip("Layers you want to consider for the UI raycasting")]
+        public string[] ConsiderUILayers = new string[] { "UI" };
+        
         // ----------------------------------------------
         // PRIVATE MEMBERS
         // ----------------------------------------------	
@@ -348,7 +350,7 @@ namespace YourVRUI
 
                 if (!YourVRUIScreenController.Instance.KeysEnabled)
                 {
-                    RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, IgnoreLayers);
+                    RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.GameCamera.transform.position, YourVRUIScreenController.Instance.GameCamera.transform.forward, ConsiderUILayers);
                     if (objectCollided.collider != null)
                     {
                         UIEventController.Instance.DispatchUIEvent(ButtonVRView.EVENT_SELECTED_VR_BUTTON_COMPONENT, objectCollided.collider.gameObject);
@@ -361,7 +363,7 @@ namespace YourVRUI
 
                 if (!YourVRUIScreenController.Instance.KeysEnabled)
                 {
-                    RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, IgnoreLayers);
+                    RaycastHit objectCollided = Utilities.GetRaycastHitInfoByRayWithMask(YourVRUIScreenController.Instance.LaserPointer.transform.position, YourVRUIScreenController.Instance.LaserPointer.transform.forward, ConsiderUILayers);
                     if (objectCollided.collider != null)
                     {
                         UIEventController.Instance.DispatchUIEvent(ButtonVRView.EVENT_SELECTED_VR_BUTTON_COMPONENT, objectCollided.collider.gameObject);

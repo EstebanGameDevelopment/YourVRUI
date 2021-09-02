@@ -1193,6 +1193,10 @@ namespace YourVRUI
             {
                 LaserPointer = (GameObject)_list[0];
             }
+            if (_nameEvent == HTCHandController.EVENT_HTCHANDCONTROLLER_UPDATE_LASER)
+            {
+                LaserPointer = (GameObject)_list[0];
+            }
             if (_nameEvent == ScreenController.EVENT_SCREENCONTROLLER_REMOVE_SCREEN_NAME)
             {
                 ScreenController sc = GameObject.FindObjectOfType<ScreenController>();

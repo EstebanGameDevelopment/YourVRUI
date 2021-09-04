@@ -1197,6 +1197,10 @@ namespace YourVRUI
             {
                 LaserPointer = (GameObject)_list[0];
             }
+            if (_nameEvent == OculusHandsManager.EVENT_OCULUSHANDMANAGER_UPDATE_LASER)
+            {
+
+            }
             if (_nameEvent == ScreenController.EVENT_SCREENCONTROLLER_REMOVE_SCREEN_NAME)
             {
                 ScreenController sc = GameObject.FindObjectOfType<ScreenController>();

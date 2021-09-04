@@ -45,7 +45,8 @@ namespace YourVRUI
         public const string EVENT_OCULUSHANDMANAGER_HAND_BUTTON_UP = "EVENT_OCULUSHANDMANAGER_HAND_BUTTON_UP";
 
         public const string EVENT_OCULUSHANDMANAGER_LINK_WITH_NETWORK_GAMEHAND = "EVENT_OCULUSHANDMANAGER_LINK_WITH_NETWORK_GAMEHAND";
-
+        public const string EVENT_OCULUSHANDMANAGER_UPDATE_LASER = "EVENT_OCULUSHANDMANAGER_UPDATE_LASER";
+        
         // ----------------------------------------------
         // SINGLETON
         // ----------------------------------------------	
@@ -269,6 +270,7 @@ namespace YourVRUI
                     YourVRUIScreenController.Instance.LaserLeftPointer.SetActive(true);
                     YourVRUIScreenController.Instance.LaserRightPointer.SetActive(false);
                 }
+                UIEventController.Instance.DispatchUIEvent(EVENT_OCULUSHANDMANAGER_UPDATE_LASER, YourVRUIScreenController.Instance.LaserPointer, (m_currentHandWithLaser == HAND.right));
             }
         }
 

@@ -2,12 +2,9 @@ using UnityEngine;
 #if ENABLE_HTCVIVE
 using Wave.Essence;
 using Wave.Native;
-#if ENABLE_YOURVRUI
-using YourVRUI;
-#endif
 #endif
 
-namespace YourCommonTools
+namespace YourVRUI
 {
     /******************************************
 	 * 

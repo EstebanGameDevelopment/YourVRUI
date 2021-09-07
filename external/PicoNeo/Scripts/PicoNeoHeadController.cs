@@ -3,7 +3,7 @@ using UnityEngine;
 using Pvr_UnitySDKAPI;
 #endif
 
-namespace YourCommonTools
+namespace YourVRUI
 {
     /******************************************
 	 * 

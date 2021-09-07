@@ -2,11 +2,8 @@ using UnityEngine;
 #if ENABLE_PICONEO
 using Pvr_UnitySDKAPI;
 #endif
-#if ENABLE_YOURVRUI
-using YourVRUI;
-#endif
 
-namespace YourCommonTools
+namespace YourVRUI
 {
     /******************************************
 	 * 

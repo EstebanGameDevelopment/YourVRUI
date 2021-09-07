@@ -4,7 +4,7 @@ using Wave.Essence;
 using Wave.Native;
 #endif
 
-namespace YourCommonTools
+namespace YourVRUI
 {
     /******************************************
 	 * 

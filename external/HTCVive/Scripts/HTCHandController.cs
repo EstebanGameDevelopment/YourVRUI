@@ -1,4 +1,5 @@
 using UnityEngine;
+using YourCommonTools;
 #if ENABLE_HTCVIVE
 using Wave.Essence;
 using Wave.Native;
@@ -134,6 +135,7 @@ namespace YourVRUI
         private void SetMainLaserPoint(GameObject _laserPointer)
         {
             LaserPointer = _laserPointer;
+            KeysEventInputController.Instance.IgnoreNextAction = true;
 #if ENABLE_YOURVRUI
             YourVRUIScreenController.Instance.LaserPointer = _laserPointer;
 #endif

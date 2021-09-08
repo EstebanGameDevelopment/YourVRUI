@@ -270,6 +270,7 @@ namespace YourVRUI
                     YourVRUIScreenController.Instance.LaserLeftPointer.SetActive(true);
                     YourVRUIScreenController.Instance.LaserRightPointer.SetActive(false);
                 }
+                KeysEventInputController.Instance.IgnoreNextAction = true;
                 UIEventController.Instance.DispatchUIEvent(EVENT_OCULUSHANDMANAGER_UPDATE_LASER, YourVRUIScreenController.Instance.LaserPointer, (m_currentHandWithLaser == HAND.right));
             }
         }

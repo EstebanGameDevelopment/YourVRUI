@@ -1,4 +1,5 @@
 using UnityEngine;
+using YourCommonTools;
 #if ENABLE_PICONEO
 using Pvr_UnitySDKAPI;
 #endif
@@ -132,6 +133,7 @@ namespace YourVRUI
         private void SetMainLaserPoint(GameObject _laserPointer)
         {
             LaserPointer = _laserPointer;
+            KeysEventInputController.Instance.IgnoreNextAction = true;
 #if ENABLE_YOURVRUI
             YourVRUIScreenController.Instance.LaserPointer = _laserPointer;
 #endif

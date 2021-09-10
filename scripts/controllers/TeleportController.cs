@@ -23,6 +23,7 @@ namespace YourVRUI
         // ----------------------------------------------
         // PUBLIC MEMBERS
         // ----------------------------------------------	
+        public bool IsRightHand = true;
         public bool IsHandTracking = false;
         public GameObject CameraController;
         public GameObject MarkerDestination;

@@ -135,6 +135,7 @@ namespace YourVRUI
         {
             LaserPointer = _laserPointer;
             KeysEventInputController.Instance.IgnoreNextAction = true;
+            ActivateTeleportController();
 #if ENABLE_YOURVRUI
             YourVRUIScreenController.Instance.LaserPointer = _laserPointer;
 #endif
@@ -157,6 +158,27 @@ namespace YourVRUI
                 else
                 {
                     m_linkedWithHandLeft = (GameObject)_list[1];
+                }
+            }
+        }
+
+        // -------------------------------------------
+        /* 
+         * ActivateTeleportController
+         */
+        private void ActivateTeleportController()
+        {
+            TeleportController[] teleportControllers = GameObject.FindObjectsOfType<TeleportController>();
+            for (int i = 0; i < teleportControllers.Length; i++)
+            {
+                teleportControllers[i].HasFocusTeleport = false;
+            }
+            for (int i = 0; i < teleportControllers.Length; i++)
+            {
+                if (((m_handTypeSelected == 1) && teleportControllers[i].IsRightHand)
+                    || ((m_handTypeSelected == 0) && !teleportControllers[i].IsRightHand))
+                {
+                    teleportControllers[i].HasFocusTeleport = true;
                 }
             }
         }

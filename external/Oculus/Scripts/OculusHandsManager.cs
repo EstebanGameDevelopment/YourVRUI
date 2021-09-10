@@ -260,6 +260,7 @@ namespace YourVRUI
             if (m_currentHandWithLaser != _handSelected)
             {
                 m_currentHandWithLaser = _handSelected;
+                ActivateTeleportController(m_handsBeingTracked);
                 YourVRUIScreenController.Instance.LaserPointer = _myLaserPointer.gameObject;
                 if (m_currentHandWithLaser == HAND.right)
                 {
@@ -450,13 +451,21 @@ namespace YourVRUI
             TeleportController[] teleportControllers = GameObject.FindObjectsOfType<TeleportController>();
             for (int i = 0; i < teleportControllers.Length; i++)
             {
-                if (_isHandTracking)
+                teleportControllers[i].HasFocusTeleport = false;
+            }
+            for (int i = 0; i < teleportControllers.Length; i++)
+            {
+                if (((m_currentHandWithLaser == HAND.right) && teleportControllers[i].IsRightHand)
+                    || ((m_currentHandWithLaser == HAND.left) && !teleportControllers[i].IsRightHand))
                 {
-                    teleportControllers[i].HasFocusTeleport = teleportControllers[i].IsHandTracking;
-                }
-                else
-                {
-                    teleportControllers[i].HasFocusTeleport = !teleportControllers[i].IsHandTracking;
+                    if (_isHandTracking)
+                    {
+                        teleportControllers[i].HasFocusTeleport = teleportControllers[i].IsHandTracking;
+                    }
+                    else
+                    {
+                        teleportControllers[i].HasFocusTeleport = !teleportControllers[i].IsHandTracking;
+                    }
                 }
             }
         }

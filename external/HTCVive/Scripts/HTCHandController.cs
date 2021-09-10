@@ -100,6 +100,7 @@ namespace YourVRUI
             if (m_handTypeSelected != 0)
             {
                 m_handTypeSelected = 0;
+                ActivateTeleportController();
                 if (LaserPointerLeft != null)
                 {
                     if (LaserPointerRight != null) LaserPointerRight.SetActive(false);
@@ -119,6 +120,7 @@ namespace YourVRUI
             if (m_handTypeSelected != 1)
             {
                 m_handTypeSelected = 1;
+                ActivateTeleportController();
                 if (LaserPointerRight != null)
                 {
                     if (LaserPointerRight != null) LaserPointerRight.SetActive(true);
@@ -137,7 +139,6 @@ namespace YourVRUI
         {
             LaserPointer = _laserPointer;
             KeysEventInputController.Instance.IgnoreNextAction = true;
-            ActivateTeleportController();
 #if ENABLE_YOURVRUI
             YourVRUIScreenController.Instance.LaserPointer = _laserPointer;
 #endif

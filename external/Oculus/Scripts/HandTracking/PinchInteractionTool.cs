@@ -146,7 +146,8 @@ namespace YourVRUI
 
         private void OnOculusEvent(string _nameEvent, object[] _list)
         {
-            if (_nameEvent == OculusHandsManager.EVENT_OCULUSHANDMANAGER_STATE_HANDTRACKING)
+            if ((_nameEvent == OculusHandsManager.EVENT_OCULUSHANDMANAGER_STATE_HANDTRACKING)
+                || (_nameEvent == OculusHandsManager.EVENT_OCULUSHANDMANAGER_STATE_INITIAL_HANDTRACKING))
             {
                 bool handTrackingState = (bool)_list[0];
 

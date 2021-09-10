@@ -77,6 +77,7 @@ namespace YourVRUI
         {
             m_handTypeSelected = -1;
             SetLaserToRightHand();
+            KeysEventInputController.Instance.IgnoreNextAction = false;
 
             BasicSystemEventController.Instance.BasicSystemEvent += new BasicSystemEventHandler(OnBasicSystemEvent);
         }

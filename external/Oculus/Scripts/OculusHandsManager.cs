@@ -31,6 +31,7 @@ namespace YourVRUI
         // ----------------------------------------------
         // EVENTS
         // ----------------------------------------------	
+        public const string EVENT_OCULUSHANDMANAGER_STATE_INITIAL_HANDTRACKING = "EVENT_OCULUSHANDMANAGER_STATE_INITIAL_HANDTRACKING";
         public const string EVENT_OCULUSHANDMANAGER_STATE_HANDTRACKING = "EVENT_OCULUSHANDMANAGER_STATE_HANDTRACKING";
         public const string EVENT_OCULUSHANDMANAGER_SET_UP_LASER_POINTER_INITIALIZE = "EVENT_OCULUSHANDMANAGER_SET_UP_LASER_POINTER_INITIALIZE";
         public const string EVENT_OCULUSHANDMANAGER_INDEX_TRIGGER_DOWN = "EVENT_OCULUSHANDMANAGER_INDEX_TRIGGER_DOWN";
@@ -103,7 +104,7 @@ namespace YourVRUI
             OculusControllerInputs.Instance.Initialize(HandLeftController, HandRightController);
             OculusEventObserver.Instance.OculusEvent += new OculusEventHandler(OnOculusEvent);
             BasicSystemEventController.Instance.BasicSystemEvent += new BasicSystemEventHandler(OnBasicSystemEvent);
-            OculusEventObserver.Instance.DelayOculusEvent(EVENT_OCULUSHANDMANAGER_STATE_HANDTRACKING, 0.01f, false);
+            OculusEventObserver.Instance.DelayOculusEvent(EVENT_OCULUSHANDMANAGER_STATE_INITIAL_HANDTRACKING, 0.01f, false);
         }
 
         // -------------------------------------------
@@ -378,12 +379,17 @@ namespace YourVRUI
 		 */
         private void OnOculusEvent(string _nameEvent, object[] _list)
         {
-            if (_nameEvent == OculusHandsManager.EVENT_OCULUSHANDMANAGER_STATE_HANDTRACKING)
+            if ((_nameEvent == OculusHandsManager.EVENT_OCULUSHANDMANAGER_STATE_HANDTRACKING)
+                || (_nameEvent == OculusHandsManager.EVENT_OCULUSHANDMANAGER_STATE_INITIAL_HANDTRACKING))
             {
                 bool handTrackingState = (bool)_list[0];
                 // Debug.LogError("EVENT_OCULUSHANDMANAGER_STATE_HANDTRACKING::handTrackingState=" + handTrackingState);
                 m_currentHandWithLaser = HAND.none;
                 SwitchControlsHandToControllers(handTrackingState);
+                if (_nameEvent == OculusHandsManager.EVENT_OCULUSHANDMANAGER_STATE_INITIAL_HANDTRACKING)
+                {
+                    KeysEventInputController.Instance.IgnoreNextAction = false;
+                }
             }
             if (_nameEvent == FingerInteractionRadius.EVENT_SPHEREINTERACTIONRADIUS_INITED)
             {

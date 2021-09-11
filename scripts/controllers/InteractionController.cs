@@ -216,11 +216,55 @@ namespace YourVRUI
                                                 );
         }
 
-        // -------------------------------------------
-        /* 
+		// -------------------------------------------
+		/* 
+		 * DispatchCustomScreen
+		 */
+		public void DispatchCollisionPointScreen(GameObject _screenPrefab, List<PageInformation> _pages, float _scaleScreen, bool _bypass = false, GameObject _targetObject = null)
+		{
+			if (!StaticEnableInteraction) return;
+
+			if (!_bypass)
+			{
+				if (!m_enableInteraction) return;
+			}
+
+			KeysEventInputController.Instance.EnableActionOnMouseDown = EnableActionOnMouseDown;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
+												OverrideGlobalSettings,
+												GameObject.FindObjectOfType<PlayerRaycasterController>().gameObject,
+												this.gameObject,
+												_screenPrefab,
+												PreviousScreenAction,
+												DetectionDistance,
+												IsWorldObject,
+												ScreenLinkedToObject,
+												ScreenInCenterObject,
+												ForceScreen,
+												ForceOrthographic,
+												true,
+												UseCollisionPoint,
+												DistanceScreenDefault,
+												Refocus,
+												DestroyMessageOnDistance,
+												_scaleScreen,
+												BlockOtherScreens,
+												null,
+												true, // Temporal Screen
+												IgnoreZOrderScreen,
+												HighlightSelector,
+												_pages, 
+												-1f,
+												0,
+												_targetObject
+												);
+		}
+
+		// -------------------------------------------
+		/* 
 		 * Dispatch screen when collision detection
 		 */
-        public void DispatchScreen(GameObject _player, string[] _ignoreLayers, bool _force)
+		public void DispatchScreen(GameObject _player, string[] _ignoreLayers, bool _force)
 		{
             if (!StaticEnableInteraction) return;
 

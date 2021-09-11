@@ -1848,9 +1848,13 @@ namespace YourVRUI
                     {
                         if (_targetObject != null)
                         {
-                            instance.transform.parent = _targetObject.transform;
                             collisionPoint = _targetObject.transform.position;
                             vectorNormalUI = _targetObject.transform.forward;
+                            if (_alignedToCamera)
+                            {
+                                vectorNormalUI = Utilities.ClonePoint(m_camera.transform.forward);
+                                instance.transform.forward = vectorNormalUI;
+                            }
                         }
                         else
                         {

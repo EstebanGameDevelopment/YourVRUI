@@ -92,6 +92,14 @@ namespace YourVRUI
         protected GameObject m_linkedWithHandLeft = null;
 
         // ----------------------------------------------
+        // GETTERS/SETTERS
+        // ----------------------------------------------	
+        public HAND CurrentHandWithLaser
+        {
+            get { return m_currentHandWithLaser; }
+        }
+
+        // ----------------------------------------------
         // MEMBER FUNCTIONS
         // ----------------------------------------------	
 

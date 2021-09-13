@@ -34,6 +34,7 @@ namespace YourVRUI
         // ----------------------------------------------	
         public const string EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT = "EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT";
         public const string EVENT_SCREENMANAGER_DEBUG_LOG = "EVENT_SCREENMANAGER_DEBUG_LOG";
+        public const string EVENT_SCREENMANAGER_ASSIGNED_LASER = "EVENT_SCREENMANAGER_ASSIGNED_LASER";
 
         public const string UI_TRIGGERER = "UI_TRIGGERER";
         public const string DEFAULT_YOURVUI_CONFIGURATION = "DEFAULT_YOURVUI_CONFIGURATION";
@@ -147,6 +148,11 @@ namespace YourVRUI
         public float DefaultFinalAlpha = 1;
         public float DefaultTimeoutToAlpha = 0.5f;
 
+        [Tooltip("Container of laser of the right hand")]
+        public GameObject ContainerLaserRight;
+        [Tooltip("Container of laser of the left hand")]
+        public GameObject ContainerLaserLeft;
+
         // ----------------------------------------------
         // PRIVATE MEMBERS
         // ----------------------------------------------	
@@ -158,6 +164,7 @@ namespace YourVRUI
         private bool m_enableDebugTestingCode = true;
         private bool m_keysEnabled = false;
         private GameObject m_laserPointer = null;
+        private GameObject m_containerLaser = null;
 
         private GameObject m_screenToDestroy = null;
 
@@ -178,9 +185,25 @@ namespace YourVRUI
                 }
             }
         }
+#if DISABLE_ONLY_ONE_HAND
+        public GameObject ContainerLaser
+        {
+            get { return m_containerLaser; }
+        }
+#endif
         public GameObject LaserPointer
         {
             get { return m_laserPointer; }
+#if DISABLE_ONLY_ONE_HAND
+            set
+            { m_containerLaser = value;
+                if (m_containerLaser.GetComponentInChildren<LineRenderer>() != null)
+                {
+                    m_laserPointer = m_containerLaser.GetComponentInChildren<LineRenderer>().gameObject;
+                }
+                UIEventController.Instance.DelayUIEvent(EVENT_SCREENMANAGER_ASSIGNED_LASER, 0.01f, m_laserPointer);
+            }
+#endif
         }
         public float FinalScaleScreens
         {
@@ -385,7 +408,10 @@ namespace YourVRUI
 		 */
         private void InitDaydreamController()
         {
-#if ENABLE_OCULUS
+#if DISABLE_ONLY_ONE_HAND
+            LaserPointerSwitchController.Instance.SetPointerRightLaser(true);
+#endif
+#if ENABLE_OCULUS && !DISABLE_ONLY_ONE_HAND
             if (m_laserPointer == null)
             {
                 bool lookForLaser = true;
@@ -441,7 +467,7 @@ namespace YourVRUI
                     }
                 }
             }
-#elif ENABLE_HTCVIVE
+#elif ENABLE_HTCVIVE && !DISABLE_ONLY_ONE_HAND
             if (m_laserPointer == null)
             {
                 HTCHandController deviceController = GameObject.FindObjectOfType<HTCHandController>();
@@ -460,7 +486,7 @@ namespace YourVRUI
                     }
                 }
             }
-#elif ENABLE_PICONEO
+#elif ENABLE_PICONEO && !DISABLE_ONLY_ONE_HAND
             if (m_laserPointer == null)
             {
                 PicoNeoHandController deviceController = GameObject.FindObjectOfType<PicoNeoHandController>();
@@ -517,7 +543,7 @@ namespace YourVRUI
                         }
                     }
 #else
-#if ENABLE_PARTY_2018
+#if ENABLE_PARTY_2018 && !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO
                     if (GameObject.FindObjectOfType<GvrLaserPointer>() != null)
                     {
                         m_laserPointer = GameObject.FindObjectOfType<GvrLaserPointer>().gameObject;
@@ -1406,6 +1432,7 @@ namespace YourVRUI
 
                     // CREATION OF THE NEW SCREEN
                     bool applyCentered = EnableSetResolutionUIVR;
+#if !(ENABLE_PICONEO || ENABLE_HTCVIVE)
                     if (EnableSetResolutionUIVR)
                     {
                         if (GameObject.FindObjectOfType<CardboardLoaderVR>() != null)
@@ -1427,6 +1454,7 @@ namespace YourVRUI
                             }
                         }
                     }
+#endif
                     GameObject currentScreen = null;
                     if (currentPrefab != null)
                     {

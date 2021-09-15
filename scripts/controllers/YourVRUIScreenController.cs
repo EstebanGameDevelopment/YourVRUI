@@ -196,12 +196,27 @@ namespace YourVRUI
             get { return m_laserPointer; }
 #if DISABLE_ONLY_ONE_HAND
             set
-            { m_containerLaser = value;
-                if (m_containerLaser.GetComponentInChildren<LineRenderer>() != null)
+            { 
+                m_containerLaser = value;
+                if (m_containerLaser == null)
                 {
-                    m_laserPointer = m_containerLaser.GetComponentInChildren<LineRenderer>().gameObject;
+                    m_laserPointer = null;
                 }
-                UIEventController.Instance.DelayUIEvent(EVENT_SCREENMANAGER_ASSIGNED_LASER, 0.01f, m_laserPointer);
+                else
+                {
+                    if (m_containerLaser.GetComponentInChildren<LineRenderer>() != null)
+                    {
+                        m_laserPointer = m_containerLaser.GetComponentInChildren<LineRenderer>().gameObject;
+                    }
+                    if (m_laserPointer == null)
+                    {
+                        if (m_containerLaser.GetComponent<LinkedGameObject>() != null)
+                        {
+                            m_laserPointer = m_containerLaser.GetComponent<LinkedGameObject>().LinkedGO;
+                        }
+                    }
+                    UIEventController.Instance.DelayUIEvent(EVENT_SCREENMANAGER_ASSIGNED_LASER, 0.01f, m_laserPointer);
+                }
             }
 #endif
         }

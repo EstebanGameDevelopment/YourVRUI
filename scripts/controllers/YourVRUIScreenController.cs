@@ -36,6 +36,7 @@ namespace YourVRUI
         public const string EVENT_SCREENMANAGER_DEBUG_LOG = "EVENT_SCREENMANAGER_DEBUG_LOG";
         public const string EVENT_SCREENMANAGER_CHECK_LINERENDER_LASER = "EVENT_SCREENMANAGER_CHECK_LINERENDER_LASER";
         public const string EVENT_SCREENMANAGER_ASSIGNED_LASER = "EVENT_SCREENMANAGER_ASSIGNED_LASER";
+        public const string EVENT_SCREENMANAGER_INITED_VR_MANAGER = "EVENT_SCREENMANAGER_INITED_VR_MANAGER";
 
         public const string UI_TRIGGERER = "UI_TRIGGERER";
         public const string DEFAULT_YOURVUI_CONFIGURATION = "DEFAULT_YOURVUI_CONFIGURATION";
@@ -349,6 +350,8 @@ namespace YourVRUI
 #else
             EnableMoveCamera = false;
 #endif
+
+            UIEventController.Instance.DispatchUIEvent(EVENT_SCREENMANAGER_INITED_VR_MANAGER);
         }
 
 #if ENABLE_OCULUS

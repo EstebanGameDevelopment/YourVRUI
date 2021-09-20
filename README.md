@@ -7,7 +7,7 @@ to bring their screen and interfaces to the VR world.
 This plugin is more about to enjoy a readable code that follow some long text instructions, 
 so I'll keep it short.
 
-If you get really stuck somewhere along the way get in touch with me in the email address: esteban@yourvrexperience.com
+If you get really stuck somewhere along the way get in touch with me in the email address: info@yourvrexperience.com
 
 TUTORIAL
 --------

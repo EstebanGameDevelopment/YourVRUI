@@ -35,6 +35,7 @@ namespace YourVRUI
         public const string EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT = "EVENT_SCREENMANAGER_ENABLE_KEYS_INPUT";
         public const string EVENT_SCREENMANAGER_DEBUG_LOG = "EVENT_SCREENMANAGER_DEBUG_LOG";
         public const string EVENT_SCREENMANAGER_ASSIGNED_LASER = "EVENT_SCREENMANAGER_ASSIGNED_LASER";
+        public const string EVENT_SCREENMANAGER_INITED_VR_MANAGER = "EVENT_SCREENMANAGER_INITED_VR_MANAGER";
 
         public const string UI_TRIGGERER = "UI_TRIGGERER";
         public const string DEFAULT_YOURVUI_CONFIGURATION = "DEFAULT_YOURVUI_CONFIGURATION";
@@ -215,7 +216,10 @@ namespace YourVRUI
                             m_laserPointer = m_containerLaser.GetComponent<LinkedGameObject>().LinkedGO;
                         }
                     }
-                    UIEventController.Instance.DelayUIEvent(EVENT_SCREENMANAGER_ASSIGNED_LASER, 0.01f, m_laserPointer);
+                    if (m_laserPointer != null)
+                    {
+                        UIEventController.Instance.DelayUIEvent(EVENT_SCREENMANAGER_ASSIGNED_LASER, 0.01f, m_laserPointer, (m_containerLaser == ContainerLaserRight));
+                    }
                 }
             }
 #endif
@@ -376,6 +380,8 @@ namespace YourVRUI
 #else
             EnableMoveCamera = false;
 #endif
+
+            UIEventController.Instance.DelayUIEvent(EVENT_SCREENMANAGER_INITED_VR_MANAGER, 0.1f);
         }
 
 #if ENABLE_OCULUS
@@ -1785,8 +1791,13 @@ namespace YourVRUI
                     {
                         if (_targetObject != null)
                         {
-                            instance.transform.parent = _targetObject.transform;
                             collisionPoint = _targetObject.transform.position;
+                            vectorNormalUI = _targetObject.transform.forward;
+                            if (_alignedToCamera)
+                            {
+                                vectorNormalUI = Utilities.ClonePoint(m_camera.transform.forward);
+                                instance.transform.forward = vectorNormalUI;
+                            }
                         }
                         else
                         {

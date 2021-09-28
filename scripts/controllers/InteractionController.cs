@@ -253,7 +253,10 @@ namespace YourVRUI
 													true, // Temporal Screen
 													IgnoreZOrderScreen,
 													HighlightSelector,
-													GetListPagesInformation()
+													GetListPagesInformation(),
+													-1f,
+													0,
+													this.gameObject
 													);
 			}
 		}

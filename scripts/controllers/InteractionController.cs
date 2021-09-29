@@ -190,30 +190,33 @@ namespace YourVRUI
 
             KeysEventInputController.Instance.EnableActionOnMouseDown = EnableActionOnMouseDown;
             UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_VR_OPEN_GENERIC_SCREEN,
-                                                OverrideGlobalSettings,
-                                                GameObject.FindObjectOfType<PlayerRaycasterController>().gameObject,
-                                                this.gameObject,
-                                                _screenPrefab,
-                                                PreviousScreenAction,
-                                                DetectionDistance,
-                                                IsWorldObject,
-                                                ScreenLinkedToObject,
-                                                ScreenInCenterObject,
-                                                ForceScreen,
-                                                ForceOrthographic,
-                                                AlignedToCamera,
-                                                UseCollisionPoint,
-                                                DistanceScreenDefault,
-                                                Refocus,
-                                                DestroyMessageOnDistance,
-                                                _scaleScreen,
-                                                BlockOtherScreens,
-                                                null,
-                                                true, // Temporal Screen
-                                                IgnoreZOrderScreen,
-                                                HighlightSelector,
-                                                _pages
-                                                );
+													OverrideGlobalSettings,
+													 GameObject.FindObjectOfType<PlayerRaycasterController>().gameObject,
+													this.gameObject,
+													_screenPrefab,
+													PreviousScreenAction,
+													DetectionDistance,
+													IsWorldObject,
+													ScreenLinkedToObject,
+													ScreenInCenterObject,
+													ForceScreen,
+													ForceOrthographic,
+													AlignedToCamera,
+													UseCollisionPoint,
+													DistanceScreenDefault,
+													Refocus,
+													DestroyMessageOnDistance,
+													_scaleScreen,
+													BlockOtherScreens,
+													null,
+													true, // Temporal Screen
+													IgnoreZOrderScreen,
+													HighlightSelector,
+													_pages,
+													-1f,
+													0,
+													this.gameObject
+												);
         }
 
 		// -------------------------------------------

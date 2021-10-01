@@ -929,8 +929,19 @@ namespace YourVRUI
 
                     if (hitSurface.collider != null)
                     {
+                        if (!m_dotProjectedUI.activeSelf)
+                        {
+                            m_dotProjectedUI.SetActive(true);
+                        }
                         m_dotProjectedUI.transform.position = hitSurface.point;
                     }
+                }
+            }
+            else
+            {
+                if (m_dotProjectedUI != null)
+                {
+                    m_dotProjectedUI.SetActive(false);
                 }
             }
         }

@@ -46,7 +46,7 @@ namespace YourVRUI
 		// PRIVATE MEMBERS
 		// ----------------------------------------------	
 		private StandaloneInputModule m_standAloneInputModule;
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#if (!ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018) && !DISABLE_FOR_REAL_GOOGLEVR
 		private GvrPointerInputModule m_gazeInputModule;
 #endif
 
@@ -77,7 +77,7 @@ namespace YourVRUI
 				this.gameObject.AddComponent<StandaloneInputModule>();
 				m_standAloneInputModule = this.gameObject.GetComponent<StandaloneInputModule>();
 			}
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#if (!ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018) && !DISABLE_FOR_REAL_GOOGLEVR
 			m_gazeInputModule = this.gameObject.GetComponent<GvrPointerInputModule>();
 			if (m_gazeInputModule == null)
 			{
@@ -121,7 +121,7 @@ namespace YourVRUI
 				if (m_standAloneInputModule != null) m_standAloneInputModule.enabled = activation;
 #if ENABLE_WORLDSENSE && ENABLE_PARTY_2018
                 if (m_gazeInputModule != null) m_gazeInputModule.enabled = false;
-#elif !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#elif (!ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018) && !DISABLE_FOR_REAL_GOOGLEVR
 				if (m_gazeInputModule != null) m_gazeInputModule.enabled = !activation;
 #endif
 			}

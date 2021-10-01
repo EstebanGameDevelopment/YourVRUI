@@ -297,7 +297,7 @@ namespace YourVRUI
             EnableDaydreamController = false;
 #endif
 
-#if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#if (!ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018) && !DISABLE_FOR_REAL_GOOGLEVR 
             if (EnableDesktopMode)
             {
                 GvrEditorEmulator gvrViewer = GameObject.FindObjectOfType<GvrEditorEmulator>();
@@ -343,7 +343,7 @@ namespace YourVRUI
             }
 
 #if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO
-#if UNITY_EDITOR && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#if (UNITY_EDITOR && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018)  && !DISABLE_FOR_REAL_GOOGLEVR
             if (!EnableGVREmulator)
             {
                 GvrEditorEmulator gvrViewerEmulator = GameObject.FindObjectOfType<GvrEditorEmulator>();
@@ -370,7 +370,7 @@ namespace YourVRUI
             }
 
 #if !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO
-#if UNITY_EDITOR && !ENABLE_WORLDSENSE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018
+#if (UNITY_EDITOR && !ENABLE_WORLDSENSE && UNITY_HAS_GOOGLEVR && ENABLE_PARTY_2018) && !DISABLE_FOR_REAL_GOOGLEVR
             EnableMoveCamera = true;
             if (GameObject.FindObjectOfType<GvrControllerInput>() != null) GameObject.FindObjectOfType<GvrControllerInput>().gameObject.SetActive(false);
             if (GameObject.FindObjectOfType<GvrEditorEmulator>() != null) GameObject.FindObjectOfType<GvrEditorEmulator>().gameObject.SetActive(false);
@@ -531,7 +531,7 @@ namespace YourVRUI
             {
                 if (m_laserPointer == null)
                 {
-#if UNITY_HAS_GOOGLEVR
+#if UNITY_HAS_GOOGLEVR && !DISABLE_FOR_REAL_GOOGLEVR
 #if ENABLE_WORLDSENSE
                     if (GameObject.FindObjectOfType<GvrLaserPointer>() != null)
                     {

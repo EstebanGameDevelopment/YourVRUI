@@ -273,7 +273,7 @@ namespace YourVRUI
 			// USE DAYDREAM CONTROLLER INPUT TO MOVE
 			if (YourVRUIScreenController.Instance.IsDayDreamActivated)
 			{
-#if UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR) && !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO
+#if (UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR) && !ENABLE_OCULUS && !ENABLE_HTCVIVE && !ENABLE_PICONEO) && !DISABLE_FOR_REAL_GOOGLEVR
 				/*
                 if (ControllerInputDevice.GetButton(GvrControllerButton.TouchPadButton))
 				{

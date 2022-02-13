@@ -326,6 +326,7 @@ namespace YourVRUI
                 if (m_oneButtonLeftPressed)
                 {
                     m_oneButtonLeftPressed = false;
+                    OculusEventObserver.Instance.DispatchOculusEvent(EVENT_OCULUSINPUTCONTROLLER_ONE_UP, HAND.right, m_raycastLineRight.gameObject);
                 }
             }
             if (OVRInput.Get(OVRInput.Button.Two, OVRInput.Controller.LTouch))
@@ -341,6 +342,7 @@ namespace YourVRUI
                 if (m_twoButtonLeftPressed)
                 {
                     m_twoButtonLeftPressed = false;
+                    OculusEventObserver.Instance.DispatchOculusEvent(EVENT_OCULUSINPUTCONTROLLER_TWO_UP, HAND.left, m_raycastLineLeft.gameObject);
                 }
             }
             if (OVRInput.Get(OVRInput.Button.One, OVRInput.Controller.RTouch))
@@ -356,6 +358,7 @@ namespace YourVRUI
                 if (m_oneButtonRightPressed)
                 {
                     m_oneButtonRightPressed = false;
+                    OculusEventObserver.Instance.DispatchOculusEvent(EVENT_OCULUSINPUTCONTROLLER_ONE_UP, HAND.right, m_raycastLineRight.gameObject);
                 }
             }
             if (OVRInput.Get(OVRInput.Button.Two, OVRInput.Controller.RTouch))

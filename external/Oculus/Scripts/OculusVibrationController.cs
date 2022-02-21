@@ -3,6 +3,9 @@ using OculusSampleFramework;
 #endif
 using UnityEngine;
 using UnityEngine.Assertions;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace YourVRUI
 {
@@ -61,6 +64,11 @@ namespace YourVRUI
             {
                 OVRHaptics.RightChannel.Preempt(clip);
             }
+            if (_controller ==  OVRInput.Controller.All)
+            {
+                OVRHaptics.LeftChannel.Preempt(clip);
+                OVRHaptics.RightChannel.Preempt(clip);
+            }
         }
 
         // -------------------------------------------
@@ -82,6 +90,11 @@ namespace YourVRUI
             }
             if (_controller == OVRInput.Controller.RTouch)
             {
+                OVRHaptics.RightChannel.Preempt(clip);
+            }
+            if (_controller ==  OVRInput.Controller.All)
+            {
+                OVRHaptics.LeftChannel.Preempt(clip);
                 OVRHaptics.RightChannel.Preempt(clip);
             }
         }
@@ -107,6 +120,35 @@ namespace YourVRUI
             {
                 OVRHaptics.RightChannel.Preempt(clip);
             }
+            if (_controller ==  OVRInput.Controller.All)
+            {
+                OVRHaptics.LeftChannel.Preempt(clip);
+                OVRHaptics.RightChannel.Preempt(clip);
+            }
+        }
+
+        // -------------------------------------------
+        /* 
+		 * TriggerCouritineVibration
+		 */
+        public void TriggerCouritineVibration(float _frequency, float _amplitude, float _duration, OVRInput.Controller _controller)
+        {
+            StartCoroutine(Haptics(_frequency, _amplitude, _duration, _controller));
+        }
+
+        // -------------------------------------------
+        /* 
+		 * Haptics
+		 */
+        IEnumerator Haptics(float _frequency, float _amplitude, float _duration, OVRInput.Controller _controller)
+        {
+            if ((_controller ==  OVRInput.Controller.RTouch) || (_controller ==  OVRInput.Controller.All)) OVRInput.SetControllerVibration(_frequency, _amplitude, OVRInput.Controller.RTouch);
+            if ((_controller ==  OVRInput.Controller.LTouch) || (_controller ==  OVRInput.Controller.All)) OVRInput.SetControllerVibration(_frequency, _amplitude, OVRInput.Controller.LTouch);
+
+            yield return new WaitForSeconds(_duration);
+
+            if ((_controller ==  OVRInput.Controller.RTouch) || (_controller ==  OVRInput.Controller.All)) OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
+            if ((_controller ==  OVRInput.Controller.LTouch) || (_controller ==  OVRInput.Controller.All)) OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
         }
 #endif
     }

@@ -228,6 +228,7 @@ namespace YourVRUI
         public GameObject LaserLeftPointer { get; set; }
         public GameObject LaserRightPointer { get; set; }
 
+        private bool m_hasBeenInited = false;
 
         // -------------------------------------------
         /* 
@@ -235,6 +236,18 @@ namespace YourVRUI
 		 */
         void Start()
         {
+            Initialitzation();
+        }
+
+        // -------------------------------------------
+        /* 
+		 * Initialitzation
+		 */
+        public void Initialitzation() 
+        {
+            if (m_hasBeenInited) return;
+            m_hasBeenInited = true;
+
             if (DebugMode)
             {
                 Debug.Log("YourVRUIScreenController::Start::First class to initialize for the whole system to work");
@@ -1311,7 +1324,7 @@ namespace YourVRUI
                 {
                     sc.AddScreenNameToStack(nameScreen, UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, layerScreen);
                 }
-            }            
+            }
             if (m_enableScreens)
             {
                 if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_MOVE_TEMPORAL_TO_FOREVER)
